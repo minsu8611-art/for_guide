@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건축 가이드 참고자료</title>
+<style>
+:root{
+  --bg:#F6F1E7;
+  --bg-alt:#EFE6D3;
+  --bg-card:#FBF8F1;
+  --ink:#2A2420;
+  --ink-soft:#6B5F52;
+  --wood:#8B5E34;
+  --wood-dark:#6E4A28;
+  --roof:#3E4A52;
+  --red:#B23A2E;
+  --line:#DDD0B8;
+  --caution-bg:#F5E9E4;
+  --font-display:"Noto Serif KR","Nanum Myeongjo","Batang",serif;
+  --font-body:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.7;
+  padding-bottom:60px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- HEADER ---------- */
+header.site{
+  background:var(--roof);
+  color:#F3EEE3;
+  padding:32px 20px 26px;
+  text-align:center;
+}
+header.site h1{
+  font-family:var(--font-display);
+  margin:0 0 8px;
+  font-size:clamp(22px,4.5vw,30px);
+  font-weight:700;
+}
+header.site p{
+  margin:0;
+  font-size:13.5px;
+  color:#C9D2D6;
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* ---------- CONTROL BAR (검색 + 탭) ---------- */
+.control-bar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+  padding:12px 14px 10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+.search-wrap{
+  max-width:600px;
+  margin:0 auto 10px;
+  position:relative;
+}
+#searchInput{
+  width:100%;
+  padding:11px 16px 11px 38px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--bg-card);
+  font-family:inherit;
+  font-size:14px;
+  color:var(--ink);
+  outline:none;
+}
+#searchInput:focus{border-color:var(--wood);}
+.search-wrap::before{
+  content:"🔍";
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  opacity:.6;
+}
+.search-count{
+  text-align:center;
+  font-size:12px;
+  color:var(--ink-soft);
+  min-height:1.2em;
+  margin-bottom:8px;
+}
+.nav-row-wrap{
+  position:relative;
+  max-width:760px;
+  margin:0 auto;
+}
+.nav-row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:7px;
+  padding:2px 2px 4px;
+}
+.nav-btn{
+  border:1px solid var(--line);
+  background:var(--bg-card);
+  color:var(--ink);
+  padding:8px 13px;
+  border-radius:999px;
+  font-size:12.5px;
+  font-family:inherit;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.nav-btn.active, .nav-btn:hover{
+  background:var(--wood);
+  color:#fff;
+  border-color:var(--wood);
+}
+
+/* ---------- MAIN ---------- */
+main{max-width:760px; margin:0 auto; padding:24px 16px 30px;}
+
+.topic{margin-bottom:40px; display:none;}
+.topic.active{display:block;}
+.topic-head{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  border-bottom:2px solid var(--roof);
+  padding-bottom:10px;
+  margin-bottom:8px;
+}
+.topic-num{
+  font-family:var(--font-display);
+  font-size:28px;
+  color:var(--red);
+  line-height:1;
+  font-weight:700;
+}
+.topic-head h2{
+  margin:0;
+  font-size:18px;
+  font-family:var(--font-display);
+  color:var(--ink);
+}
+.topic-intro{
+  font-size:13px;
+  color:var(--ink-soft);
+  background:var(--bg-alt);
+  border-left:3px solid var(--wood);
+  padding:10px 14px;
+  border-radius:4px;
+  margin:10px 0 14px;
+}
+
+/* ---------- CARD (details) ---------- */
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-left:4px solid var(--wood);
+  border-radius:10px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+.card[open]{box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.card.hidden-by-filter{display:none;}
+.card summary{
+  list-style:none;
+  cursor:pointer;
+  padding:13px 16px;
+  font-weight:700;
+  font-size:14.5px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  -webkit-tap-highlight-color:transparent;
+}
+.card summary::-webkit-details-marker{display:none;}
+.card summary::after{
+  content:"+";
+  font-size:17px;
+  color:var(--wood);
+  font-family:sans-serif;
+  flex-shrink:0;
+}
+.card[open] summary::after{content:"−";}
+.card-body{
+  padding:2px 18px 16px;
+  font-size:14px;
+}
+.card-body p{margin:.6em 0;}
+.card-body ul{padding-left:1.2em; margin:.5em 0;}
+.card-body li{margin:.35em 0;}
+.card-body b{color:var(--wood-dark);}
+
+.card.caution{border-left-color:var(--red);}
+.card.caution summary::after{color:var(--red);}
+.card.caution summary{color:#7A3226;}
+
+/* 카드 내부 확인필요 콜아웃 */
+.flag{
+  margin-top:10px;
+  padding:10px 14px;
+  background:var(--caution-bg);
+  border-left:3px solid var(--red);
+  border-radius:6px;
+  font-size:12.5px;
+  color:#7A3226;
+}
+.flag b{color:var(--red);}
+
+/* table */
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:10px 0; border-radius:6px;}
+.card-body table{width:100%; min-width:480px; border-collapse:collapse; margin:0; font-size:13px;}
+.card-body th, .card-body td{border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top;}
+.card-body th{background:var(--bg-alt); color:var(--wood-dark); font-family:var(--font-display);}
+
+mark{background:#FFE28A; color:inherit; border-radius:2px;}
+
+footer{text-align:center; font-size:12px; color:var(--ink-soft); padding:20px;}
+
+@media (max-width:600px){
+  .nav-row{
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .nav-row::-webkit-scrollbar{display:none;}
+  .nav-row-wrap::after{
+    content:"";
+    position:absolute;
+    top:0; right:0;
+    width:28px; height:100%;
+    background:linear-gradient(to right, transparent, var(--bg) 85%);
+    pointer-events:none;
+  }
+}
+
+@media (max-width:480px){
+  header.site{padding:24px 14px 20px;}
+  header.site h1{font-size:20px;}
+  header.site p{font-size:12.5px;}
+  .control-bar{padding:10px 10px 8px;}
+  #searchInput{font-size:16px; padding:12px 14px 12px 36px;}
+  .nav-btn{font-size:12.5px; padding:8px 12px;}
+  main{padding:18px 12px 26px;}
+  .topic-head h2{font-size:16px;}
+  .card summary{padding:13px 14px; font-size:14px;}
+  .card-body{padding:2px 14px 14px;}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>건축 가이드 참고자료</h1>
+  <p>길과 건물의 기원부터 도시 구성, 전통 양식, 한옥, 근현대 건축, 부동산까지 — 현장에서 바로 찾아보는 도보 해설 참고자료</p>
+</header>
+
+<div class="control-bar">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="키워드로 찾기 — 예: 필로티, 풍수, 용적률">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+  <div class="nav-row-wrap">
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="ch0">0 길·건물</button>
+    <button class="nav-btn" data-cat="ch1">1 도시구성</button>
+    <button class="nav-btn" data-cat="ch2">2 전통양식</button>
+    <button class="nav-btn" data-cat="ch3">3 한옥</button>
+    <button class="nav-btn" data-cat="ch4">4 근대건축</button>
+    <button class="nav-btn" data-cat="ch5">5 현대건축</button>
+    <button class="nav-btn" data-cat="ch6">6 일상거리</button>
+    <button class="nav-btn" data-cat="ch7">7 부동산</button>
+    <button class="nav-btn" data-cat="ch8">8 인프라</button>
+    <button class="nav-btn" data-cat="ch9">9 주거시설</button>
+    <button class="nav-btn" data-cat="ch10">10 공공시설</button>
+  </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="topic active" id="ch0" data-cat="ch0">
+    <div class="topic-head"><span class="topic-num">0</span><h2>출발점 — 길과 건물</h2></div>
+
+    <details class="card"><summary>0-1. 길이란 무엇인가</summary><div class="card-body">
+      <p><b>자연발생 길</b></p>
+      <ul>
+        <li>동물 이동로를 인간이 따라 사용(수렵채집 시대)</li>
+        <li>물길·능선 등 지형의 저항이 적은 경로를 따라 형성</li>
+        <li>특징: 구불구불, 유기적, 설계자가 없음</li>
+      </ul>
+      <p><b>인공설정 길</b></p>
+      <ul>
+        <li>목적: 통치(군사 이동), 의례(도성의 축), 교역(시장 연결)</li>
+        <li>특징: 직선·격자형, 권력의 의지가 반영됨</li>
+        <li>예: 한양 육조거리, 일제강점기 신작로, 현대 도시계획 도로</li>
+      </ul>
+      <p>현장 적용 포인트: 길이 휘어있는지 곧은지만 봐도 "자연발생 구역"인지 "계획된 구역"인지 1차 판단 가능 — 북촌 골목(자연발생) vs 광화문~서울역 축(계획) 비교가 좋은 예시.</p>
+    </div></details>
+
+    <details class="card"><summary>0-2. 건물은 왜 생겼는가</summary><div class="card-body">
+      <ul>
+        <li><b>1차 목적 — 은신</b>: 비바람·맹수로부터 신체 보호</li>
+        <li><b>2차 목적 — 저장</b>: 농경 정착 이후 곡식 저장 필요 → 구조물 대형화</li>
+        <li><b>3차 목적 — 상징</b>: 신앙·권력의 표상(신전, 무덤, 궁궐) — 실용을 넘어선 의미 부여 시작</li>
+        <li><b>4차 목적 — 분화</b>: 한 건물에 섞여 있던 주거·상업·행정·종교 기능이 각각 전문 건물로 분리</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>0-3. 아주 큰 발전 흐름</summary><div class="card-body">
+      <p>수혈주거(움집, 땅을 파고 지붕만 얹음) → 지상가옥(기둥+벽 구조) → 가옥 군집(마을 형성) → 위계 발생(큰 집·작은 집 구분, 신분 반영) → 도시(길+건물+상징건축이 결합된 형태)</p>
+      <ul>
+        <li>움집→지상가옥: 정착 농경생활이 안정되며 땅을 파는 수고 없이도 방한·방습이 가능한 구조로 발전</li>
+        <li>마을→위계 발생: 농업 생산력 증가로 잉여 생산물이 쌓이고, 이를 관리·소유하는 계층이 생기면서 건물 규모·재료에 차등이 생김</li>
+        <li>위계→도시: 종교(제사)·행정(통치)·상업(교역) 기능이 한 곳에 집중되며 인구가 몰리고, 이를 유지하기 위한 길·성벽·시장이 함께 형성됨</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>0-4. 풍수지리 — 자리를 정하는 원리</summary><div class="card-body">
+      <p>도시·궁궐·무덤·살림집까지 입지 선정에 공통으로 작동한 논리.</p>
+      <ul>
+        <li><b>배산임수(背山臨水)</b>: 산을 등지고 물을 앞에 두는 입지 — 방어·방한·농업용수 확보라는 실용적 이유가 풍수 논리로 체계화된 것</li>
+        <li><b>사신사(四神砂)</b>: 좌청룡(동)·우백호(서)·남주작(앞)·북현무(뒤). 한양은 북악산(현무)·낙산(청룡)·인왕산(백호)·남산(주작)이 이 틀에 대응</li>
+        <li><b>비보풍수(裨補風水)</b>: 지형의 약점을 인공으로 보완 — 숲을 조성하거나 탑·문루를 세워 부족한 기운을 채움</li>
+        <li><b>한양 천도 일화</b>: 정도전(유교적 명당론)과 무학대사(풍수가 관점)가 좌향을 두고 이견을 보였다는 이야기가 널리 알려져 있음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 비보풍수 구체 사례와 천도 일화는 민간전승·후대 정리 성격이 강함. 현장에서는 "~라는 이야기가 전한다" 톤으로 다룰 것.</div>
+    </div></details>
+
+    <details class="card"><summary>0-5. 다리(교량) — 길이 물을 만났을 때</summary><div class="card-body">
+      <p><b>전통 다리 — 재료·형식별</b></p>
+      <ul>
+        <li><b>흙다리(土橋)</b>: 나무말뚝을 박고 통나무를 얹은 뒤 뗏장을 덮은 임시 구조, 홍수마다 다시 놓아야 했음</li>
+        <li><b>널다리(桁橋)</b>: 나무나 돌 판재를 그대로 걸친 가장 흔한 형식 — 궁궐 정원의 다리(향원정 취향교 등)도 대부분 이 형식</li>
+        <li><b>홍예교(虹橋, 무지개다리)</b>: 아치형 석교. 공력이 많이 들어 궁궐·사찰 중심으로 쓰임 — 보성 벌교 홍교(보물), 순천 선암사 승선교, 불국사 청운교·백운교가 대표 사례</li>
+        <li><b>배다리(舟橋)</b>·<b>누교(樓橋, 다리 위에 누각을 얹은 형식)</b>도 존재</li>
+      </ul>
+      <p><b>근대 이후</b></p>
+      <ul>
+        <li><b>한강철교(1900년 준공)</b>: 한국 최초의 근대식 교량(트러스교) — 이후 한강에 놓인 모든 다리의 출발점</li>
+        <li><b>한강대교(옛 한강인도교, 1917년 준공)</b>: 사람이 다닐 수 있는 한강 최초의 다리</li>
+      </ul>
+      <p><b>현대 교량 형식 구분</b></p>
+      <ul>
+        <li><b>거더교</b>: 보를 수평으로 얹은 가장 기초적인 형식, 작은 하천의 다리 대부분이 이 형식</li>
+        <li><b>트러스교</b>: 삼각형 뼈대 구조, 산간계곡·해협에 적합(성수대교 등)</li>
+        <li><b>아치교</b>: 무지개 모양 구조가 하중을 견딤(한강대교, 구리암사대교 등)</li>
+        <li><b>사장교</b>: 케이블이 주탑 꼭대기에서 상판까지 사선으로 뻗은 형식(서강대교 등)</li>
+        <li><b>현수교</b>: 케이블이 양 주탑 사이에 U자 모양으로 걸린 형식 — 남해대교(1973년, 당시 동양 최대 규모)가 시초, 광안대교·이순신대교 등. 한강에는 현수교가 없음</li>
+      </ul>
+      <p>현장 적용: 사장교와 현수교는 케이블 모양(사선이면 사장교, U자면 현수교)만 봐도 즉석 구분 가능.</p>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch1" data-cat="ch1">
+    <div class="topic-head"><span class="topic-num">1</span><h2>도시 구성의 큰 그림</h2></div>
+
+    <details class="card"><summary>1-1. 조선 한양의 도성 체계</summary><div class="card-body">
+      <p>유교 경전 『주례』의 도성 원칙을 기본 틀로 삼되, 한양은 산세 때문에 완전히 그대로 따르지는 못했다.</p>
+      <ul>
+        <li><b>좌묘우사(左廟右社)</b>: 경복궁 기준 왼쪽(동)에 종묘, 오른쪽(서)에 사직단.</li>
+        <li><b>전조후시(前朝後市)</b>: "궁궐 앞에 관청, 뒤에 시장"이 원칙이지만, 한양은 북악산 지형 때문에 시장이 궁궐 앞쪽 동서 축(운종가, 지금의 종로)에 형성됐다. 광화문 앞 육조거리는 관청가, 종로는 시전 거리로 분리된 구조.</li>
+        <li><b>사대문·사소문</b>: 흥인지문(동)·돈의문(서, 현존X)·숭례문(남)·숙정문(북). 문 이름에는 유교 오상(仁義禮智信)이 들어가 있음.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>1-2. 골목·시장의 형성 원리</summary><div class="card-body">
+      <ul>
+        <li>시전 거리(종로)는 직선 대로, 그 뒤로 백성의 주거지가 좁은 골목 형태로 자연발생. <b>계획도로(대로) + 자연발생 골목</b>의 이중구조.</li>
+        <li>청계천은 도성의 배수로이자 신분에 따른 거주지 경계 역할(북촌=양반, 남촌=서민·하급관리 — 절대적 구분은 아님).</li>
+        <li>시장은 "특정 가게"가 아니라 "업종별 골목"으로 자연 분화(방산시장-포장, 광장시장-직물 등). 지금 먹자골목 형성과도 연결됨.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>1-3. 일제강점기 도시계획의 단절</summary><div class="card-body">
+      <ul>
+        <li>1912년 「시구개정」, 1930년대 「조선시가지계획령」으로 격자형 신작로 개설, 성벽 철거, 전차 노선 부설.</li>
+        <li>을지로·충무로(당시 본정·황금정) 일본인 거주지구 형성 → 종로(조선인 상권)와 명동·충무로(일본인 상권)의 대립 구도가 이때 생김.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>1-4. 해방 이후~현대</summary><div class="card-body">
+      <ul>
+        <li>6.25 이후 무허가 정착지 → 1960~70년대 강북 재개발, 강남 신도시 개발(1970년대 영동지구)로 도시 축이 한강 이남으로 확장.</li>
+        <li>1980~90년대 아파트 단지 중심 개발로 골목 단위 도시조직이 단지 단위로 대체.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>1-5. 지방 도시는 다른가 — 읍성 체계</summary><div class="card-body">
+      <p>원리(배산임수, 자연지형 의존)는 같지만 <b>격이 다름</b>. 한양=도성(都城), 지방=읍성(邑城).</p>
+      <ul>
+        <li><b>읍성 3요소</b>: 관아(행정·재판) + 향교(교육) + 객사(왕의 위패를 모시고 사신을 접대 — 격이 가장 높음)</li>
+        <li>종묘·사직 같은 국가 제사시설은 한양 전용. 지방은 격을 낮춘 사직단·성황단 정도만 둠</li>
+        <li>상업 구조: 한양은 상설 시전, 지방은 5일장 같은 <b>향시(鄕市)</b> 순환 네트워크</li>
+        <li>대표 사례: 전주읍성(상업 중심), 해미읍성·고창읍성(군사·행정 중심)</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>1-6. 고도제한·경관규제 — 스카이라인을 만든 손</summary><div class="card-body">
+      <ul>
+        <li><b>남산 고도제한</b>: 남산 경관 보호 목적, 중구·용산구 상당 지역에 높이 제한 — 남산 근처가 오래 저층·구도심 형태를 유지한 배경</li>
+        <li><b>문화재 주변 역사문화환경보존지역</b>: 경복궁·창덕궁 등 주변은 조망 확보 목적의 고도제한 적용</li>
+        <li><b>대비</b>: 강남은 계획 신도심이라 규제에서 비교적 자유로워 고층화가 빠르게 진행 — 강북 저층 vs 강남 고층은 양식이 아니라 규제 차이의 결과</li>
+        <li>현장 적용: 스카이라인이 갑자기 낮아지거나 높아지는 경계 지점 = 규제구역 경계일 가능성</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 구체적 고도제한 수치는 지역·지구별로 세분화되고 개정도 잦음. "경관 보호를 위한 높이 제한이 있다" 정도로 다룰 것.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch2" data-cat="ch2">
+    <div class="topic-head"><span class="topic-num">2</span><h2>한국 전통 건축 양식</h2></div>
+    <div class="topic-intro">가이드 현장에서 가장 많이 쓰이는 분류는 공포(栱包) 양식과 지붕 형태 두 가지. 이 둘만 구분해도 대부분의 전통 건물 설명이 가능하다.</div>
+
+    <details class="card"><summary>2-1. 공포 양식 — 건물의 격을 보여줌</summary><div class="card-body">
+      <div class="table-scroll"><table>
+        <tr><th>양식</th><th>시기</th><th>특징</th><th>대표 사례</th></tr>
+        <tr><td>주심포식</td><td>고려~조선 초기</td><td>기둥 위에만 공포 배치, 간결</td><td>봉정사 극락전, 수덕사 대웅전</td></tr>
+        <tr><td>다포식</td><td>고려 후기~조선 전 시기</td><td>기둥 사이에도 공포 배치, 화려·고위계</td><td>경복궁 근정전, 숭례문</td></tr>
+        <tr><td>익공식</td><td>조선 중기 이후</td><td>단순화된 약식 구조, 살림집·서원</td><td>종묘 정전(부분), 사대부가</td></tr>
+      </table></div>
+      <p>현장 팁: 처마 밑이 화려하고 복잡하면 다포식(궁궐급), 단순하면 익공식(생활건축)으로 즉석 구분 가능.</p>
+    </div></details>
+
+    <details class="card"><summary>2-2. 지붕 형태 — 위계와 인상을 결정</summary><div class="card-body">
+      <ul>
+        <li><b>맞배지붕</b>: 양면 경사만 있는 가장 단순한 형태. 격이 낮은 건물·행랑·사당 등.</li>
+        <li><b>우진각지붕</b>: 네 면 모두 경사. 숭례문·광화문처럼 위엄을 강조하는 문루.</li>
+        <li><b>팔작지붕</b>: 맞배+우진각 결합형, 측면 합각벽. 가장 화려·고위계(근정전 등).</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>2-3. 시대 흐름 요약</summary><div class="card-body">
+      <ul>
+        <li><b>삼국시대~통일신라</b>: 목조건축 현존 예 거의 없음(불국사 석축·다보탑 등 석조 위주). 기와의 시작.</li>
+        <li><b>고려시대</b>: 현존 최고(最古) 목조건축(봉정사 극락전 등). 주심포식 전성기.</li>
+        <li><b>조선 전기~중기</b>: 다포식 확산, 궁궐·사찰 중심으로 화려해짐.</li>
+        <li><b>조선 후기</b>: 익공식이 살림집·서원에 보편화.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>2-4. 국가유산 체계와 명칭 변경 <span style="color:#B23A2E;font-weight:600;">(필수)</span></summary><div class="card-body">
+      <ul>
+        <li><b>2024년 5월 17일부로 법정 명칭이 변경됨</b>: "문화재청" → "국가유산청", "문화재" → "국가유산" (국가유산기본법 시행)</li>
+        <li><b>분류 체계</b>: 문화유산·자연유산·무형유산 3개 유형으로 재편</li>
+        <li><b>지정 등급 명칭은 그대로 유지</b>: 국보·보물·사적·명승·천연기념물·국가무형유산·국가민속유산·국가등록유산 — 등급 이름은 안 바뀌었고, 이를 총칭하는 상위 용어만 "국가유산"으로 바뀐 것</li>
+        <li>현장 적용: "이 건물은 국가유산으로 지정되어 있습니다"가 현재 정확한 표현. "문화재"라는 표현 자체가 틀린 것은 아니지만 공식 용어는 변경되었음</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>2-5. 단청(丹靑)</summary><div class="card-body">
+      <ul>
+        <li>목조건축 부재 표면에 채색하는 전통 장식기법. 목재 보호(방부·방충) 기능과 건물 위계 표시 기능을 겸함</li>
+        <li>기본 색: 오방색(청·적·황·백·흑) 기반 배합</li>
+        <li>화려함 정도가 건물 격을 보여주는 지표 중 하나 — 궁궐·사찰 정전급일수록 문양이 복잡하고 채색 면적이 넓은 경향이 있고, 생활건축·서원 등은 상대적으로 간결함</li>
+        <li>현장 적용: 2-1의 공포양식과 같은 논리로, "처마 밑 색채가 화려한 정도"로 건물 위계를 가늠하는 보조지표로 활용 가능</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 단청의 세부 문양 명칭·등급 구분(예: 모루단청, 금단청 등 용어)은 시대·사찰별로 적용이 달라 개별 건물 설명 시 확인이 필요함. 여기서는 "화려함=격"이라는 원리 수준만 다룸.</div>
+    </div></details>
+
+    <details class="card"><summary>2-6. 사찰 건축의 공간구성</summary><div class="card-body">
+      <ul>
+        <li><b>진입 순서</b>: 일주문(속세와 경계, 기둥이 한 줄로 서 있는 문) → 천왕문(사천왕상이 지키며 잡귀를 막는 문) → 대웅전(본존불을 모신 중심 법당) — 중간에 금강문·불이문 등이 추가되는 경우도 있으며 사찰마다 구성이 다름</li>
+        <li><b>가람배치</b>: 탑과 금당(법당)의 배치 방식으로 시대를 구분하는 견해가 있음 — 1탑1금당식, 1탑3금당식(고구려 계통), 2탑1금당식(통일신라 이후, 불국사가 대표 사례로 언급됨)</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 가람배치 유형 분류는 학계에서도 세부적으로 견해차가 있는 영역이라, "~식으로 보는 견해가 있다" 정도로 설명하는 것이 안전함.</div>
+    </div></details>
+
+    <details class="card"><summary>2-7. 조선왕릉의 배치</summary><div class="card-body">
+      <ul>
+        <li><b>진입 순서</b>: 홍살문(신성한 공간의 시작을 알리는 붉은 문, 지붕 없음) → 참도(향로가 다니는 신도와 왕이 다니는 어도로 나뉜 길) → 정자각(제사를 지내는 丁자 모양 건물) → 능침(봉분, 정자각 뒤 언덕 위에 위치, 일반적으로 비공개)</li>
+        <li>조선왕릉은 2009년 유네스코 세계유산으로 등재됨</li>
+      </ul>
+      <div class="flag"><b>중요 구분</b> — 이 배치는 <b>조선왕릉</b>에 한정된 양식임. 공주 무령왕릉은 백제 웅진기의 전축분(벽돌무덤, 중국 남조 영향)으로 조선왕릉과는 전혀 다른 양식이므로 혼동하지 않도록 주의. 개별 능의 무인석·문인석·병풍석 유무 등 세부 요소는 능급·시대별 차이가 있어 개별 확인 필요.</div>
+    </div></details>
+
+    <details class="card"><summary>2-8. 서원·향교의 배치 원리</summary><div class="card-body">
+      <ul>
+        <li><b>전학후묘(前學後廟)</b>: 앞쪽에 강학공간(강당, 유생 기숙사인 동재·서재), 뒤쪽 높은 곳에 제향공간(사당, 성현 위패)을 두는 배치 원리 — 향교·서원·성균관에 공통 적용되는 일반 원칙</li>
+        <li><b>서원과 향교의 차이</b>: 향교는 국가가 세운 관학(지방마다 설치, 공자를 모심), 서원은 사림이 세운 사학(특정 성리학자를 배향)</li>
+        <li><b>소수서원(경북 영주)</b>: 1543년 백운동서원으로 창건, 1550년 명종에게 사액받아 조선 최초의 사액서원이 됨. 단, 소수서원은 강학공간(동)과 제향공간(서)을 좌우로 배치한 예외적 사례로, 전학후묘 원칙의 정형은 아님</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 개별 서원·향교의 건립연도·배향인물·배치 세부사항은 곳마다 달라 현장 설명 시 개별 확인이 필요함.</div>
+    </div></details>
+
+    <details class="card"><summary>2-9. 성곽 건축 — 여장·치성·옹성·해자</summary><div class="card-body">
+      <ul>
+        <li><b>여장(女墻)</b>: 성벽 위에 낮게 쌓은 담. 총구멍(사총)이 뚫려 있어 병사가 몸을 숨긴 채 공격할 수 있게 함</li>
+        <li><b>치성(雉城)</b>: 성벽 일부를 바깥으로 돌출시킨 구조. 정면 공격만 가능한 일반 성벽과 달리, 접근하는 적을 측면에서도 공격할 수 있게 한 방어 기법</li>
+        <li><b>옹성(甕城)</b>: 성문 앞을 항아리 모양으로 둘러싼 반원형 방어벽. 성문이 바로 뚫리지 않도록 하나의 관문을 더 두는 구조 — 흥인지문 옹성이 대표 사례</li>
+        <li><b>해자(垓字)</b>: 성벽 바깥을 둘러 판 도랑(물을 채우는 경우도, 마른 도랑인 경우도 있음). 적의 접근 자체를 물리적으로 지연시키는 1차 방어선</li>
+        <li>현장 적용: 수원화성·낙안읍성·고창읍성·해미읍성 등 성곽이 남아있는 곳에서 이 네 요소를 하나씩 짚어주면 "왜 이렇게 생겼는지"에 대한 답이 대부분 나옴</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>2-10. 석탑 양식 — 백제계와 신라계</summary><div class="card-body">
+      <ul>
+        <li><b>목탑 → 석탑 전환</b>: 초기 석탑(익산 미륵사지 석탑 등)은 목탑의 구조를 그대로 돌로 옮긴 과도기 형태 — 목조건축의 기둥·지붕 구조가 석재에 그대로 반영되어 있음</li>
+        <li><b>백제계</b>: 부여 정림사지 오층석탑(국보)이 대표. 5층 구성이 많고, 층이 올라갈수록 지붕돌(옥개석)이 얇고 넓게 뻗어 목탑의 느낌을 강하게 유지함</li>
+        <li><b>신라계</b>: 3층 구성이 많고, 2중 기단 위에 두터운 탑신을 올려 안정감 있는 비례를 만듦 — 경주 불국사 삼층석탑(석가탑)이 전형적 사례</li>
+        <li><b>통일 이후 표준화</b>: 통일신라 이후 3층 석탑 양식이 전국으로 퍼지며 지역과 무관하게 비슷한 형태의 석탑이 만들어짐 — 이후에는 다보탑처럼 정형에서 벗어난 이형석탑도 등장</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 개별 석탑의 정확한 조성 연도는 학계에서도 이견이 있는 경우가 많아(예: 미륵사지 석탑과 정림사지 오층석탑의 선후 관계), 절대 연도보다는 "~로 추정된다" 톤으로 설명하는 것이 안전함.</div>
+    </div></details>
+
+    <details class="card"><summary>2-11. 정자·누각</summary><div class="card-body">
+      <p>경치를 감상하기 위해 지은 개방형 건축물. 벽 없이 기둥과 지붕만으로 이루어져 사방이 트여있는 것이 공통 특징이며, 대개 경치가 좋은 언덕·물가에 위치함.</p>
+      <ul>
+        <li><b>정자</b>: 상대적으로 규모가 작고 단층인 경우가 많음</li>
+        <li><b>누각</b>: 상대적으로 규모가 크고 2층 구조인 경우가 많음(1층은 비우거나 창고로 쓰고, 2층에 마루를 두어 오르는 방식) — 경복궁 경회루가 대표 사례</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 정자·누·각·대 같은 세부 명칭 구분은 건물마다 예외가 많고 학술적으로도 엄밀하게 통일되어 있지 않아, 위 구분은 일반적 경향으로만 다룰 것.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch3" data-cat="ch3">
+    <div class="topic-head"><span class="topic-num">3</span><h2>한옥의 구성</h2></div>
+
+    <details class="card"><summary>3-1. 공간 구성</summary><div class="card-body">
+      <ul>
+        <li><b>안채</b>: 여성 중심 생활공간, 가장 안쪽</li>
+        <li><b>사랑채</b>: 남성 가장·손님 응대 공간, 바깥쪽</li>
+        <li><b>행랑채</b>: 하인·창고·대문간 기능, 가장 바깥</li>
+        <li><b>마당</b>: 안마당(사적)과 바깥마당(공적)으로 분리</li>
+        <li>지역형 차이: 중부(ㄱ자·ㄷ자형, 폐쇄적), 남부(一자형, 개방적·마루 발달), 함경도형(田자형, 방한형)</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>3-2. 구조 부재 (아래에서 위로)</summary><div class="card-body">
+      <ul>
+        <li><b>기단</b>: 건물을 땅보다 높이는 기초 단(습기·배수 목적)</li>
+        <li><b>초석</b>: 기둥을 받치는 돌</li>
+        <li><b>기둥</b>: 원형(격 높은 건물)과 방형(일반 건물)</li>
+        <li><b>보(樑)</b>: 기둥과 기둥을 가로지르는 수평재</li>
+        <li><b>도리</b>: 서까래를 받치는 부재</li>
+        <li><b>서까래</b>: 지붕 경사를 만드는 부재</li>
+        <li><b>처마</b>: 여름 햇빛 차단·겨울 채광 확보</li>
+        <li><b>기와</b>: 암키와+수키와로 빗물 처리</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>3-3. 그렝이법 — 자연석과 기둥을 맞추는 기법</summary><div class="card-body">
+      <ul>
+        <li>자연석 초석(막돌초석)은 표면을 다듬지 않고 울퉁불퉁한 그대로 사용하는데, 그 위에 세울 기둥의 밑동을 초석 표면의 굴곡에 맞춰 정밀하게 깎아내는 전통 기법이 <b>그렝이법(그랭이 공법)</b></li>
+        <li>방법: 그렝이칼(컴퍼스처럼 생긴 도구)로 초석의 높낮이를 따라가며 기둥 밑면에 선을 그리고, 그 선에 맞춰 기둥을 깎아 초석과 밀착시킴</li>
+        <li>효과: 별도 고정장치 없이도 기둥과 초석이 요철처럼 맞물려 지진 등 충격에 강한 것으로 평가됨</li>
+        <li>대표 사례: 불국사 석축, 고창읍성 공북루의 주춧돌</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>3-4. 온돌과 마루 — 한옥의 이중구조</summary><div class="card-body">
+      <ul>
+        <li><b>온돌</b>: 아궁이에서 불을 때면 그 열기와 연기가 방바닥 밑 통로(고래)를 지나며 구들장을 데우고, 마지막에 굴뚝으로 빠져나가는 구조. 북방계 영향, 겨울 대응.</li>
+        <li><b>마루</b>: 바닥을 지면에서 띄워 짜올린 구조(우물마루 등)로 통풍이 잘 되어 여름을 나기에 유리함. 남방계 영향.</li>
+        <li>지역별 비중 차이: 중부지방은 온돌 중심 구조가 많고, 남부지방은 대청마루 비중이 상대적으로 큼 — 3-1의 지역형 차이와 같은 기후 대응 논리</li>
+        <li>한 건물 안에 온돌방과 마루(대청)가 공존 — 사계절 대응이 하나로 통합된 것.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>3-5. 지역별 한옥 유형 — 기후가 만든 6가지 평면</summary><div class="card-body">
+      <p>3-1의 지역형 차이를 훨씬 세분화하면 이렇게 나뉜다. 지역별 기후 대응 전략이 평면 자체를 다르게 만든 경우.</p>
+      <ul>
+        <li><b>북부형(관북형)</b>: 방 두 줄을 나란히 배치한 '전자(田字)형' 겹집. 부엌과 거실을 겸한 <b>정주간</b>이 있고 대청이 없는 폐쇄적 구조 — 추위를 막기 위해 집 전체를 조밀하게 뭉친 형태</li>
+        <li><b>관서형</b>: 一자형·ㄱ자형이 기본. 중부형에 있는 대청이 없는 경우가 많고, 부엌과 방이 문으로 바로 연결됨</li>
+        <li><b>중부형</b>: 경기·황해 남부·강원 남부·충청 일대. ㄱ자·ㄷ자형이 많고 대청이 있음 — 북부의 폐쇄성과 남부의 개방성 중간 성격</li>
+        <li><b>남부형</b>: 경상·전라 일대. 一자형이지만 '부엌-방-대청-방' 순서로 배치되고 대청이 크게 발달 — 더운 여름에 대응한 개방적 구조</li>
+        <li><b>제주형</b>: 一자형이라는 점은 남부와 비슷하나 구성 원리가 다름. <b>안거리·밖거리</b>로 채를 나누고(두거리집·세거리집·네거리집), 방 옆에 <b>고팡</b>(곡물 저장 창고)을 둠. 대문 대신 <b>올래</b>(긴 진입로)로 완충공간을 둠</li>
+        <li><b>울릉도형</b>: 폭설 지역 특유의 <b>우데기</b>(억새·옥수수잎을 엮어 만든 방설용 겹벽)를 본채 바깥에 두름 — 우데기와 본벽 사이 공간(축담)은 눈 오는 겨울에도 통로·작업공간으로 쓰임. 현재 전통 형태는 4채만 남아있음</li>
+      </ul>
+      <p><b>지붕 재료로 나뉘는 유형도 있음</b></p>
+      <ul>
+        <li><b>너와집</b>: 나무나 돌을 판재로 쪼개 지붕에 얹은 집. 나무를 구하기 쉬운 산간지방(강원 삼척 대이리 등)에서 발달 — 맑은 날엔 틈이 벌어져 통풍이 잘 되고, 비 오는 날엔 나무가 습기를 먹어 빗물을 막아주는 원리</li>
+        <li><b>까치구멍집</b>: 겹집 지붕에 환기용 구멍을 낸 형태(봉화 설매리 등)</li>
+      </ul>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch4" data-cat="ch4">
+    <div class="topic-head"><span class="topic-num">4</span><h2>근대 건축 (1876~1945)</h2></div>
+
+    <details class="card"><summary>4-1. 개항기 (1876~1910)</summary><div class="card-body">
+      <ul>
+        <li>인천·부산 개항장 중심으로 외국 영사관·은행 건물 등장. 르네상스 양식·절충주의 경향.</li>
+        <li><b>조계지</b>: 개항장에 설정된 외국인 거주·치외법권 지역. 인천의 경우 청국·일본·각국(공동)조계가 나뉘어 있어, 지금도 인천 개항장 일대를 걸으면 국가별로 건축양식이 뒤섞여 있는 것을 볼 수 있음</li>
+        <li>명동성당(1898): 한국 최초 본격 고딕 양식 건축물.</li>
+        <li>정동 일대: 구 러시아공사관, 구 배재학당 등 서양식 건축이 밀집한 외교 구역.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>4-2. 일제강점기 (1910~1945)</summary><div class="card-body">
+      <ul>
+        <li>관공서 건축: 신고전주의·르네상스 절충 양식 다수. 조선총독부(1926년 준공, 1995년 철거)가 대표적.</li>
+        <li>서울역(경성역, 1925년 준공): 르네상스 양식 기반 절충주의로 흔히 설명됨.</li>
+        <li><b>적산가옥</b>: 일본인 거주용 목조 가옥. 군산·인천 개항장 일대에 다수 잔존.</li>
+        <li><b>한양절충식</b>: 한옥 골격에 유리창·벽돌 등 서양 재료 결합. 지금 북촌에 남은 한옥 대부분이 이 시기 개량 한옥.</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 일제강점기 건축물의 정확한 준공연도·설계자는 출처마다 표기가 갈림. 안내판·문화재청 자료로 재확인 권장.</div>
+    </div></details>
+
+    <details class="card"><summary>4-3. 근대건축의 유입 경로와 절충양식</summary><div class="card-body">
+      <p>한국 근대건축 연구의 초석을 놓은 윤일주는 서양식 건축이 들어온 경로를 네 갈래로 분류했다.</p>
+      <ul>
+        <li>① 외국공관 계통의 건축</li>
+        <li>② 선교사를 통한 종교 및 산하 공공시설(병원·학교 등)</li>
+        <li>③ 외국인의 상사(商社) 건물 및 주택</li>
+        <li>④ 일본인에 의한 관아·공공건물</li>
+      </ul>
+      <p>흥미로운 지점은 <b>절충의 비대칭성</b>이다. 종교건축은 서양식 벽돌건물이, 관공서·상업건축은 일본-서양 절충식이나 일본 전통 목조건축이 대체해버려서, 정작 '한옥과 일본식의 절충'은 생각보다 드물었다. 절충이 있었어도 대개 지붕 기와를 일본식 평기와로 바꾸거나 미닫이문을 들이는 정도의 소극적 변화에 그쳤다.</p>
+      <p>다만 예외적으로 <b>한옥 형식의 2층 상가 건물</b>을 짓는 새로운 시도도 있었다 — 1930년대 지어진 '덕우당'(현재 덕성여대 안에 복원)이 대표 사례. 다만 이런 시도는 전통 건축에 대한 저평가와 시대적 혼란 속에서 곧 사라졌다.</p>
+    </div></details>
+
+    <details class="card"><summary>4-4. 관공서·학교·은행 — 유형별 근대건축</summary><div class="card-body">
+      <ul>
+        <li><b>학교</b>: 1938년 무렵 지어진 교사(校舍)는 철근콘크리트·벽돌벽 구조에 스팀난방까지 갖춘 당대 최고급 건축이었던 경우가 많음. 경성제국대학 이공학부 건물처럼 중앙에 탑을 세워 권위를 강조하고, 중정을 두른 'ㅁ자형 배치'가 1940년대 교육시설의 전형적 특징</li>
+        <li><b>은행</b>: 지방 도시에도 민족자본으로 세운 지방은행(예: 예산 호서은행 본점, 1922년 준공)이 들어서며 근대 상업건축의 거점이 됨</li>
+        <li><b>병원</b>: 서양의학 도입의 상징 — 지역 최초의 서양식 병원이 근대건축물로 남아있는 경우가 많음(예: 대구 최초 서양의학병원, 1941년)</li>
+        <li><b>사무소 건물</b>: 1920년대 말 서울 도심에 지어진 본격 사무소 건물 중에는 최초로 내화·내진 설계를 적용하고 엘리베이터를 설치한 사례도 있음(한국전력 관련 건물)</li>
+        <li>가이드 적용: 근대건축은 궁궐·사찰과 달리 '용도별로 양식이 갈린다'는 점이 특징 — 학교는 ㅁ자 배치, 은행·관공서는 좌우대칭 권위형, 종교시설은 고딕 첨탑이라는 식으로 유형별 공식이 있음</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>4-5. 근대건축의 보존과 소실 위기</summary><div class="card-body">
+      <ul>
+        <li>한국의 근대건축물 상당수는 8.15 광복 이후 6.25전쟁, 산업화 시기의 재개발을 거치며 사라졌음</li>
+        <li>국가등록문화재로 지정 예고되었음에도 실제로는 철거된 사례가 있음(예: 국도극장이 하룻밤 사이 철거된 사례) — 법·제도가 있어도 현장에서 지켜지지 않는 경우가 있다는 것을 보여줌</li>
+        <li>보존된 근대건축물 중 일부는 리모델링을 거쳐 관광 명소·전시관 등으로 재활용되고 있음</li>
+        <li>흥미로운 현상: 실제 근대건축물이 사라진 자리를 영화·드라마 세트장이 대신하기도 함 — 논산 션샤인스튜디오(개화기 서울 재현), 합천영상테마파크 등이 대표적이며, 퀄리티가 높아 간접 체험 공간으로도 의미가 있음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 개별 건물의 보존·철거 현황은 계속 바뀌므로, 특정 건물의 존치 여부를 단정하기보다 현장에서 실제 확인할 것.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch5" data-cat="ch5">
+    <div class="topic-head"><span class="topic-num">5</span><h2>현대 건축 (1945~현재)</h2></div>
+
+    <details class="card"><summary>5-1. 큰 흐름</summary><div class="card-body">
+      <ul>
+        <li><b>1950~60년대</b>: 전후 복구 중심, 김중업·김수근 등 1세대 건축가 등장.</li>
+        <li><b>1970~80년대</b>: 강남 개발과 함께 고층·아파트 건축 본격화.</li>
+        <li><b>1990년대 이후</b>: 포스트모더니즘 영향, 개인 건축가 작품성 강조.</li>
+        <li><b>2000년대 이후</b>: DDP 같은 해체주의·비정형 건축 등장, 재생건축 트렌드.</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>5-2. 빨간 벽돌 연립·다세대주택</summary><div class="card-body">
+      <ul>
+        <li><b>시기</b>: 1980~90년대 다세대·연립주택 보급기에 집중 형성. 도시 인구 급증 → 단독주택 부지를 쪼개 다세대화.</li>
+        <li><b>벽돌을 쓴 이유</b>: 별도 외장 마감 없이 그 자체로 마감재 역할 → 시공비 절감. 소규모 임대업 건축주에게 적합.</li>
+        <li>"빨간 벽돌 = 그 시기 건축"이라는 시각적 지표로 활용 가능.</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 관련 정부 정책(불연화 규정 등)의 정확한 명칭·시행연도는 자료마다 표기가 갈림. "정책 때문"이라 단정하기보다 "당시 표준 자재였다" 정도로 설명.</div>
+    </div></details>
+
+    <details class="card"><summary>5-3. 고층빌딩의 역사</summary><div class="card-body">
+      <ul>
+        <li><b>반도호텔(1938, 8층)</b>: 일제강점기에 지어져 1960년대 중반까지 한국에서 가장 높은 건물로 꼽힘. 다만 이건 "전근대 최고층" 사례이고, 현대적 의미의 고층빌딩과는 구분해서 설명하는 것이 정확함(1973년 롯데그룹이 인수, 현재 롯데호텔서울 자리)</li>
+        <li><b>삼일빌딩(1970, 31층)</b>: 해방 이후·현대적 의미의 한국 최초 본격 고층빌딩으로 꼽히는 사례, 김중업 설계</li>
+        <li><b>63빌딩(1985)</b>: 강남 개발·경제성장과 맞물린 상징적 초고층 건축</li>
+        <li><b>2000년대 이후</b>: 커튼월 공법 보편화로 초고층화 가속, 롯데월드타워(2017, 555m)로 정점</li>
+        <li>가이드 포인트: 고층빌딩은 "그 시대 경제 규모를 보여주는 상징물"로 설명하면 스토리텔링이 쉬움</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>5-4. 아파트 단지 — 한국 주거의 대표 형태</summary><div class="card-body">
+      <ul>
+        <li><b>시작</b>: 1960~70년대 마포아파트·여의도시범아파트 → 1980년대 강남 개발과 함께 보편화</li>
+        <li><b>형태 변화</b>: 판상형(향·통풍 유리) → 2000년대 이후 타워형(고층·조망) 비중 증가</li>
+        <li><b>브랜드화</b>: 2000년대 이후 건설사 브랜드(래미안·자이·푸르지오 등)가 단지명을 대체</li>
+        <li><b>신도시</b>: 1기 신도시(분당·일산, 1989년 발표) → 2기 신도시(판교 등, 2000년대)</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>5-5. 노출콘크리트와 2세대 건축가</summary><div class="card-body">
+      <p>1990~2000년대 승효상('빈자의 미학' 개념으로 알려짐)·조성룡 등 2세대 건축가들이 장식을 배제한 노출콘크리트 건축을 주도. 재료 그 자체의 질감을 마감으로 삼아 별도 외장재를 쓰지 않는 방식이 특징.</p>
+      <p>일본 건축가 안도 다다오의 영향을 받았다는 평가가 일반적이며, 이후 소규모 카페·미술관·주택 등 상업건축까지 폭넓게 확산되어 지금도 신축 카페·갤러리에서 흔히 볼 수 있는 마감 방식이 됨.</p>
+    </div></details>
+
+    <details class="card"><summary>5-6. 해외 스타 건축가의 한국 진출</summary><div class="card-body">
+      <p>2000년대 이후 해외 유명 건축가의 국내 프로젝트가 늘며 건축물 자체가 기업·도시 브랜딩 수단으로 활용되는 흐름이 뚜렷해짐. 대표 사례: DDP·동대문디자인플라자(자하 하디드 설계), 리움미술관(마리오 보타·장 누벨·렘 콜하스가 각각 다른 동을 설계한 공동 프로젝트).</p>
+      <p>가이드 포인트: "왜 외국 건축가를 썼나"를 설명할 때 — 단순 설계 의뢰를 넘어 건물 자체를 관광·홍보 자원으로 만들려는 랜드마크 마케팅 효과를 노린 것이라는 맥락으로 풀면 이해가 쉬움.</p>
+    </div></details>
+
+    <details class="card"><summary>5-7. 상업건축의 변화</summary><div class="card-body">
+      <ul>
+        <li>도시형 건축의 기본 단위: 1층 상가 + 위층 주거(또는 사무실)로 구성된 상가주택 — 골목 상권을 구성하는 가장 흔한 건물 형태</li>
+        <li>유통 형태 변천: 재래시장 → 백화점(1970~80년대 본격화) → 대형마트(1990년대 이후) → 복합쇼핑몰(2010년대 이후, 스타필드 등 — 쇼핑+체험+문화시설 결합형)</li>
+        <li>이 변천 과정에서 매장 규모가 점점 커지고 상권이 특정 대형 시설로 집중되는 경향이 반복됨 — 7장(부동산과 건축)의 젠트리피케이션·재개발과도 맞물리는 흐름</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>5-8. 야간경관·미디어파사드</summary><div class="card-body">
+      <ul>
+        <li><b>경관조명사업</b>: 2000년대 이후 지자체별로 주요 다리·건물 외벽에 조명을 설치하는 사업이 확산 — 한강 다리들의 야간 조명이 대표적 사례</li>
+        <li><b>미디어파사드</b>: 건물 외벽 전체를 LED·영상 스크린으로 활용하는 기법. 동대문디자인플라자(DDP)가 대표 사례로 자주 언급됨</li>
+        <li>목적: 야간 관광자원화, 도시 브랜딩 — 낮과 밤의 건물 인상이 크게 달라지는 이유</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>5-9. 기후대응 건축 (제로에너지건축물 등)</summary><div class="card-body">
+      <ul>
+        <li><b>제로에너지건축물(ZEB) 인증제도</b>: 2017년 시행. 처음엔 공기업 대상으로 시작해 단계적으로 확대됨 — 2020년 연면적 1,000㎡ 이상 신축 공공건축물 의무화, 2023년 연면적 500㎡ 이상 공공건축물·30세대 이상 공공 공동주택으로 확대</li>
+        <li>건물의 에너지 자립률(신재생에너지 생산 비율)에 따라 등급을 부여하는 인증제도</li>
+        <li>현장 적용: 최근 신축 공공건축물에서 눈에 띄는 태양광 패널, 옥상녹화 등은 이 제도와 연결지어 설명 가능</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 민간 건축물로의 의무화 확대 시점은 계속 조정되고 있어, 최신 시행 여부는 별도 확인 필요.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch6" data-cat="ch6">
+    <div class="topic-head"><span class="topic-num">6</span><h2>일상 거리 읽기</h2></div>
+    <div class="topic-intro">유명 건물 기준을 넘어, 아무 골목에서나 바로 쓸 수 있는 도구. 다세대·빌라·상가주택이 실제로 가장 많이 보이는 건물이므로 현장에서 가장 자주 쓰일 장.</div>
+
+    <details class="card"><summary>6-1. 외장재로 시대 읽기 (가장 강력한 도구)</summary><div class="card-body">
+      <ul>
+        <li>시멘트블록 노출 / 타일마감: 1960~70년대</li>
+        <li>적벽돌: 1980~90년대</li>
+        <li>드라이비트·스타코: 1990년대 말~2000년대, 다세대주택 신축에 광범위 사용</li>
+        <li>노출콘크리트·징크패널·복합패널: 2010년대 이후, 카페·리모델링 건축에 흔함</li>
+      </ul>
+      <p>현장 적용: 한 골목 안에서도 건물마다 외장재가 다르면 그 골목이 여러 시기에 걸쳐 하나씩 재건축되며 채워졌다는 뜻 — 반대로 외장재가 통일되어 있으면 같은 시기에 일괄 개발됐을 가능성이 큼.</p>
+    </div></details>
+
+    <details class="card"><summary>6-2. 필로티 구조</summary><div class="card-body">
+      <p>1층을 주차장으로 비우고 2층부터 주거를 올리는 구조. 2000년대 이후 다세대·다가구주택 신축의 사실상 표준형이 됨. 주차장 확보 요건(대지 내 주차대수 규정)과 맞물려 보편화됐고, 좁은 도시형 필지에서 1층 상가·주차장과 위층 주거를 동시에 확보하는 현실적 해법으로 자리잡음.</p>
+    </div></details>
+
+    <details class="card"><summary>6-3. 옥상 구조물</summary><div class="card-body">
+      <ul>
+        <li><b>물탱크(옥상 저수조)</b>: 과거 상수도 수압이 불안정하던 시절, 건물 자체 압력으로 물을 끌어올려 저장해 두던 흔적. 최근 신축 건물에서는 상수도 인프라가 개선되며 점차 사라지는 추세</li>
+        <li><b>옥탑방</b>: 본래 옥상의 기계실·물탱크실·창고로 쓰이던 공간이 주거용으로 전용된 한국 특유의 형태. 별도 등기가 안 된 경우가 많아 저렴한 임대주택으로 활용되어 온 배경이 있음</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>6-4. 학교 건축</summary><div class="card-body">
+      <p>일제강점기~1980년대까지 전국적으로 학교 본관 디자인이 표준화된 경우가 많음(붉은 벽돌, ㄱ자 또는 일자형 본관, 중앙 현관·좌우 대칭 배치). 이후 시기에는 다양한 형태로 신·개축이 이루어져 획일성이 줄어듦 — 동네 어디서든 학교 건물의 외관·재료만 봐도 그 학교(혹은 최소한 본관)가 오래됐는지, 최근 신축·리모델링됐는지 가늠하는 기준점으로 활용 가능.</p>
+    </div></details>
+
+    <details class="card"><summary>6-5. 종교건축의 스카이라인</summary><div class="card-body">
+      <p>교회 첨탑의 밀도가 유난히 높은 것이 한국 도시 경관의 특징 — 1970~80년대 도시화·인구집중과 함께 개신교 교세가 확장되며 급증했다는 것이 일반적으로 통용되는 설명. 양식으로는 절(전통 다포·팔작), 성당(고딕 계열), 교회(현대적 첨탑·십자가 조형)로 크게 세 갈래로 구분해 설명하면 충분함.</p>
+    </div></details>
+
+    <details class="card"><summary>6-6. 필지 모양이 만든 건물 형태</summary><div class="card-body">
+      <p>전면이 좁고 안으로 긴 직사각형 건물이 흔한 이유: 분할상속(자녀들에게 땅을 나눠주는 과정이 반복되며 필지가 점점 좁고 길어짐), 구도심 한옥 필지가 오랜 시간에 걸쳐 쪼개진 역사적 누적 결과. 도심 한옥밀집지·구도심 상업가(종로 일대 등)에서 이 형태가 특히 두드러지며, 신도시·계획도시의 정형화된 필지와 뚜렷하게 대비됨.</p>
+    </div></details>
+
+    <details class="card"><summary>6-7. 간판과 정비사업</summary><div class="card-body">
+      <p>2010년대 이후 지자체별 옥외광고물 정비사업으로 간판 디자인이 표준화·간소화되는 흐름이 확산됨(간판 크기·색상·재질 등을 가이드라인에 맞춰 일괄 정비). 정비사업 시행 여부와 시기에 따라 같은 연배의 거리라도 인상이 크게 갈림 — 간판이 유독 깔끔하고 통일된 거리는 최근 정비사업을 거쳤을 가능성이 큼.</p>
+    </div></details>
+
+    <details class="card"><summary>6-8. 내진설계·방화규제가 만든 건축형태</summary><div class="card-body">
+      <ul>
+        <li><b>내진설계 의무화 연혁</b>: 1988년 도입(6층 이상 또는 연면적 10만㎡ 이상) → 1995년 확대(6층·1만㎡) → 2005년 확대(3층·1,000㎡) → 2015년 확대(3층 이상 또는 500㎡ 이상) → 현재는 2층 이상 또는 연면적 200㎡ 이상 건축물(목구조는 3층·500㎡)까지 구조안전 확인 대상으로 확대됨</li>
+        <li>현장 적용: 오래된 저층 주택·상가일수록 내진설계가 적용되지 않았을 가능성이 큼 — "언제 지어졌는지"가 내진 여부를 가늠하는 실질적 기준</li>
+        <li><b>방화구획</b>: 일정 면적마다 방화벽·방화문으로 공간을 나누어 화재 확산을 막는 규정 — 아파트 계단실이 별도로 구획되어 있거나 복도에 방화문이 있는 것이 그 결과</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 내진설계 기준은 개정 이력이 많아 특정 건물의 적용 여부를 단정하기보다 "이 시기 이후 건물부터 기준이 강화됐다" 정도로 설명할 것.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch7" data-cat="ch7">
+    <div class="topic-head"><span class="topic-num">7</span><h2>부동산과 건축</h2></div>
+    <div class="topic-intro">건축 양식이 아니라 법·제도가 건물 형태를 결정하는 경우. 왜 옆 건물은 낮고 붙어있는데 저기는 갑자기 높은지, 왜 동네가 통째로 바뀌는지를 설명하는 축.</div>
+
+    <details class="card"><summary>7-1. 건폐율·용적률·용도지역 — 법이 만드는 건물 모양</summary><div class="card-body">
+      <ul>
+        <li><b>건폐율</b>: 대지면적 대비 건물 바닥면적 비율. 낮으면 마당·공지가 남고, 높으면 대지를 꽉 채운 건물이 나옴.</li>
+        <li><b>용적률</b>: 대지면적 대비 건물 연면적 비율. 높을수록 더 높게·넓게 지을 수 있음 — 재건축 사업성 판단의 핵심 지표.</li>
+        <li><b>용도지역</b>: 주거·상업·공업·녹지지역별로 건폐율·용적률 상한이 다름. 상업지역이 훨씬 높은 용적률을 허용받아 고층 건물이 몰림.</li>
+        <li>현장 적용: 옆 건물은 낮고 붙어있는데 저기는 확 높은 이유는 대부분 용도지역 경계나 건폐율·용적률 차이.</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 구체적 수치는 지자체 조례·지구단위계획에 따라 다르고 자주 개정됨. 정확한 수치는 토지이용계획 확인원으로 확인, 여기선 원리 설명 용도로만 사용.</div>
+    </div></details>
+
+    <details class="card"><summary>7-2. 재개발·재건축 — 동네가 통째로 바뀌는 패턴</summary><div class="card-body">
+      <ul>
+        <li><b>재개발</b>: 기반시설이 열악한 노후 저층주거지를 철거하고 기반시설까지 새로 조성</li>
+        <li><b>재건축</b>: 기반시설은 양호하나 건물(주로 아파트) 자체가 노후화되어 철거 후 신축 — 준공 후 일정 연한 경과와 안전진단 통과가 선행 조건</li>
+        <li><b>뉴타운(재정비촉진지구)</b>: 2000년대 중반 서울시 주도로 여러 재개발구역을 광역 단위로 묶어 개발 — 원주민 재정착률 저하 등 부작용 논란도 있음</li>
+        <li>결과적 경관: 완료 지역은 대규모 아파트 단지로 급격히 스카이라인이 바뀌어 옆 동네와 이질적 대비가 생김</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 재건축 연한·안전진단 기준은 법 개정이 잦아 특정 연수를 단정하기보다 "일정 연한과 안전진단을 거쳐야 한다" 정도로 설명할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-3. 도시재생사업 — 철거 대신 살리기</summary><div class="card-body">
+      <ul>
+        <li>2013년 도시재생 관련법 제정 이후, 뉴타운·재개발의 부작용(원주민 이탈, 공동체 해체)에 대한 대안으로 확산</li>
+        <li>철거 없이 기존 건물·골목 구조를 유지한 채 정비 — 익선동 한옥거리, 성수동 구 공장지대 리모델링 등이 대표 사례로 언급됨</li>
+        <li>가이드 포인트: "왜 여기는 옛 건물이 그대로 남았는데 저기는 싹 밀고 새로 지었나"의 답 — 재개발구역 지정 여부, 도시재생사업 대상지 여부의 차이</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 익선동·성수동은 민간 자생적 상업화와 공공주도 도시재생사업 성격이 섞여 있고 시기별로 변해옴. 사업명을 단정하기보다 "재개발 대신 기존 건물을 살리는 흐름을 탄 지역" 정도로 설명할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-4. 젠트리피케이션과 상가임대차보호법</summary><div class="card-body">
+      <ul>
+        <li><b>젠트리피케이션</b>: 낙후된 골목에 개성 있는 가게가 들어와 뜨면서 임대료가 오르고, 정작 그 골목을 만든 원조 상인들이 밀려나는 현상. 경리단길·연남동·익선동 등에서 반복 관찰된 패턴으로 자주 언급됨.</li>
+        <li><b>상가임대차보호법</b>: 임차인의 계약갱신요구권, 권리금 회수 기회 보호 등을 규정. 다만 신규 계약 시 임대료를 시세대로 올리는 것 자체는 막지 못해, 젠트리피케이션을 완전히 막는 장치는 아님.</li>
+        <li>결과적 경관: 개성 있는 소규모 가게 → 임대료 상승 → 프랜차이즈·대형자본 입점으로 교체되는 패턴이 반복됨</li>
+        <li>가이드 적용: "노포·골목 단위로 소개하고 예약전용 트렌디 매장은 배제한다"는 기존 원칙이 왜 유효한지 설명하는 배경지식으로 바로 연결됨</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 계약갱신요구권 행사 기간 등 구체적 조문 수치는 법 개정 이력이 있어 최신 시행령 확인 필요. 현장에서 연수를 단정적으로 말하지 말 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-5. 그린벨트(개발제한구역)</summary><div class="card-body">
+      <ul>
+        <li>1971년 도입된 제도로, 도시의 무분별한 외곽 확산을 막고 자연환경을 보전하기 위해 도시 주변에 개발을 원칙적으로 금지한 구역</li>
+        <li>서울의 경우 과천·하남·고양 등 경계 외곽에 설정 — 도시가 갑자기 끊기고 논밭·산이 나타나는 경계선을 만든 주된 원인</li>
+        <li>절대 불변은 아님: 최근에는 일부 구간을 해제해 공공주택지구(3기 신도시 등)로 개발하는 흐름도 있음</li>
+        <li>현장 적용: 이동 중 도시가 갑자기 끊기고 녹지·농지가 나오는 경계는 그린벨트일 가능성이 큼</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 개별 지역의 해제 현황은 정책 발표에 따라 계속 바뀌므로, 특정 구역의 현재 지정 여부를 단정하기보다 "이 일대는 개발제한구역으로 지정돼 있었다/있다" 정도로 다룰 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-6. 조망권·일조권 분쟁</summary><div class="card-body">
+      <ul>
+        <li><b>일조권</b>: 건축법상 일조사선제한 등으로 제도화됨 — 건물 높이에 따라 인접 대지경계선에서 일정 거리를 띄우도록 규정. 아파트가 위층으로 갈수록 계단식으로 뒤로 물러나며 지어진 형태는 이 규제의 결과인 경우가 많음</li>
+        <li><b>조망권</b>: 일조권과 달리 법으로 명확히 보장된 권리는 아니며, 판례상 특별한 사정이 있을 때 제한적으로만 인정됨 — 신축 건물이 기존 건물의 조망을 가려 생기는 분쟁이 흔하지만 실제 승소 사례는 제한적</li>
+        <li>현장 적용: 아파트가 계단처럼 층별로 물러나며 지어진 걸 보면 일조권 사선제한의 결과로 설명 가능</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 일조사선제한의 구체적 이격거리·각도 기준은 용도지역별로 다르고 법 개정 이력이 있어, 수치를 단정적으로 말하지 말 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-7. 상징적 기록들 — 가장 비싼 부동산</summary><div class="card-body">
+      <ul>
+        <li><b>가장 비싼 아파트(공동주택)</b>: 청담동 '더펜트하우스청담'(2020년 현대건설 준공, 3개동 29가구)이 전용 407.71㎡ 기준 공시가격 168억9천만원으로 2021~2022년 2년 연속 공동주택 공시가격 1위를 기록. 이후 같은 청담동에 지어진 '에테르노청담'(라파엘 모네오 설계) 등 신축 초고가 단지들과 매년 순위를 다투는 구도</li>
+        <li><b>가장 비싼 단독주택</b>: 이명희 신세계그룹 회장의 용산구 한남동 자택(2022년 기준 공시가격 295억3천만원)</li>
+        <li><b>타워팰리스(강남구 도곡동, 2002~2004년 준공)</b>: 2006·2007·2010년 한국 아파트 최고가를 기록했던 2000년대 최고가 아파트의 대명사. 이후 청담·한남동의 신축 초고가 단지에 밀려 지금은 최상위권은 아니지만, 상징성은 여전히 강함</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 이 순위는 국토교통부가 매년 3월 발표하는 공동주택 공시가격 기준이며, 실거래가 기준으로는 다를 수 있고 해마다 바뀜. 여기 적힌 수치는 특정 연도(주로 2021~2022년) 기준이라는 점을 반드시 함께 언급할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-8. 은마아파트 — 재건축의 상징</summary><div class="card-body">
+      <ul>
+        <li><b>개요</b>: 1978년 5월 사업승인, 1979년 9월 준공. 한보건설이 지은 서울 강남구 대치동의 대단지(28개동, 4,424세대)</li>
+        <li><b>상징성</b>: 강남 개발이 본격화된 1970년대에 지어진 '강남 1세대 아파트'의 대표. 인근으로 고등학교 여러 곳이 이전해오며 형성된 강남 8학군의 중심지이자, 대치동 학원가와 맞물려 교육 인프라의 상징으로도 꼽힘</li>
+        <li><b>재건축 지연의 역사</b>: 2003년 재건축 추진위원회 승인 이후 세 차례 안전진단에서 탈락, 2010년에야 조건부 재건축(D등급) 판정을 받음. 이후에도 층수 계획이 49층에서 35층으로 조정(2017년)되는 등 정비계획 변경이 반복되며 지연을 거듭하다, 2023년 정비구역 지정·조합설립인가를 거쳐 2026년에 사업시행계획 인가 단계까지 도달 — 추진위 설립 후 20년 넘게 걸린 사례</li>
+        <li><b>재건축 후 계획</b>: 지하 6층~지상 최고 49층, 29개동, 5,850세대(공공임대 909가구·공공분양 195가구 포함) 규모로 재건축 예정, 2028년 착공 목표</li>
+        <li>가이드 포인트: "강남 재건축이 왜 이렇게 오래 걸리나"를 설명할 때 가장 대표적인 사례 — 안전진단 기준(7-2), 층수·고도 규제(1-6), 조합원 간 이견 등 재건축이 늦어지는 이유가 이 한 단지에 압축되어 있음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 위 진행 상황은 2026년 7월 기준이며, 착공·준공 시점과 세대수·층수 계획은 이후에도 계속 바뀔 수 있음. 현장 설명 시 최신 진행 상황을 별도 확인할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>7-9. 세운상가 — 재개발에서 도시재생으로 방향을 튼 사례</summary><div class="card-body">
+      <ul>
+        <li><b>탄생</b>: 한국전쟁 이후 판자촌·사창가로 슬럼화됐던 종로3가~퇴계로 일대를, 1966년 김현옥 서울시장이 개발을 추진하고 건축가 김수근이 설계 — 1966년 착공해 1960년대 말 8개동이 순차 준공됨</li>
+        <li><b>원래 구상</b>: 지상은 차도·주차장, 3층은 공중보행데크로 만들어 종묘에서 남산까지 보행로로 잇는 '입체도시' 계획. 하지만 8개동을 건설사별로 따로 지으면서 데크가 중간중간 끊겨 원래 계획은 실현되지 못함</li>
+        <li><b>전성기와 몰락</b>: 준공 당시 한국 최초의 주상복합으로 최고급 시설을 자랑해 유명인사들이 거주했으나(타워팰리스보다 30년 이상 앞선 사례), 이후 강남 개발과 대형 유통시설 등장으로 쇠퇴, 1980~90년대 이후 슬럼화됨. 다만 그 사이 국내 최대 전자상가로 명성을 얻기도 했음</li>
+        <li><b>철거 vs 존치 논쟁</b>: 1990년대~2000년대 전면 철거 계획이 여러 차례 추진됐으나 보상 문제·금융위기 등으로 무산되다, 2014년 서울시가 존치 결정을 내리며 도시재생으로 방향을 틀었고, 2016년부터 '다시세운 프로젝트'로 공중보행교 복원·청년 창업공간 조성 등이 진행됨</li>
+        <li>가이드 포인트: '철거하고 새로 지을까, 있는 걸 살릴까'라는 갈림길에서 실제로 방향을 튼 사례라 7-3(도시재생)의 구체적인 예시로 설명하기 좋음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 준공연도는 자료마다 1967년(1차 준공)·1968년(전체 완공) 등으로 표기가 갈림. "1966년 착공, 1960년대 말 순차 준공" 정도로 다루는 것이 안전.</div>
+    </div></details>
+
+    <details class="card"><summary>7-10. 청계천 복원 — 도심 하천 되살리기의 성과와 논란</summary><div class="card-body">
+      <ul>
+        <li><b>배경</b>: 1958년부터 순차적으로 복개되고 그 위에 청계고가도로(1967~76년 순차 개통)가 놓였던 청계천을, 2003~2005년 이명박 서울시장 재임 시 다시 걷어내고 하천으로 되살림</li>
+        <li><b>공사 개요</b>: 2003년 7월 착공, 2005년 9~10월 완공. 총사업비 약 3,800억원. 광화문 인근부터 신답철교까지 약 5.8km 구간</li>
+        <li><b>성과</b>: 도심 열섬 완화, 홍수 예방 효과, 관광객 유입(개장 후 10년간 누적 방문객 약 1억9천만 명으로 집계된 조사도 있음), 국내외 여러 도시가 하천 복원의 모범사례로 참고</li>
+        <li><b>논란</b>: 유량 대부분을 한강물을 끌어와 채우는 '인공 하천'이라는 비판, 유지관리비가 매년 늘어남(2005년 약 37억원 → 2011년 약 80억원 수준으로 증가), 복원 과정에서 청계천 인근 상인들과의 이주 보상 갈등, 석축·다리 일부가 원위치에 복원되지 못하고 별도 보관된 점</li>
+        <li>가이드 포인트: "도심 재생이 항상 좋기만 한 건 아니다"를 균형 있게 설명할 수 있는 사례 — 화려한 성과 뒤에 남은 논란까지 같이 짚어주면 이야기가 풍부해짐</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>7-11. 압구정 현대아파트 — 재건축 무풍지대에서 재점화까지</summary><div class="card-body">
+      <ul>
+        <li><b>탄생</b>: 원래 경부고속도로 공사용 장비를 보관하려고 매립해 둔 한강변 부지였음. 1975년 사업 시작, 1976년 1·2차(현대건설 직접 시공) 준공을 시작으로 14차까지 1987년 완성 — 82개동, 5천~6천여 세대 규모(집계 범위에 따라 자료마다 세대수 차이)</li>
+        <li>초기엔 교통이 불편해 인기가 없었지만, 현대건설이라는 브랜드와 강남 개발 열기를 타고 명품 아파트로 자리잡음</li>
+        <li><b>1978년 특혜분양 사건</b>: 공개분양 원칙을 어기고 고위 공무원·국회의원 등에게 시세 절반 수준으로 특혜 분양한 사건이 드러나며 '특권층 아파트'라는 이미지가 이때부터 굳어짐</li>
+        <li><b>은마아파트(7-8)와의 대비</b>: 대형 평형 위주 구성이라 재건축 시 소형·임대주택 의무비율이 부담으로 작용해, 오랫동안 주민들이 재건축에 미온적이었음(고령 거주자 비중이 높고 이미 고급 리모델링이 되어 있던 점도 요인) — 서민형 대단지(은마)와 최상류층 대단지(압구정현대)가 재건축을 대하는 태도 자체가 달랐던 사례</li>
+        <li><b>최근 변화</b>: 2020년대 들어 재건축이 본격 재점화되며 현대건설·삼성물산 등 대형건설사의 수주 경쟁이 치열해짐 — 2025년 신현대 전용 109㎡(35평형)가 62억원에 실거래되며 평당가 기준 전국 최고가 아파트로 부상</li>
+        <li>가이드 포인트: 은마아파트와 나란히 놓고 "같은 시기에 지어진 강남 아파트도 계층·평형 구성에 따라 재건축을 대하는 방식이 전혀 달랐다"는 대비로 설명하면 효과적</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>7-12. 용산 국제업무지구 — 좌초와 재추진의 반복</summary><div class="card-body">
+      <ul>
+        <li><b>개요</b>: 서울 용산구 한강로3가 옛 철도정비창 부지(약 45.6만㎡)를 국제업무·상업·주거·문화가 결합된 복합도시로 개발하는 사업. '단군 이래 최대 개발사업', '한국판 롯폰기힐스'로 불렸음</li>
+        <li><b>1차 좌초(2007~2013)</b>: 2007년 삼성물산 등 30여 개 기업이 출자한 '드림허브금융투자회사'가 민간 시행사로 선정되며 화려하게 출발했으나, 2008년 글로벌 금융위기로 사업성이 악화되고 다수 출자기업 간 이해관계 조율에 실패, 2013년 자금조달 실패(채무불이행)로 사업이 완전히 청산됨 — 첫 삽도 뜨지 못하고 무산</li>
+        <li>이후 2015년, 2018년(박원순 시장), 2020년에도 재추진이 시도됐으나 번번이 무산되거나 보류됨</li>
+        <li><b>재추진</b>: 2021년 오세훈 시장이 재추진을 발표, 2024년 2월 개발계획이 확정됨 — 과거 민간주도 방식에서 공공주도 방식으로 전환하고, 갈등이 컸던 서부이촌동을 사업 대상지에서 제외해 위험요인을 줄임. 총사업비 약 51조원, 2030년 입주 목표로 추진 중</li>
+        <li>가이드 포인트: 재개발·재건축(7-2)이 기존 건물을 손보는 것이라면, 이건 대형 신규 개발 자체가 통째로 무산됐다가 되살아난 사례 — "개발 계획이 발표됐다고 반드시 그대로 실현되는 건 아니다"를 보여주는 균형 잡힌 사례</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 2026년 기준으로도 아직 진행 초기 단계이며, 오피스 시장 침체·프로젝트파이낸싱 시장 경색 등 변수가 남아있어 최신 진행 상황은 별도 확인 필요.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch8" data-cat="ch8">
+    <div class="topic-head"><span class="topic-num">8</span><h2>인프라·공공사물·상업사</h2></div>
+    <div class="topic-intro">건축물 자체는 아니지만, 걸으면서 계속 눈에 들어오고 질문받기 좋은 도시의 배경 요소들.</div>
+
+    <details class="card"><summary>8-1. 지하철역 이름의 유래</summary><div class="card-body">
+      <ul>
+        <li><b>역사 지명형</b>: 오래된 동네 이름을 그대로 딴 역(안국, 종로3가 등)</li>
+        <li><b>신설 지명형</b>: 신도시·신규 개발지에 새로 붙은 역명(가산디지털단지 등)</li>
+        <li><b>병기역명(부역명) 유상판매</b>: 서울교통공사가 2016년부터 추진한 제도로, 역 주변 기관·기업이 일정 비용을 내고 괄호 안에 기관명을 병기(예: "몽촌토성(한성백제박물관)"). 3년 단위 계약이며 재정 압박에 따라 확대·재개를 반복해옴</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>8-2. 도로명주소 체계</summary><div class="card-body">
+      <ul>
+        <li><b>전면 시행</b>: 2014년 1월 1일부터 도로명주소만 법정 주소로 인정(토지대장 등 일부 예외 제외)</li>
+        <li><b>도로 위계</b>: 대로(8차로 이상)·로(2~7차로)·길(그 외 도로)로 폭 기준 구분</li>
+        <li><b>건물번호 규칙</b>: 도로 시작점에서 진행 방향 기준 왼쪽은 홀수, 오른쪽은 짝수</li>
+        <li><b>이전 체계와의 관계</b>: 기존 지번주소는 토지 구획 순서를 따른 것이라 위치와 번지가 순차적으로 대응하지 않는 문제가 있었음 — 도로명주소는 이를 보완하기 위한 체계</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>8-3. 육교·지하도의 생성 배경</summary><div class="card-body">
+      <p>자동차 통행을 우선하던 시기에는 보행자를 위(육교)나 아래(지하도)로 우회시키는 방식이 널리 쓰였음. 최근에는 보행자 우선 정책 기조로 노후 육교를 철거하고 횡단보도로 전환하는 사례가 늘고 있음.</p>
+      <div class="flag"><b>확인 필요</b> — 개별 육교·지하도의 정확한 설치 연도나 전국 단위 통계는 자료마다 차이가 있어, 이 항목은 "왜 이런 구조물이 생겼는지"의 원리 설명 정도로만 사용할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>8-4. 버스 노선 색상 체계</summary><div class="card-body">
+      <ul>
+        <li>2004년 7월 1일 서울시 버스체계 개편으로 도입 — 파랑(간선)·초록(지선)·빨강(광역)·노랑(순환) 4색 구분</li>
+        <li>이 색상 구분 방식은 원래 1998년 대구광역시가 먼저 시행한 체계를 서울시가 가져와 확대 적용한 것</li>
+        <li>번호 체계도 색상과 함께 정비됨: 간선버스는 앞자리가 출발 권역, 뒷자리가 도착 권역을 나타내는 방식 등으로 노선 번호 자체에 정보가 담기도록 설계됨</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>8-5. 공공미술 — 동상·조형물의 건립 배경</summary><div class="card-body">
+      <p>도심 동상·기념 조형물은 특정 시기의 정치적·국가적 목적과 연결되는 경우가 많음 — 국민 정체성 고취, 특정 인물의 선양 등 건립 당시의 시대적 맥락을 함께 봐야 온전히 설명이 됨.</p>
+      <div class="flag"><b>확인 필요</b> — 개별 동상의 건립 연도·주체·목적은 사례마다 크게 다르므로, 특정 동상을 설명할 때는 해당 안내판이나 공식 자료로 개별 확인할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>8-6. 벽화마을의 생성 배경</summary><div class="card-body">
+      <p>대부분 2000년대 이후 낙후지역 활성화를 목적으로 한 도시재생사업의 일환으로 조성됨(공공 예산이 투입되는 경우와 예술가 개인·단체가 자발적으로 참여하는 경우가 섞여 있음). 관광객 유입으로 지역 경제에 도움이 되는 반면, 주민 사생활 침해·소음 등으로 갈등이 발생해 일부 벽화가 주민들에 의해 지워지거나 철거된 사례도 있어 양면적으로 설명하는 것이 정확함.</p>
+    </div></details>
+
+    <details class="card"><summary>8-7. 프랜차이즈 카페·편의점 확산사</summary><div class="card-body">
+      <ul>
+        <li><b>편의점</b>: 1989년 5월 6일 서울 송파구 오륜동 올림픽선수기자촌 상가에 세븐일레븐 1호점(올림픽점) 개점이 사실상의 시작점 — 1990년대 이후 본격 확산</li>
+        <li><b>프랜차이즈 카페</b>: 1999년 7월 27일 서울 서대문구 스타벅스 이대점 개점이 국내 확산의 기점으로 흔히 언급됨</li>
+        <li>결과적 경관: 골목 어디서나 프랜차이즈 카페·편의점이 자리한 지금의 풍경은 1990년대 말~2000년대에 형성된 것으로, 그 이전 골목과는 상권 구성이 크게 다름</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>8-8. 가로 시설물 변천</summary><div class="card-body">
+      <p><b>전신주 지중화</b>: 서울시는 2007년 12월부터 공중선(전선·통신선) 지중화 사업에 본격적으로 예산을 지원하기 시작했고, 이후 지속적으로 확대해 옴 — 큰 대로에서 전봇대가 사라지고 골목길에는 남아있는 경우가 많은 것은 이 사업이 간선도로 위주로 먼저 진행됐기 때문.</p>
+      <div class="flag"><b>확인 필요</b> — 맨홀 뚜껑 문양, 가로등 디자인, 우체통·소화전의 구체적 디자인 변천사는 신뢰할 만한 근거를 확인하지 못했음. 이 항목들은 넣지 않았으며, 필요하면 별도로 조사가 필요함.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch9" data-cat="ch9">
+    <div class="topic-head"><span class="topic-num">9</span><h2>도시계획시설과 주거유형</h2></div>
+    <div class="topic-intro">골목의 모든 건물은 사실 법이 정한 주택 유형 중 하나이고, 공원·학교·도로도 모두 "도시계획시설"이라는 법정 절차로 만들어진다. 걸으면서 가장 많이 마주치는데도 지금까지 다루지 않았던 기초 분류.</div>
+
+    <details class="card"><summary>9-1. 주택 유형 분류 — 단독·다가구·다세대·연립·아파트</summary><div class="card-body">
+      <p>건축법 시행령상 주택은 <b>단독주택 계열</b>(소유권이 건물 전체 하나)과 <b>공동주택 계열</b>(호실별 구분등기 가능)로 크게 나뉜다.</p>
+      <ul>
+        <li><b>단독주택</b>: 1세대가 거주하는 일반적인 단독주택</li>
+        <li><b>다중주택</b>: 학생·직장인이 장기 거주하는 구조(하숙집 등), 취사시설 없이 각 실별 욕실만 가능, 연면적 330㎡ 이하·3층 이하</li>
+        <li><b>다가구주택</b>: 겉모습은 빌라와 비슷하지만 법적으로는 단독주택. 3층 이하, 바닥면적 합계 660㎡ 이하, 19세대 이하 거주 가능하지만 건물 전체가 1개의 소유권 — 호실별로 따로 사고팔 수 없음. 1990년 주택난 해소 목적으로 도입됨</li>
+        <li><b>다세대주택</b>: 흔히 말하는 "빌라"의 법적 실체. 4층 이하, 바닥면적 합계 660㎡ 이하, 호실별 구분등기·개별 매매 가능</li>
+        <li><b>연립주택</b>: 다세대주택과 기준이 같지만 바닥면적 합계가 660㎡를 초과하는 경우 — 규모만 다를 뿐 개념은 다세대주택과 사실상 같음</li>
+        <li><b>아파트</b>: 주택으로 쓰는 층수가 5개 층 이상인 공동주택 — 즉 "5층부터는 법적으로 아파트"라는 뜻</li>
+        <li><b>주상복합</b>: 하나의 건물에 주거와 상업시설이 함께 있는 형태. 법적으로는 대개 아파트로 분류되며, 준주택인 오피스텔과 달리 발코니·욕조 설치가 허용됨</li>
+        <li><b>저층아파트</b>: 법정 용어는 아님. 5층 안팎으로 지어져 엘리베이터가 없는 옛 아파트를 가리키는 통칭으로, 1970~80년대에 지어진 단지에 많음(반포주공, 잠실주공 등 재건축 논의 대상 단지가 대표적 예)</li>
+      </ul>
+      <p>현장 적용: 겉으로 비슷해 보이는 저층 다세대·연립·다가구주택도 층수·면적·소유권 구조가 다른 별개의 법적 범주라는 점만 알아도 충분함 — "저건 빌라"라고 뭉뚱그리기보다 "저 정도 규모면 다세대나 연립"이라고 설명하면 됨.</p>
+    </div></details>
+
+    <details class="card"><summary>9-2. 도시계획시설이란</summary><div class="card-body">
+      <p>도로·공원·학교처럼 도시에 꼭 필요한 시설은 개인이 마음대로 짓는 게 아니라, 지자체가 "도시·군관리계획"으로 위치와 규모를 미리 지정해 두는 <b>도시계획시설</b>로 관리된다. 즉 지금 걷고 있는 길, 옆에 있는 공원, 근처 학교 모두 법적 절차를 거쳐 정해진 자리에 있는 것.</p>
+      <p>도시계획시설로 지정되면 그 부지 안에서는 원칙적으로 지정된 목적 외의 건축이 제한된다 — 공원 부지 한가운데 건물이 들어설 수 없는 이유이기도 함.</p>
+    </div></details>
+
+    <details class="card"><summary>9-3. 공원의 종류와 기준</summary><div class="card-body">
+      <p>도시공원은 크게 <b>생활권공원</b>(주거지 기반시설 성격)과 <b>주제공원</b>(역사·문화·수변·묘지·체육공원 등)으로 나뉜다. 생활권공원은 규모·유치거리 기준이 법으로 정해져 있음:</p>
+      <ul>
+        <li><b>소공원</b>: 면적 제한 없음, 자투리땅·소규모 녹지 활용</li>
+        <li><b>어린이공원</b>: 유치거리 250m 이하, 면적 1,500㎡ 이상 — 걸어서 5분 거리 내 배치가 원칙</li>
+        <li><b>근린공원</b>: 유치거리·규모에 따라 근린생활권(500m 이하·1만㎡ 이상)·도보권(1,000m 이하·3만㎡ 이상) 등으로 세분</li>
+      </ul>
+      <p>현장 적용: 아파트 단지마다 붙어있는 작은 놀이터 같은 공원이 어린이공원, 동네 여러 단지가 함께 쓰는 좀 더 큰 공원이 근린공원이라고 보면 대체로 맞음.</p>
+    </div></details>
+
+    <details class="card"><summary>9-4. 학교 설립 기준과 폐교 현상</summary><div class="card-body">
+      <ul>
+        <li><b>설립 기준</b>: 「학교용지 확보 등에 관한 특례법」에 따라 300세대 이상 규모의 주택건설·공동주택 개발사업을 하는 사업자는 학교용지를 확보하거나 학교용지부담금을 내야 함 — 대규모 아파트 단지 옆에 새 학교가 함께 들어서는 이유</li>
+        <li><b>폐교 현상</b>: 최근에는 반대로 저출생에 따른 학령인구 감소로 특히 농어촌 지역에서 초등학교 통폐합·폐교가 늘고 있음 — 폐교 부지는 이후 체험시설·미술관·창고 등으로 용도가 바뀌는 경우가 많음</li>
+        <li>현장 적용: 신도시·대단지 옆 새 학교와, 인구가 줄어드는 지역의 오래된 폐교는 같은 시기에 동시에 벌어지는 인구 재배치의 양면임</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 폐교 통계·연도별 수치는 계속 갱신되므로, 특정 수치를 단정적으로 말하기보다 "학령인구 감소로 폐교가 늘고 있다" 정도의 경향으로 설명할 것.</div>
+    </div></details>
+
+    <details class="card"><summary>9-5. 자전거도로의 유형</summary><div class="card-body">
+      <ul>
+        <li><b>자전거전용도로</b>: 자전거(및 개인형 이동장치)만 통행 가능, 분리대·경계석으로 차도·보도와 완전히 구분</li>
+        <li><b>자전거·보행자 겸용도로</b>: 자전거 외에 보행자도 통행 가능 — 실제로 한국에서 "자전거도로"로 표시된 곳 대부분이 이 유형에 해당함. 한강공원 자전거도로도 대부분(91%) 이 겸용도로의 분리형(자전거·보행자 공간을 선으로 구분)임</li>
+        <li><b>자전거전용차로</b>: 차도 일부를 자전거만 다니도록 노면표시로 구분</li>
+        <li><b>자전거우선도로</b>: 통행량이 적은 도로에 노면표시만으로 자전거와 차가 함께 다니도록 지정</li>
+        <li>최근 흐름: 서울시 신규 자전거전용도로는 인도와 높이를 맞추고 펜스로 차도와 분리하는 "보도높이형"이 대부분을 차지하는 추세</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>9-6. 용도지역 세분류 — 1종·2종·3종과 상업·공업지역</summary><div class="card-body">
+      <p>7-1에서 다룬 용도지역(주거·상업·공업·녹지)을 실제로는 더 세분해서 지정한다. 이 세분류가 그 골목의 건물 높이·형태를 실질적으로 결정한다.</p>
+      <p><b>주거지역</b></p>
+      <ul>
+        <li><b>전용주거지역</b> — 양호한 주거환경 보호 목적. 1종(단독주택 중심) / 2종(공동주택 중심이지만 5층 이하만 허용, 아파트는 지을 수 없음)</li>
+        <li><b>일반주거지역</b> — 가장 흔하게 접하는 유형. 1종(저층 중심, 다세대·연립주택 위주, 건폐율 60%·용적률 100~200%) / 2종(중층 중심, 건폐율 60%·용적률 150~250%, 서울은 난개발 방지를 위해 단독주택지 7층·아파트 15층 이하로 별도 제한) / 3종(중·고층 중심, 층수 제한 없음 — 대단지 아파트가 들어서는 곳이 대부분 이 지역)</li>
+        <li><b>준주거지역</b> — 주거 기능 위주로 일부 상업·업무 기능을 허용, 건폐율 70%·용적률 200~500%(역세권 복합개발지구는 최대 700%까지 가능) — 주거지역과 상업지역 사이의 완충 역할</li>
+      </ul>
+      <p><b>상업지역</b></p>
+      <ul>
+        <li><b>중심상업지역</b>(도심·부도심 상업·업무 확충) · <b>일반상업지역</b>(일반적 상업·업무) · <b>근린상업지역</b>(생활권 단위 일용품·서비스 공급) · <b>유통상업지역</b>(도시 내외 유통 기능)</li>
+      </ul>
+      <p><b>공업지역</b></p>
+      <ul>
+        <li><b>전용공업지역</b>(중화학·공해성 공업 위주) · <b>일반공업지역</b>(환경을 크게 저해하지 않는 공업) · <b>준공업지역</b>(주거·상업 기능과 공업이 혼재 가능 — 성수동처럼 옛 공장지대가 주거·상업지로 전환되는 흐름과 맞닿아 있음, 5-6·7-3 참고)</li>
+      </ul>
+      <p><b>녹지지역</b>: 보전녹지·생산녹지·자연녹지로 세분</p>
+      <p>현장 적용: "왜 이 골목은 빌라만 있는데 저 골목은 갑자기 고층 아파트가 서 있나"는 대부분 1종/2종/3종 일반주거지역의 경계이거나, 준주거·상업지역과 맞닿은 경계이기 때문. 실제 구역은 네이버지도 등의 '지적편집도' 메뉴로 즉석 확인 가능.</p>
+      <div class="flag"><b>확인 필요</b> — 위 건폐율·용적률 수치는 국토계획법상 상한 범위이며, 실제 적용 수치는 지자체 조례로 별도 확정됨(1-6·7-1 참고). 특정 필지의 정확한 용도지역은 토지이용계획 확인원으로 확인할 것.</div>
+    </div></details>
+  </section>
+
+  <section class="topic" id="ch10" data-cat="ch10">
+    <div class="topic-head"><span class="topic-num">10</span><h2>흔히 보는 공공시설</h2></div>
+    <div class="topic-intro">학교·동주민센터·파출소·소방서·우체국처럼 어느 동네에나 있는 시설들. 이름이 왜 이렇게 바뀌어왔는지, 규모는 어떻게 나뉘는지 알아두면 어느 골목에서든 바로 이야깃거리가 된다.</div>
+
+    <details class="card"><summary>10-1. 학교 — 규모와 급별 특징, 비상시 기능</summary><div class="card-body">
+      <ul>
+        <li><b>규모(2025년 4월 기준)</b>: 전국 유·초·중등 학교 20,374개교 — 초등학교 6,192개, 중학교 3,292개, 고등학교 2,387개, 유치원 8,141개</li>
+        <li><b>학생 수 감소</b>: 2025년 유·초·중등 학생 총 555만 명. 2026학년도 초등학교 1학년 입학생은 처음으로 30만 명 아래(29만8,178명)로 내려감 — 2023년 40만 명대에서 3년 만에 약 26% 감소</li>
+        <li><b>폐교 현황</b>: 2026년 기준 전국 누적 폐교 4,008곳(초등학교 3,674곳, 중학교 264곳, 고등학교 70곳) — 폐교는 압도적으로 초등학교에 집중</li>
+        <li><b>급별 특징</b>: 초·중학교는 의무교육이라 근거리 학구제 배정이 원칙. 고등학교는 2010년 제도 개편으로 일반고·특수목적고(과학고·외국어고·국제고·예술고·체육고·마이스터고)·특성화고·자율고 4개 유형으로 재편됨</li>
+        <li><b>비상시 기능</b>: 학교 운동장은 지진 등 재난 시 "옥외대피장소"로 지정되는 경우가 많고, 민방위 훈련 때도 관행적으로 운동장에 집결시킴. 다만 이는 정확히는 "재난·지진 대피" 목적에 가깝고, 사방이 트인 운동장은 공습·포격 같은 전시 상황에는 오히려 취약하다는 지적도 있어 "학교=전시 연병장"이라는 통념은 다소 과장된 설명임</li>
+        <li><b>예비군 동원소집과 학교</b>: 한편 예비군 병력동원소집통지서에는 유사시(동원령 선포 시) 입영해야 할 "지정된 장소와 시간"이 명시되어 있는데, 실제로 이 지정 장소가 거주지 인근 학교인 경우가 많음 — 앞의 '재난 대피용 운동장'과는 별개로, 이건 예비군 개개인이 병무청·지방병무청으로부터 미리 특정 부대·집결지로 지정받는 절차이며, 지정 장소는 거주지·계급·병과에 따라 사람마다 다름</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 학교 수·학생 수 통계는 매년 갱신되므로, 현장 언급 시 최신 통계로 재확인 권장.</div>
+    </div></details>
+
+    <details class="card"><summary>10-2. 동사무소 → 주민센터 → 행정복지센터 — 이름의 변천</summary><div class="card-body">
+      <ul>
+        <li><b>일제강점기</b>: '정회(町會)'라는 이름으로 존재</li>
+        <li><b>1955년 4월</b>: '동회'/'동사무소'로 개편, 이후 약 52년간 이 명칭 유지</li>
+        <li><b>2007년 9월</b>: '동사무소' → '주민센터'로 변경 — 복지·문화·고용·생활체육 등을 통합 제공하는 서비스 기관으로 전환한다는 취지</li>
+        <li><b>2016년부터 순차적으로</b>: '행정복지센터'로 전환(2018년까지 전국 완료 목표) — 복지 기능 강화가 명분</li>
+        <li>다만 지방자치법에는 정부가 명칭을 강제할 조항이 없어, 지금도 지자체 재량에 따라 '○○동사무소'·'○○주민센터'·'○○행정복지센터' 3개 명칭이 뒤섞여 쓰이고 있음</li>
+        <li>가이드 적용: 이름이 세 번 바뀌었지만 실제 하는 일(민원·복지 업무)은 크게 다르지 않다는 점, 간판 명칭이 지역마다 다른 이유(지자체 재량)까지 설명하면 흥미로운 소재가 됨</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>10-3. 경찰 조직 체계 — 작은 단위부터 큰 단위 순</summary><div class="card-body">
+      <ul>
+        <li><b>치안센터</b>: 1~2명 근무, 주간 근무 위주(24시간 운영 아님), 민원상담·유실물 접수 등 비권력적 업무 중심</li>
+        <li><b>파출소</b>: 20~30명 근무, 2개 이하 읍·면·동 관할, 24시간 운영</li>
+        <li><b>지구대</b>: 40~60명 근무, 3개 이상 읍·면·동 관할, 순찰차도 더 많음 — 인구 2만 명 이상·112신고 연 1,500건 이상·3개 읍·면·동 이상 관할 중 2개 이상을 충족하면 지구대로 지정</li>
+        <li><b>경찰서</b>: 관할 구역 안의 여러 지구대·파출소·치안센터를 총괄, 형사과·수사과·교통과 등 전문 부서를 갖춘 본격적인 경찰기관</li>
+        <li><b>시·도경찰청</b>: 광역 시·도 단위를 총괄(2021년부터 이 명칭 사용, 이전에는 '지방경찰청')</li>
+        <li><b>경찰청</b>: 전국 치안을 총괄하는 중앙행정기관(행정안전부의 외청, 1991년 승격)</li>
+      </ul>
+      <p><b>연혁</b>: 광복 이후 도시는 '파출소', 농촌은 '지서'로 구분 운영되다가 1995년 1월 전국의 지서를 파출소로 통일. 2003~2004년 여러 파출소를 묶어 '지구대'로 개편하고 남은 파출소 건물은 '치안센터'로 격하 운영. 다만 지구대 체제로는 넓은 농어촌 관할에서 출동이 지연되는 문제가 생겨, 2009년부터 파출소를 다시 부활시켜 현재는 지구대·파출소·치안센터가 함께 운영되는 체제.</p>
+      <p>가이드 적용: 간판이 '파출소'냐 '지구대'냐만 봐도 그 동네의 인구밀도·치안수요 규모를 1차로 가늠할 수 있음.</p>
+    </div></details>
+
+    <details class="card"><summary>10-4. 소방 조직 체계 — 경찰과 같은 논리</summary><div class="card-body">
+      <ul>
+        <li><b>119지역대</b>: 2~3명 근무(1명만 근무하는 곳도 있음), 다만 치안센터와 달리 24시간 상주가 원칙 — 안전센터를 짓기엔 인구가 적고 근처 안전센터와 거리가 먼 곳에 설치</li>
+        <li><b>119안전센터</b>: 경찰의 지구대·파출소에 해당하는 단위. 예전 명칭은 '소방파출소'였다가 2007년부터 현재 명칭으로 변경. 소방서 본서 건물 자체도 안전센터 하나(직할센터)를 포함하는 경우가 많음</li>
+        <li><b>소방서</b>: 관할 구역의 안전센터·지역대를 총괄하는 본격적인 소방기관 — 직제상 소방청이 아니라 각 지방자치단체 소속</li>
+        <li><b>시·도 소방본부</b>: 전국 18개, 광역 시·도 단위 총괄. 2020년 4월부로 소속 소방공무원의 신분이 지방직에서 국가직으로 전환됐지만, 조직 자체는 여전히 지자체 소속</li>
+        <li><b>소방청</b>: 2017년 7월 26일 행정안전부의 외청으로 독립 — 소방 조직 창설 이래 최초의 완전한 독립 외청</li>
+      </ul>
+      <p>가이드 적용: 10-3(경찰 체계)과 나란히 놓고 "동네 곳곳의 작은 관공서 초소는 다 이런 축소판 구조로 되어 있다"고 설명하면 한 번에 이해시키기 좋음.</p>
+    </div></details>
+
+    <details class="card"><summary>10-5. 자율방범대 — 주민이 만든 민간 순찰 조직</summary><div class="card-body">
+      <ul>
+        <li><b>기원</b>: 1953년, 6.25전쟁 직후 공비 토벌에 경찰력이 동원되며 생긴 치안 공백을 메우기 위해 주민들이 자발적으로 순찰 조직을 꾸린 것이 시초</li>
+        <li><b>조직 단위</b>: 보통 동(洞) 단위로 20~30명 규모로 구성, 통상 야간 21시~01시경 4시간가량 순찰보조 활동</li>
+        <li><b>위계</b>: 자율방범대(동 단위, 지구대·파출소에 대응) → 시·군·구 자율방범연합대(경찰서에 대응) → 시·도 자율방범연합회(시·도경찰청에 대응) → 한국자율방범중앙회(경찰청에 대응) — 경찰 조직 체계를 그대로 따라가는 병렬 구조</li>
+        <li><b>성격</b>: 경찰이 아닌 민간 자원봉사조직으로, 관할 경찰서장에게 신고만으로 설립되며 큰 법적 권한은 없음(순찰·신고가 사실상 전부). 다만 해당 경찰관청이 조직 운영에 대한 지도·감독권을 가짐</li>
+        <li>가이드 적용: 골목에서 보이는 '자율방범대' 조끼나 초소는 경찰이 아니라 주민 자원봉사 조직이라는 점, 그 기원이 6.25 직후 치안 공백까지 거슬러 올라간다는 점이 흥미로운 이야깃거리</li>
+      </ul>
+    </div></details>
+
+    <details class="card"><summary>10-6. 우체국 — 조직 체계와 겸업 구조</summary><div class="card-body">
+      <ul>
+        <li><b>소속 체계</b>: 과학기술정보통신부 → 우정사업본부(2000년 출범, 정부세종청사) → 전국 9개 지방우정청(서울·경인·부산·충청·전북·전남·경북·강원·제주 — 2011년까지는 '체신청'이라는 이름이었음) → 우체국</li>
+        <li><b>우체국 단위</b>: 보통 시·군마다 그 지역명을 딴 총괄우체국이 1개씩 있고, 그 아래에 동/읍/면 단위 우체국이 딸림. 위탁 운영되는 '우편취급국'도 존재</li>
+        <li><b>겸업 구조</b>: 국가기관이 직접 운영하는 우편 서비스라는 점이 특징이며, 우편 업무 외에 우체국예금·우체국보험 같은 금융업무도 함께 취급 — 시중은행 지점이 없는 소도시·농어촌에서는 우체국이 사실상 은행 역할을 겸하는 경우가 많음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 소관 부처명은 정부 조직개편 때마다 바뀌어 온 이력이 있어(체신부→정보통신부→지식경제부→미래창조과학부→현 과학기술정보통신부), 향후에도 개편 가능성이 있으니 현재 정확한 소관 부처명은 별도 확인 권장.</div>
+    </div></details>
+
+    <details class="card"><summary>10-7. 경로당</summary><div class="card-body">
+      <ul>
+        <li><b>법적 근거</b>: 노인복지법 제36조의 '노인여가복지시설'(경로당·노인복지관·노인교실) 중 하나</li>
+        <li><b>등록 기준</b>: 65세 이상 회원 20명 이상(읍·면 지역은 10명 이상), 20㎡ 이상의 거실·휴게실, 화장실·전기시설 등을 갖춰야 함</li>
+        <li><b>규모</b>: 전국 약 68,000여 개소(2023년 기준)로, 노인여가복지시설 전체의 약 98%를 차지 — 가장 촘촘하게 퍼져 있는 노인복지시설</li>
+        <li><b>아파트와의 연결</b>: 주택건설기준 등에 관한 규정에 따라 150세대 이상 공동주택 단지는 경로당을 의무적으로 설치해야 함 — 아파트 단지 안에 경로당이 딸려 있는 이유가 여기서 나옴</li>
+        <li><b>지원</b>: 국가·지자체가 양곡비·냉난방비 등을 일부 지원</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 등록 요건을 못 갖춰 지원을 못 받는 '미등록 경로당' 문제, 운영비 지원 확대 논의 등은 계속 진행 중인 정책 이슈라 최신 상황 확인 필요.</div>
+    </div></details>
+
+    <details class="card"><summary>10-8. 병원 체계 — 의원·병원·종합병원·상급종합병원</summary><div class="card-body">
+      <ul>
+        <li><b>의원(1차 의료기관)</b>: 병상 30개 미만 — 감기·만성질환 등 경증 위주 외래진료 중심</li>
+        <li><b>병원(2차)</b>: 병상 30~99개</li>
+        <li><b>종합병원(2차)</b>: 병상 100개 이상 — 100~300병상은 7개 이상 진료과목(내과·외과·소아청소년과·산부인과 중 3개+영상의학과·마취통증의학과·진단검사의학과 등), 300병상 초과는 9개 이상 진료과목을 갖춰야 함</li>
+        <li><b>상급종합병원(3차, 흔히 '빅5' 등으로 불리는 최상위 병원 포함)</b>: 종합병원 중 20개 이상 진료과목을 갖추고 중증질환 치료 비중이 높은 병원을 보건복지부가 3년마다 지정 — 2024~2026년(제5기) 기준 전국 47개소</li>
+        <li><b>이용 절차</b>: 상급종합병원에서 건강보험 급여를 적용받으려면 1·2차 의료기관이 발급한 진료의뢰서가 필요</li>
+        <li><b>본인부담률 차등</b>: 외래진료 기준 의원 30%, 병원 40%, 종합병원 50%, 상급종합병원 60% — 상급 기관으로 갈수록 본인부담 비율도 높아짐</li>
+      </ul>
+      <p>현장 적용: 간판이 "OO의원"이냐 "OO병원"이냐 "OO종합병원"이냐만 봐도 그 병원의 대략적 규모(병상수·진료과목 수)를 짐작할 수 있음.</p>
+    </div></details>
+
+    <details class="card"><summary>10-9. 어린이집·유치원</summary><div class="card-body">
+      <ul>
+        <li><b>소관 부처</b>: 유치원은 교육부(유아교육법에 따라 '학교'로 분류) / 어린이집은 보건복지부(영유아보육법에 근거, '학교'로 분류되지 않음)</li>
+        <li><b>대상 연령</b>: 유치원은 만 3~5세 / 어린이집은 만 0~5세(필요 시 만 12세까지 연장 가능)</li>
+        <li><b>목적 차이</b>: 유치원은 교육 중심, 어린이집은 보육(돌봄) 중심 — 다만 두 기관 모두 공통 교육과정인 '누리과정'을 함께 운영함</li>
+        <li><b>운영 형태 비중</b>: 어린이집은 가정어린이집(53.9%)·민간어린이집(33.7%) 비중이 압도적으로 크고 국공립은 5.3%뿐인 반면, 유치원은 오히려 공립 비율(52.7%)이 사립(47.3%)보다 높음</li>
+      </ul>
+      <div class="flag"><b>확인 필요</b> — 유치원·어린이집의 소관 부처를 일원화하는 '유보통합' 정책이 추진 중이라, 위 구분 자체가 향후 개편될 수 있음. 현장 언급 시 최신 진행 상황 확인 권장.</div>
+    </div></details>
+
+    <details class="card"><summary>10-10. 목욕탕·찜질방 — 아파트가 밀어낸 동네 시설</summary><div class="card-body">
+      <ul>
+        <li><b>기원</b>: 한국 최초의 근대적 대중목욕탕은 1920년대 초(1921년경) 평양에서 시작 — 일제강점기 일본인들의 목욕 문화 영향으로 도입됨</li>
+        <li><b>전성기</b>: 1990년대까지 목욕탕은 단순히 씻는 곳을 넘어 동네 '사랑방' 역할을 함</li>
+        <li><b>쇠퇴 원인</b>: 1980년대 이후 아파트 보급이 확대되며 개인 욕실이 보편화된 것이 결정적 — 이후 라이프스타일 변화와 최근의 에너지·임대료 비용 상승이 감소를 가속화</li>
+        <li><b>구체적 감소 추이(서울)</b>: 1995년 정점(1,764곳) 이후 2025년 510곳까지 감소(-71%). 특히 코로나19 시기(2020~2022년) 3년간 242곳이 폐업했고, 이 시기 서울 3대 대형 찜질방(동대문 스파렉스, 용산 드래곤힐스파, 이태원랜드)도 모두 문을 닫음</li>
+        <li><b>지역별 편차</b>: 재개발이 진행되고 고령화가 빠른 구도심(성북구 등)에서 감소율이 가장 크고(-80%대), 대규모 택지개발로 새 인구가 유입된 신도시 지역(강서구 등)은 상대적으로 덜 줄어듦(-27%대) — 6-1(외장재로 시대 읽기)과 같은 논리가 여기도 적용됨</li>
+        <li><b>찜질방</b>: 1993년 부산에서 처음 등장해 1995년 전국 700여 업소로 확산. 원형은 조선시대 한증막(가마를 굽고 남은 잔열을 이용한 찜질)</li>
+      </ul>
+      <p>가이드 적용: 동네에 목욕탕이 남아있는지 여부 자체가 그 동네가 재개발됐는지, 신도시인지, 고령인구 비중이 높은 구도심인지를 보여주는 지표로 쓸 수 있음.</p>
+    </div></details>
+  </section>
+
+</main>
+
+<footer>
+  건축 가이드 참고자료 · 길과 건물의 기원부터 부동산까지 — 도보 해설용 압축 정리
+</footer>
+
+<script>
+(function(){
+  const searchInput = document.getElementById('searchInput');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'ch0';
+
+  function clearHighlights(root){
+    root.querySelectorAll('mark').forEach(function(m){
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  function highlightText(root, term){
+    if(!term || !root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    const lowerTerm = term.toLowerCase();
+    nodes.forEach(function(node){
+      const text = node.nodeValue;
+      const lower = text.toLowerCase();
+      let idx = lower.indexOf(lowerTerm);
+      if(idx === -1) return;
+      const frag = document.createDocumentFragment();
+      let cursor = 0;
+      let i = idx;
+      while(i !== -1){
+        frag.appendChild(document.createTextNode(text.slice(cursor, i)));
+        const mark = document.createElement('mark');
+        mark.textContent = text.slice(i, i + term.length);
+        frag.appendChild(mark);
+        cursor = i + term.length;
+        i = lower.indexOf(lowerTerm, cursor);
+      }
+      frag.appendChild(document.createTextNode(text.slice(cursor)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function resetTopicCards(topic){
+    topic.querySelectorAll('.card').forEach(function(card){
+      clearHighlights(card);
+      card.classList.remove('hidden-by-filter');
+      card.open = false;
+    });
+  }
+
+  // 현재 활성 페이지 안에서만 검색
+  function applySearch(){
+    const term = searchInput.value.trim();
+    const activeTopic = document.querySelector('.topic.active');
+    if(!activeTopic) return;
+
+    if(!term){
+      resetTopicCards(activeTopic);
+      searchCount.textContent = '';
+      return;
+    }
+
+    let visibleCount = 0;
+    activeTopic.querySelectorAll('.card').forEach(function(card){
+      clearHighlights(card);
+      const match = card.textContent.toLowerCase().indexOf(term.toLowerCase()) !== -1;
+      card.classList.toggle('hidden-by-filter', !match);
+      if(match){
+        highlightText(card.querySelector('summary'), term);
+        highlightText(card.querySelector('.card-body'), term);
+        card.open = true;
+        visibleCount++;
+      } else {
+        card.open = false;
+      }
+    });
+    searchCount.textContent = '검색결과: ' + visibleCount + '개 항목';
+  }
+
+  function showTab(cat){
+    topics.forEach(function(t){
+      const isActive = t.dataset.cat === cat;
+      t.classList.toggle('active', isActive);
+      if(isActive) resetTopicCards(t);
+    });
+    currentCat = cat;
+    searchInput.value = '';
+    searchCount.textContent = '';
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  searchInput.addEventListener('input', applySearch);
+
+  navBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      navBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      showTab(btn.dataset.cat);
+      btn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
