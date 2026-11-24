@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 크루즈</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#2b2620; --sub:#7a7268; --line:#e8e2d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    line-height:1.6;}
+  header{background:linear-gradient(135deg,#0b3d5c,#1f7a8c);color:#fff;padding:28px 18px 22px;text-align:center;}
+  header h1{font-size:21px;margin:0 0 6px;letter-spacing:-0.3px;}
+  header p{font-size:13px;opacity:0.88;margin:0;}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px;}
+
+  .search-box{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  #search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fff;color:var(--ink);}
+  .search-count{font-size:12px;color:var(--sub);margin-top:4px;min-height:16px;}
+
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+  .nav-btn{border:1.5px solid var(--cat-color,#999);background:#fff;color:var(--cat-color,#333);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+  .nav-btn.active, .nav-btn:hover{background:var(--cat-color,#999);color:#fff;}
+  .nav-btn[data-cat="all"]{border-color:#333;color:#333;}
+  .nav-btn[data-cat="all"].active{background:#333;color:#fff;}
+
+  .topic h2{font-size:17px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid currentColor;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .card summary{padding:12px 14px;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;}
+  .card summary::-webkit-details-marker{display:none;}
+  .card summary::after{content:"+";margin-left:auto;color:var(--sub);font-weight:400;}
+  .card[open] summary::after{content:"−";}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .card-body{padding:2px 14px 14px 32px;font-size:13.8px;color:#3a352c;}
+  .card-body p{margin:6px 0;}
+  .card-body ul{margin:6px 0;padding-left:18px;}
+  .card-body li{margin:4px 0;}
+
+  .table-scroll{overflow-x:auto;margin:10px 0;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:#f0ede6;font-weight:700;white-space:nowrap;}
+
+  .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:2px;}
+  .tag-fact{background:#dcfce7;color:#166534;}
+  .tag-lore{background:#fef3c7;color:#92400e;}
+  .warn-tag{color:#b45309;}
+
+  .warn-block{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;
+    margin:10px 0 4px;font-size:12.8px;color:#7c2d12;}
+  .warn-block b{display:block;margin-bottom:4px;color:#b45309;}
+  .warn-block p{margin:4px 0;}
+
+  .hidden-by-filter{display:none;}
+
+  @media (max-width:480px){
+    header h1{font-size:19px;}
+    .nav-btn{font-size:11.5px;padding:5px 10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛳️ 가이드를 위한 크루즈</h1>
+  <p>어디서든 써먹는 크루즈 상식 — 시설·구조·운영이면·실전팁·스토리텔링·국내상품비교·세계기록</p>
+</header>
+<div class="wrap">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="키워드로 검색 (예: 타이타닉, 팁, 모항)">
+    <div class="search-count" id="searchCount"></div>
+  </div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="history" style="--cat-color:#6b4f3b">🏛️ 시설·역사</button>
+<button class="nav-btn" data-cat="structure" style="--cat-color:#166534">🛳️ 선내 구조·객실</button>
+<button class="nav-btn" data-cat="backstage" style="--cat-color:#7c3aed">⚙️ 운영 이면</button>
+<button class="nav-btn" data-cat="tips" style="--cat-color:#0f766e">🧭 탑승 실전 팁</button>
+<button class="nav-btn" data-cat="story" style="--cat-color:#b45309">💬 교육·스토리텔링</button>
+<button class="nav-btn" data-cat="compare" style="--cat-color:#0369a1">🗺️ 국내 상품 비교</button>
+<button class="nav-btn" data-cat="world" style="--cat-color:#9d174d">🌍 세계 기록·특이사례</button>
+  </div>
+  
+<section class="topic" id="history">
+  <h2 style="color:#6b4f3b">🏛️ 시설·역사</h2>
+  
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>1. 정기여객선에서 크루즈로 — 업종 전환의 역사</summary>
+  <div class="card-body"><ul>
+<li>19세기 후반~20세기 초, 대서양을 오가는 '정기여객선(오션라이너)'은 이민·상업 목적의 실용적 교통수단이었음 — 영국 큐나드 라인(1840년 설립, 세계 최초로 대서양 횡단 정기 서비스를 시작한 것으로 알려짐)과 화이트 스타 라인이 이 시기의 양대 경쟁사였음 <span class="tag tag-fact">정사</span></li>
+<li>1912년 화이트 스타 라인의 RMS 타이타닉이 첫 항해 중 빙산과 충돌해 침몰, 1,514명이 사망하는 대참사가 발생함 — 이 사고를 계기로 국제 해상 인명 안전 협약(SOLAS)이 제정되어 구명정 수량 기준 등 오늘날 크루즈 안전 규정의 뼈대가 만들어짐 <span class="tag tag-fact">정사</span></li>
+<li>여객기 산업이 발전하며 1960년대 이후 대서양 횡단 정기여객선 수요가 급감 — 큐나드 등 기존 정기여객선사들이 '이동수단'에서 '여가·관광 목적의 크루즈선'으로 업종을 전환하며 오늘날의 크루즈 산업이 자리잡음 <span class="tag tag-fact">정사</span></li>
+<li>즉 오늘날의 크루즈는 원래 '빨리 도착하는 것'이 목적이던 교통수단이, 항공기에 그 역할을 내주면서 '천천히 즐기는 것' 자체가 목적인 여가상품으로 재탄생한 결과물이라는 점이 특기할 만함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>2. 국내 크루즈 산업 도입사</summary>
+  <div class="card-body"><ul>
+<li>국내에서 크루즈가 대중적 여행상품으로 본격 확산된 것은 2000년대 이후로, 부산항·인천항 등을 모항 또는 기항지로 활용하는 방식이 주를 이룸</li>
+<li>초기에는 국내 여행사가 해외 크루즈선사(코스타·로얄캐리비안 등)의 선박을 통째로 전세 계약해 '단독전세선' 형태로 국내 고객을 모객하는 방식이 널리 쓰임(롯데관광의 코스타 세레나호 전세선 등이 대표적) <span class="tag tag-fact">정사</span></li>
+<li>2025~2026년에는 국내 자본이 직접 크루즈선을 도입해 부산항을 모항으로 하는 '국적 크루즈' 사업을 추진하는 움직임도 나타남(드림크루즈월드의 9만~12만톤급 선박 도입 추진 등) — 국내 크루즈 산업이 '해외 선사 상품 재판매' 단계에서 '자체 선단 운영' 단계로 나아가려는 흐름으로 볼 수 있음 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>3. 크루즈선의 구조 개념</summary>
+  <div class="card-body"><ul>
+<li>크루즈선은 '떠다니는 리조트'에 가까운 구조 — 객실(캐빈) 구역 외에 레스토랑·극장·카지노·수영장·스파 등 육상 리조트급 부대시설을 통째로 배 안에 담고 있음</li>
+<li>갑판(데크)은 아래에서 위로 번호가 매겨지며, 저층은 객실·기관실, 상층으로 갈수록 수영장·야외 활동공간이 배치되는 경우가 많음</li>
+<li>스태빌라이저(선박 안정화 장치)가 도입되며 예전보다 흔들림이 크게 줄어든 것도 현대 크루즈가 '이동수단'보다 '숙박·레저 공간'으로 소비되는 흐름을 뒷받침하는 기술적 배경</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>4. 모항(홈포트) vs 기항지 개념</summary>
+  <div class="card-body"><ul>
+<li>'모항(홈포트)'은 승객이 최초 승선·최종 하선하는 항구, '기항지'는 항해 도중 잠시 정박해 관광하는 중간 기착지를 의미 — 국내 크루즈 상품 대부분은 부산·인천이 모항, 일본·동남아 항구가 기항지인 구조</li>
+<li>국내 크루즈 산업이 성장하며 부산항·제주(강정항 등)를 모항으로 하는 국제 크루즈 노선이 점차 늘어나는 추세</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>국적 크루즈 사업 추진 관련 내용은 계획 단계 정보가 포함되어 있어, 실제 취항 여부·시점은 최신 뉴스로 재확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="structure">
+  <h2 style="color:#166534">🛳️ 선내 구조·객실</h2>
+  
+<details class="card" data-cat="structure">
+  <summary><span class="dot" style="background:#166534"></span>1. 객실 등급 — 손님에게 설명할 때 핵심 4단계</summary>
+  <div class="card-body"><ul>
+<li><b>인사이드(내측) 캐빈</b>: 창문이 없는 가장 기본형 객실 — 요금이 가장 저렴해 예산 우선 고객에게 적합</li>
+<li><b>오션뷰 캐빈</b>: 창문이 있어 바다가 보이지만 발코니는 없는 등급</li>
+<li><b>발코니(베란다) 캐빈</b>: 개인 전용 발코니가 딸린 등급 — 최근 크루즈 여행에서 가장 선호도가 높은 등급으로 꼽힘</li>
+<li><b>스위트</b>: 최상급 객실로, 넓은 공간·전용 라운지 이용 등 부가 혜택이 포함되는 경우가 많음</li>
+<li>실전 팁: 고객에게 등급을 설명할 때 "창문 유무 → 발코니 유무 → 크기·혜택" 순으로 단계를 짚어주면 이해가 빠름</li>
+</ul></div>
+</details>
+<details class="card" data-cat="structure">
+  <summary><span class="dot" style="background:#166534"></span>2. 선내 주요 부대시설</summary>
+  <div class="card-body"><ul>
+<li>대형 크루즈선은 수영장(복수), 워터슬라이드, 대형 극장(뮤지컬·공연), 카지노, 스파, 헬스장, 면세점, 다수의 레스토랑·바를 갖추는 것이 일반적 — '떠다니는 복합 리조트'라는 표현이 여기서 나옴</li>
+<li>최근 대형 신조선일수록 실내 정원, 실내 스케이트장, 워터파크 등 육상 테마파크급 부대시설을 통째로 배에 싣는 경향이 강해지는 추세(⑦세계 기록·특이사례에서 세계 최대선 사례로 상세히 다룸)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="structure">
+  <summary><span class="dot" style="background:#166534"></span>3. 요금제 구조 — &#x27;올인클루시브&#x27; 개념</summary>
+  <div class="card-body"><ul>
+<li>크루즈 요금은 크게 '기본 요금(객실+기본식사)'과 '올인클루시브(음료 패키지 등 부가서비스 포함)'로 나뉘는 경우가 많음 — 국내 여행사 프로모션에서 '무제한 음료 패키지 제공' 같은 문구가 자주 보이는 이유</li>
+<li>팁(서비스료)은 별도로 청구되는 경우가 일반적 — 국가·선사에 따라 매일 일정액이 계좌에 자동 청구되거나, 승선권에 이미 포함된 경우도 있어 고객에게 사전 안내가 필요한 대표적인 항목</li>
+</ul></div>
+</details>
+<details class="card" data-cat="structure">
+  <summary><span class="dot" style="background:#166534"></span>4. 승선 절차 — 여행사 입장에서 알아둘 실무 포인트</summary>
+  <div class="card-body"><ul>
+<li>승선 당일에는 여권·비자 확인, 체크인, 안전 훈련(머스터 드릴) 등을 거쳐야 승선이 완료됨 — 특히 안전 훈련은 국제 규정(SOLAS)상 의무 사항으로, 참여하지 않으면 출항이 지연되거나 페널티가 부과될 수 있다는 점을 사전 안내하는 것이 중요</li>
+<li>여러 국가를 경유하는 노선은 기항지별로 입국 요건(비자 등)이 다를 수 있어, 여행사 입장에서는 국가별 요건을 사전에 정리해 고객에게 안내하는 것이 실무에서 중요한 부분</li>
+</ul></div>
+</details>
+<details class="card" data-cat="structure">
+  <summary><span class="dot" style="background:#166534"></span>5. 국내 발착 크루즈의 특징</summary>
+  <div class="card-body"><ul>
+<li>부산·인천 등에서 출발하는 국내 발착 크루즈는 언어 장벽이 적고(한국어 안내 방송·메뉴 제공 등) 국내선사 전세선 형태가 많아, 해외 크루즈 초심자 고객에게 진입장벽이 낮은 상품으로 소개하기 좋음</li>
+<li>일본·동남아 근해 노선이 많아 항해 일수가 짧은 편(5~9박 내외) — 장기 휴가가 어려운 고객층에게 적합한 대안으로 안내 가능</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>팁·부가요금 정책은 선사·상품별로 차이가 크므로, 고객 안내 시 반드시 해당 상품의 최신 약관을 확인하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="backstage">
+  <h2 style="color:#7c3aed">⚙️ 운영 이면</h2>
+  
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>1. 선원 구조 — 다국적 승무원이라는 특징</summary>
+  <div class="card-body"><ul>
+<li>대형 크루즈선은 승무원이 수십 개국 출신으로 구성된 다국적 조직인 경우가 많음 — 선장·항해사는 유럽 출신, 객실·식음료 서비스직은 동남아·중남미 출신 비중이 높은 경향이 있는 것으로 알려짐 <span class="warn-tag">⚠️</span>구체 비율은 선사·노선별로 다르므로 일반화에 주의</li>
+<li>승무원 근무 계약은 통상 몇 개월 단위 승선-하선을 반복하는 구조로, 육상 근무와는 다른 독특한 노동 형태를 가진다는 점이 흥미로운 배경 지식이 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>2. 면세점·부대사업 수익 구조</summary>
+  <div class="card-body"><ul>
+<li>크루즈선의 수익 구조는 승선권 요금 외에도 선내 면세점·카지노·음료·기항지 옵션투어 판매 등 부가 매출 비중이 상당한 것으로 알려짐 — 이 때문에 크루즈선사가 객실 요금 자체는 상대적으로 낮게 책정하고 부가 매출로 수익을 보전하는 전략을 취하는 경우가 많음</li>
+<li>여행사 입장에서는 이런 구조를 이해하고 있으면, 고객에게 "왜 크루즈 요금이 저렴해 보이는데 선내 지출이 생각보다 많이 나오는지"를 미리 설명해줄 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>3. 안전 규정과 훈련 — 타이타닉 이후 달라진 것들</summary>
+  <div class="card-body"><ul>
+<li>국제 해상 인명 안전 협약(SOLAS)은 1912년 타이타닉 사고를 계기로 제정되었으며, 이후에도 대형 사고(코스타 콩코르디아 등)가 발생할 때마다 규정이 보완되어 온 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>승선 당일 전 승객이 의무적으로 참여하는 안전 훈련(머스터 드릴)은 이런 국제 규정에 따른 것 — 형식적 절차처럼 느껴지지만 실제로는 법적 의무사항이라는 점을 고객에게 안내하면 이해도가 높아짐</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>4. 대형 사고 사례에서 배우는 것 — 코스타 콩코르디아(2012년)</summary>
+  <div class="card-body"><ul>
+<li>2012년 이탈리아의 크루즈선 '코스타 콩코르디아'가 이탈리아 해안 인근 암초에 좌초해 침몰한 사고가 발생했으며, 이 과정에서 선장이 승객보다 먼저 배를 이탈했다는 사실이 알려지며 국제적 비난을 받은 사례로 소개됨 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>구체 사상자 수 등은 민감한 내용이므로 투어에서는 "선장의 책임 문제가 크게 논란이 됐던 사고"라는 핵심만 간략히 언급하는 것이 안전</li>
+<li>이 사고 이후 크루즈 업계 전반에서 안전 훈련 절차(승선 즉시 훈련 실시 등)가 한층 강화된 것으로 알려짐</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>5. 계절·환율 변수 — 여행사 입장의 가격 변동 요인</summary>
+  <div class="card-body"><ul>
+<li>크루즈 요금은 유가(연료비)·환율·성수기 여부에 따라 변동 폭이 큰 편 — 특히 해외 선사 상품은 환율 변동이 최종 판매가에 직접 영향을 미치므로, 견적 시점과 확정 시점의 환율 차이를 고객에게 미리 안내하는 것이 클레임 예방에 도움이 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>대형 사고 사례는 안전의 중요성을 설명하는 목적으로만 간략히 언급하고, 자극적인 세부사항은 다루지 않는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="tips">
+  <h2 style="color:#0f766e">🧭 탑승 실전 팁</h2>
+  
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>1. 멀미 대응</summary>
+  <div class="card-body"><ul>
+<li>저층·중앙부 객실이 배의 흔들림을 상대적으로 적게 느끼는 위치로 알려져 있음 — 멀미에 민감한 고객에게는 객실 위치 선택 시 참고하도록 안내하면 좋음</li>
+<li>현대 대형 크루즈선은 스태빌라이저(안정화 장치) 덕분에 예전보다 흔들림이 크게 줄었다는 점도 안심 포인트로 언급할 수 있음</li>
+<li>멀미약은 출항 전 미리 복용하는 것이 사후 복용보다 효과적이라는 점을 사전에 안내하면 도움이 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>2. 기항지 자유시간 관리</summary>
+  <div class="card-body"><ul>
+<li>기항지 정박 시간은 보통 반나절~하루 정도로 제한적 — 자유관광 시 반드시 출항 시간을 지켜야 하며, 늦으면 배가 기다려주지 않고 출항하는 경우가 대부분이라는 점을 강조해서 안내하는 것이 중요</li>
+<li>배 자체에서 제공하는 '기항지 옵션투어'를 이용하면 늦어도 배가 기다려주는 경우가 많아, 시간 관리가 걱정되는 고객에게는 옵션투어 이용을 권장하는 것이 안전한 선택지가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>3. 팁 문화 안내</summary>
+  <div class="card-body"><ul>
+<li>서구권 크루즈선사는 하루 단위로 일정액의 서비스료(팁)가 자동 청구되는 경우가 많음 — 국내 고객에게는 생소한 문화이므로 사전에 금액 규모와 청구 방식을 명확히 안내하는 것이 클레임 예방에 중요</li>
+<li>국내 전세선 상품은 이런 팁 문화가 요금에 이미 포함되거나 생략되는 경우도 있어, 상품별로 정책이 다르다는 점을 확인 후 안내해야 함 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>4. 와이파이·통신 관련 안내</summary>
+  <div class="card-body"><ul>
+<li>해상에서는 위성 인터넷을 사용하는 경우가 많아 속도가 느리고 요금이 비싼 경우가 일반적 — 장기 크루즈를 앞둔 고객에게는 사전에 통신 패키지 구매나 오프라인 콘텐츠 준비를 권장하는 것이 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>5. 짐 꾸리기·복장 팁</summary>
+  <div class="card-body"><ul>
+<li>격식 있는 디너(포멀 나이트)를 운영하는 선사가 많아, 정장류를 최소 1벌 준비하도록 안내하는 것이 좋음</li>
+<li>기항지별 기후 차이가 클 수 있어(예: 북유럽↔지중해 노선), 다양한 기후에 대응할 수 있는 옷차림을 준비하도록 사전 안내</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>6. 무장애·고령자 동반 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>대형 크루즈선은 엘리베이터·휠체어 대여 등을 갖춘 경우가 많아 상대적으로 무장애 여행에 유리한 편 — 다만 기항지 현지 관광(옵션투어)의 접근성은 별도로 확인이 필요함 <span class="warn-tag">⚠️</span></li>
+<li>장거리 항해 특성상 고령자에게는 체력 부담이 적은 여가형 여행이라는 장점이 있어, 복지단체·고령층 고객에게 대안으로 제안하기 좋은 여행 형태</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>팁·와이파이 요금 등은 선사·노선별 정책 차이가 크므로 상품 확정 전 반드시 최신 약관을 확인해 고객에게 정확히 안내하는 것이 중요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="story">
+  <h2 style="color:#b45309">💬 교육·스토리텔링</h2>
+  
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>1. 타이타닉 스토리로 안전 규정 설명하기</summary>
+  <div class="card-body"><ul>
+<li>"지금 여러분이 승선 첫날 참여하는 안전 훈련은, 사실 타이타닉 사고 이후 만들어진 국제 규정 때문"이라는 설명은 형식적으로 느껴지는 절차에 역사적 맥락을 부여해 고객의 이해와 협조를 끌어내는 좋은 도입부가 됨</li>
+<li>타이타닉이 당시 최고급 시설과 서비스를 갖춘 여객선이었다는 점, 3등석조차 웨이터 서비스를 제공했다는 점 등은 "당시 최고급 여객선이 지금의 크루즈 문화를 예고한 셈"이라는 흥미로운 연결고리가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>2. &#x27;왜 크루즈가 이렇게 변해왔는가&#x27; — 산업 전환 스토리</summary>
+  <div class="card-body"><ul>
+<li>정기여객선(교통수단)에서 크루즈(여가상품)로의 전환은 항공기라는 경쟁자의 등장 때문이었다는 설명은, 산업이 시대 변화에 어떻게 적응하는지를 보여주는 좋은 배경 지식이 됨</li>
+<li>큐나드처럼 100년 넘은 선사가 지금도 '전통과 품격'을 마케팅 포인트로 내세우는 이유를 설명하면, 크루즈 선사별 브랜드 이미지 차이를 고객에게 소개하기 좋은 소재가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>3. 아이·초보 고객 눈높이 설명 템플릿</summary>
+  <div class="card-body"><ul>
+<li><b>크루즈란</b>: "호텔이 통째로 바다 위를 떠다니면서 여러 나라를 데려다주는 여행 방식"</li>
+<li><b>모항 vs 기항지</b>: "모항은 우리 집(출발·도착점), 기항지는 여행 중 잠깐 들르는 친구 집"</li>
+<li><b>머스터 드릴(안전훈련)</b>: "학교에서 하는 화재 대피 훈련과 비슷한 것 — 법으로 정해진 필수 절차"</li>
+<li><b>올인클루시브</b>: "뷔페처럼 한 번 낸 돈으로 이것저것 다 이용할 수 있게 만든 요금제"</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>4. 지역·항구 연계 스토리텔링</summary>
+  <div class="card-body"><ul>
+<li>부산항·인천항이 국제 크루즈 모항으로 성장하는 과정은 지역 관광 인프라 발전사와 맞물려 있어, 지역 경제 활성화 스토리로 확장할 수 있음</li>
+<li>기항지의 역사·문화를 미리 소개해두면, 자유관광 시간이 단순 쇼핑이 아니라 의미 있는 답사로 이어지도록 유도할 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>5. 세계적 사건을 교육적으로 활용하기</summary>
+  <div class="card-body"><ul>
+<li>코스타 콩코르디아 사고(2012년)는 "왜 선장의 리더십과 책임감이 안전에 중요한가"를 설명하는 교육적 소재로 활용 가능 — 무거운 소재이므로 짧게 핵심만 언급하는 것이 안전</li>
+<li>세계 최대 크루즈선(아이콘 오브 더 시즈 등)의 등장은 "크루즈 산업이 지금도 계속 규모를 키우며 성장 중"이라는 트렌드 설명으로 활용 가능(⑦세계 기록·특이사례 참고)</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>사고 사례는 안전 교육 목적으로만 간략히 언급하고, 자극적인 세부사항은 다루지 않는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="compare">
+  <h2 style="color:#0369a1">🗺️ 국내 상품 비교</h2>
+  
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>1. 국내 발착·판매 주요 크루즈 상품·선사 비교</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>구분</th><th>대표 사례</th><th>특징</th><th>비고</th></tr>
+<tr><td>국내 여행사 전세선</td><td>롯데관광 코스타 세레나호</td><td>최대 3,800명 수용, 길이 292m, 국내 출발 전세선 중 최대급으로 소개</td><td>부산·속초 등에서 출항, 한국어 서비스 중심</td></tr>
+<tr><td>국적 크루즈 추진</td><td>드림크루즈월드</td><td>9만~12만톤급 선박 2척 도입 추진(2025~2026년), 부산항 모항</td><td>로얄캐리비안 그룹과 협업 추진, 아직 사업 초기 단계 <span class="warn-tag">⚠️</span>최신 진행상황 확인 필요</td></tr>
+<tr><td>글로벌 대형 선사(국내 판매)</td><td>로얄캐리비안, MSC, 코스타 등</td><td>아시아·일본·동남아 노선 중심 상품을 국내 여행사가 재판매</td><td>크루즈 전문 여행사(크루즈시티·크루즈TMK 등)를 통해 유통</td></tr>
+<tr><td>프리미엄·전통 선사</td><td>큐나드(퀸 메리 2, 퀸 엘리자베스 등)</td><td>175년 이상 전통, 6성급으로 소개되는 고급 노선</td><td>세계일주 노선 등에 아시아 기항 포함되는 경우 있음</td></tr>
+<tr><td>세계 최대급 선사 상품</td><td>로얄캐리비안 아이콘 오브 더 시즈</td><td>2024년 취항, 기네스북 등재 세계 최대 크루즈선(250,800톤)</td><td>카리브해 노선 중심, 국내 여행사 통해 판매되는 경우 있음</td></tr>
+</table></div><ul>
+<li>이 표는 국내에서 유통되는 대표적 크루즈 상품 유형을 정리한 것으로, 전체 크루즈 시장을 전수 조사한 것은 아님 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>2. 유형별로 묶어서 보기</summary>
+  <div class="card-body"><ul>
+<li><b>국내 전세선형</b>: 여행사가 선박 전체를 대여해 국내 고객 전용으로 운영 — 언어 장벽이 낮고 초보 고객에게 적합</li>
+<li><b>국적 크루즈 추진형</b>: 국내 자본이 직접 선박을 도입해 운영하려는 신규 흐름 — 아직 초기 단계</li>
+<li><b>해외 선사 재판매형</b>: 글로벌 대형 선사의 기존 노선을 국내 여행사가 유통하는 가장 보편적인 방식</li>
+<li><b>프리미엄/전통형</b>: 큐나드처럼 역사·품격을 내세우는 고가 상품군</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>이 비교표의 선박 제원·사업 추진 현황은 시점에 따라 계속 바뀌므로, 실제 상품 안내 시 각 선사·여행사의 최신 공지로 재확인하는 것이 중요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="world">
+  <h2 style="color:#9d174d">🌍 세계 기록·특이사례</h2>
+  
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>1. 세계 최대 크루즈선 — 아이콘 오브 더 시즈</summary>
+  <div class="card-body"><ul>
+<li>로얄캐리비안의 '아이콘 오브 더 시즈'는 2024년 1월 첫 취항했으며, 총톤수 250,800톤으로 기네스 세계기록에 세계 최대 크루즈선으로 등재된 것으로 알려짐 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+<li>이 선박은 실내 워터파크·다수의 수영장 등 육상 테마파크급 시설을 통째로 갖춘 것으로 소개되며, "이제 크루즈선이 배가 아니라 떠다니는 테마파크 리조트에 가깝다"는 흐름을 보여주는 대표 사례</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>2. 타이타닉을 둘러싼 오해</summary>
+  <div class="card-body"><ul>
+<li>타이타닉은 대중적으로 '역대 최대 여객선'으로 알려진 경우가 많으나, 실제 당대 최대 여객선은 같은 화이트 스타 라인의 자매선 'RMS 올림픽'이었던 것으로 알려짐 — 영화의 흥행으로 타이타닉이 실제보다 더 특별한 규모였다는 오해가 널리 퍼진 사례 <span class="tag tag-fact">정사</span></li>
+<li>타이타닉 침몰 당시 큐나드 라인 소속 선박 'RMS 카르파티아'가 가장 먼저 구조 활동에 나선 것으로 알려짐 — 경쟁사임에도 인명구조에 나섰다는 점이 흥미로운 뒷이야기</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>3. 코스타 콩코르디아 사고(2012년)가 남긴 것</summary>
+  <div class="card-body"><ul>
+<li>2012년 이탈리아 해안에서 발생한 코스타 콩코르디아 좌초 사고는 선장의 대피 지연·이탈 문제로 국제적 비난을 받았으며, 이후 크루즈 업계 전반의 안전 관리 체계를 재점검하는 계기가 된 것으로 알려짐 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>구체 세부사항은 민감하므로 핵심 교훈 위주로 간략히 다루는 것이 안전</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>4. 특이한 개념의 세계 크루즈</summary>
+  <div class="card-body"><ul>
+<li><b>세계일주 크루즈</b>: 큐나드 등 일부 프리미엄 선사는 100일 이상 걸리는 세계일주 노선을 정기적으로 운영 — 한 번의 항해로 여러 대륙을 도는 개념으로, 초장기 여행 상품의 대표 사례</li>
+<li><b>리버 크루즈</b>: 대양이 아닌 강(도나우강·라인강 등)을 따라 이동하는 소형 크루즈로, 대양 크루즈와는 다른 형태의 시장을 형성 — 유럽 내륙 도시 여행과 결합된 상품으로 국내에서도 판매됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>세계 최대 크루즈선 기록은 신조선 취항으로 계속 갱신되므로 투어·상품 안내 시 최신 자료로 재확인하는 것이 안전합니다.</li>
+<li>대형 사고 사례는 안전 교육 목적으로만 간략히 다루고 자극적인 세부사항은 다루지 않는 것이 안전합니다.</li>
+</ul></div>
+</section>
+</div>
+<script>
+(function(){
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'all';
+
+  function applyFilters(){
+    const term = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      let topicHasVisibleCard = false;
+      const topicCards = topic.querySelectorAll('.card');
+      topicCards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = card.textContent.toLowerCase();
+        const catMatch = (currentCat === 'all' || currentCat === cat);
+        const termMatch = (!term || text.includes(term));
+        const show = catMatch && termMatch;
+        card.classList.toggle('hidden-by-filter', !show);
+        if (term && show) card.open = true;
+        else if (!term) card.open = false;
+        if (show){ topicHasVisibleCard = true; visibleCount++; }
+      });
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term ? `검색결과: ${visibleCount}개 항목` : '';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all'){
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

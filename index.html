@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가이드를 위한 학습자료 — 여행바구니</title>
+<style>
+:root{
+  --bg:#EDE6D6;
+  --bg-card:#FBF8F1;
+  --ink:#2A2420;
+  --ink-soft:#6B5F52;
+  --line:#DCD2BC;
+
+  --c-arch:#8B5E34;   /* 건축 */
+  --c-arch-2:#3E4A52;
+  --c-art:#1e3a5f;    /* 문학·예술 */
+  --c-art-2:#2c5282;
+  --c-temple:#8a5a3b; /* 사찰 */
+  --c-temple-2:#c98a4b;
+  --c-nature:#3f7d5c; /* 자연 */
+  --c-nature-2:#4b6b2f;
+  --c-story:#7a3e5e;  /* 이야깃거리 */
+  --c-story-2:#5c2d47;
+  --c-work:#2f6e73;   /* 가이드 실무 */
+  --c-work-2:#22545a;
+
+  --font-display:"Noto Serif KR","Nanum Myeongjo","Batang",serif;
+  --font-body:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at top, rgba(255,255,255,.35), transparent 60%),
+    var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.7;
+}
+
+/* ---------- HEADER ---------- */
+header.site{
+  padding:52px 20px 34px;
+  text-align:center;
+  position:relative;
+}
+header.site::after{
+  content:"";
+  display:block;
+  width:64px;
+  height:2px;
+  background:var(--ink-soft);
+  opacity:.35;
+  margin:22px auto 0;
+}
+.eyebrow{
+  font-size:12.5px;
+  letter-spacing:.14em;
+  color:var(--ink-soft);
+  font-weight:700;
+  text-transform:uppercase;
+}
+header.site h1{
+  font-family:var(--font-display);
+  margin:10px 0 12px;
+  font-size:clamp(26px,5vw,36px);
+  font-weight:700;
+  letter-spacing:-.01em;
+}
+header.site p{
+  margin:0 auto;
+  max-width:480px;
+  font-size:14.5px;
+  color:var(--ink-soft);
+}
+
+/* ---------- MAIN ---------- */
+main{max-width:920px; margin:0 auto; padding:10px 20px 60px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+@media (max-width:680px){
+  .grid{grid-template-columns:1fr;}
+}
+
+/* card = 색인 탭이 달린 카드 */
+.card{
+  --accent:var(--c-arch);
+  --accent-2:var(--c-arch-2);
+  position:relative;
+  display:block;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-left:6px solid var(--accent);
+  border-radius:10px;
+  padding:26px 24px 24px 22px;
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 1px 2px rgba(42,36,32,.04);
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.card:hover, .card:focus-visible{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(42,36,32,.12);
+  outline:none;
+}
+.card:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+.card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:10px;
+}
+.card-icon{
+  font-size:26px;
+  line-height:1;
+}
+.stamp{
+  flex:0 0 auto;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:2px dashed var(--accent);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-display);
+  font-size:10.5px;
+  font-weight:700;
+  text-align:center;
+  line-height:1.25;
+  transform:rotate(-8deg);
+  opacity:.9;
+}
+
+.card h2{
+  font-family:var(--font-display);
+  font-size:19px;
+  margin:0 0 8px;
+  color:var(--ink);
+}
+.card p.desc{
+  margin:0 0 14px;
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:16px;
+}
+.tag{
+  font-size:11.5px;
+  font-weight:600;
+  padding:4px 9px;
+  border-radius:999px;
+  background:color-mix(in srgb, var(--accent) 12%, var(--bg-card));
+  color:var(--accent-2);
+  border:1px solid color-mix(in srgb, var(--accent) 30%, var(--bg-card));
+}
+.card .go{
+  font-size:13px;
+  font-weight:700;
+  color:var(--accent-2);
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.card .go::after{
+  content:"→";
+  transition:transform .16s ease;
+}
+.card:hover .go::after{transform:translateX(3px);}
+
+.card.arch{--accent:var(--c-arch); --accent-2:var(--c-arch-2);}
+.card.art{--accent:var(--c-art); --accent-2:var(--c-art-2);}
+.card.temple{--accent:var(--c-temple); --accent-2:var(--c-temple-2);}
+.card.nature{--accent:var(--c-nature); --accent-2:var(--c-nature-2);}
+
+footer.site{
+  text-align:center;
+  padding:10px 20px 40px;
+  font-size:12px;
+  color:var(--ink-soft);
+}
+
+/* ---------- 분류 칩 (상단 고정) ---------- */
+nav.chips{
+  position:sticky; top:0; z-index:10;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+nav.chips .in{
+  max-width:920px; margin:0 auto;
+  display:flex; gap:8px; overflow-x:auto;
+  padding:10px 20px; scrollbar-width:none;
+}
+nav.chips .in::-webkit-scrollbar{display:none;}
+nav.chips a{
+  flex:0 0 auto;
+  font-size:13px; font-weight:700;
+  padding:7px 13px; border-radius:999px;
+  text-decoration:none;
+  color:var(--accent-2);
+  background:var(--bg-card);
+  border:1px solid color-mix(in srgb, var(--accent) 35%, var(--bg-card));
+}
+nav.chips a span{font-weight:600; opacity:.65; margin-left:3px;}
+
+/* ---------- 분류 섹션 ---------- */
+section.cat{scroll-margin-top:64px; margin:26px 0 8px;}
+section.cat h2.cat-title{
+  font-family:var(--font-display);
+  font-size:18px; margin:0 0 12px;
+  display:flex; align-items:center; gap:8px;
+  color:var(--accent-2);
+}
+section.cat h2.cat-title::before{
+  content:""; width:5px; height:18px; border-radius:3px; background:var(--accent);
+}
+section.cat h2.cat-title small{
+  font-family:var(--font-body); font-size:12px; font-weight:600; color:var(--ink-soft);
+}
+
+/* ---------- 소형 카드 ---------- */
+.grid{grid-template-columns:repeat(3,1fr); gap:12px;}
+@media (max-width:680px){ .grid{grid-template-columns:repeat(2,1fr); gap:10px;} }
+@media (max-width:330px){ .grid{grid-template-columns:1fr;} }
+.card{padding:14px 13px 13px 12px; border-left-width:5px; display:flex; flex-direction:column;}
+.card-top{margin-bottom:6px;}
+.card-icon{font-size:22px;}
+.card h3{
+  font-family:var(--font-display);
+  font-size:15px; line-height:1.4;
+  margin:0 0 5px; color:var(--ink);
+  word-break:keep-all;
+}
+.card p.desc{font-size:12.5px; line-height:1.55; margin:0 0 8px; word-break:keep-all;}
+.tags{gap:4px; margin-bottom:8px;}
+.tag{font-size:10.5px; padding:2px 7px;}
+.card .go{font-size:12px; margin-top:auto;}
+
+.arch{--accent:var(--c-arch); --accent-2:var(--c-arch-2);}
+.nature{--accent:var(--c-nature); --accent-2:var(--c-nature-2);}
+.art{--accent:var(--c-art); --accent-2:var(--c-art-2);}
+.story{--accent:var(--c-story); --accent-2:var(--c-story-2);}
+.work{--accent:var(--c-work); --accent-2:var(--c-work-2);}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">여행바구니 · 도보투어 참고자료</div>
+  <h1>가이드를 위한 학습자료</h1>
+  <p>현장에서 바로 찾아보는 해설 참고노트 21종 — 역사·도시·문화 · 자연·과학 · 관광시설 상식 · 이야깃거리 · 가이드 실무, 다섯 갈래로 정리했습니다.</p>
+</header>
+
+<nav class="chips" aria-label="분류 바로가기">
+  <div class="in">
+    <a class="arch" href="#history">역사·도시·문화<span>4</span></a>
+    <a class="nature" href="#nature">자연·과학<span>3</span></a>
+    <a class="art" href="#facility">관광시설 상식<span>7</span></a>
+    <a class="story" href="#story">이야깃거리<span>3</span></a>
+    <a class="work" href="#work">가이드 실무<span>4</span></a>
+  </div>
+</nav>
+
+<main>
+  <section class="cat arch" id="history">
+    <h2 class="cat-title">역사·도시·문화 <small>4</small></h2>
+    <div class="grid">
+      <a class="card arch" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EA%B1%B4%EC%B6%95.html">
+        <div class="card-top"><span class="card-icon">🏛️</span></div>
+        <h3>건축 가이드 참고자료</h3>
+        <p class="desc">길과 건물의 기원부터 도시 구성, 전통 양식, 한옥, 근현대 건축, 부동산까지.</p>
+        <div class="tags"><span class="tag">주제 11개</span><span class="tag">탭 구성</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card arch" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%82%AC%EC%B0%B0.html">
+        <div class="card-top"><span class="card-icon">🙏</span></div>
+        <h3>가이드를 위한 사찰 정보</h3>
+        <p class="desc">가람배치 · 전각 전체 · 조형물 · 매핑까지 한 번에 정리.</p>
+        <div class="tags"><span class="tag">35항목</span><span class="tag">v4</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card arch" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%AC%B8%ED%95%99.html">
+        <div class="card-top"><span class="card-icon">🎨📖</span></div>
+        <h3>가이드를 위한 예술과 문학</h3>
+        <p class="desc">길에서 마주치는 것들 — 보편 대상 중심의 해설 노트.</p>
+        <div class="tags"><span class="tag">아코디언 형식</span><span class="tag">v29</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card arch" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%B6%80%EB%8F%99%EC%82%B0.html">
+        <div class="card-top"><span class="card-icon">🏙️</span></div>
+        <h3>가이드를 위한 부동산 이야기</h3>
+        <p class="desc">재개발·재건축, 신도시, 특혜·비리, 사고·안전 — 주제별 대한민국 부동산 이야기.</p>
+        <span class="go">바로가기</span>
+      </a>
+    </div>
+  </section>
+  <section class="cat nature" id="nature">
+    <h2 class="cat-title">자연·과학 <small>3</small></h2>
+    <div class="grid">
+      <a class="card nature" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%9E%90%EC%97%B0.html">
+        <div class="card-top"><span class="card-icon">🌿</span></div>
+        <h3>자연 해설 학습 자료</h3>
+        <p class="desc">고처사 도보역사투어 · 여행바구니 가이드 참고용 통합노트.</p>
+        <div class="tags"><span class="tag">분류 14개</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card nature" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%8B%9D%EB%AC%BC.html">
+        <div class="card-top"><span class="card-icon">🌱</span></div>
+        <h3>가이드를 위한 식물</h3>
+        <p class="desc">이름은 몰라도 무슨 무리인지는 보자마자 — 현장 식물 식별 가이드.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card nature" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EA%B3%BC%ED%95%99.html">
+        <div class="card-top"><span class="card-icon">🔬</span></div>
+        <h3>가이드를 위한 과학</h3>
+        <p class="desc">길 다니다 보면 보이는 것들의 과학.</p>
+        <span class="go">바로가기</span>
+      </a>
+    </div>
+  </section>
+  <section class="cat art" id="facility">
+    <h2 class="cat-title">관광시설 상식 <small>7</small></h2>
+    <div class="grid">
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%B0%95%EB%AC%BC%EA%B4%80.html">
+        <div class="card-top"><span class="card-icon">🏺</span></div>
+        <h3>가이드를 위한 박물관</h3>
+        <p class="desc">시설·유형·운영 이면·실전팁·스토리텔링·국내비교·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%8F%99%EB%AC%BC%EC%9B%90.html">
+        <div class="card-top"><span class="card-icon">🦁</span></div>
+        <h3>가이드를 위한 동물원</h3>
+        <p class="desc">동물원·사파리 상식 — 시설·동물·운영 이면·실전팁·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%8B%9D%EB%AC%BC%EC%9B%90.html">
+        <div class="card-top"><span class="card-icon">🌸</span></div>
+        <h3>가이드를 위한 식물원</h3>
+        <p class="desc">식물원·수목원 상식 — 시설·식물·운영 이면·실전팁·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%95%84%EC%BF%A0%EC%95%84%EB%A6%AC%EC%9B%80.html">
+        <div class="card-top"><span class="card-icon">🐠</span></div>
+        <h3>가이드를 위한 아쿠아리움</h3>
+        <p class="desc">시설·어종·운영 이면·실전팁·스토리텔링·전국비교.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%98%A8%EC%B2%9C%EC%8A%A4%ED%8C%8C.html">
+        <div class="card-top"><span class="card-icon">♨️</span></div>
+        <h3>가이드를 위한 온천·스파</h3>
+        <p class="desc">시설·수질·운영 이면·실전팁·스토리텔링·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%BC%80%EC%9D%B4%EB%B8%94%EC%B9%B4%EC%A0%84%EB%A7%9D%EB%8C%80.html">
+        <div class="card-top"><span class="card-icon">🚡</span></div>
+        <h3>가이드를 위한 케이블카·전망대</h3>
+        <p class="desc">시설·기록·운영 이면·실전팁·국내비교·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card art" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%ED%81%AC%EB%A3%A8%EC%A6%88.html">
+        <div class="card-top"><span class="card-icon">🛳️</span></div>
+        <h3>가이드를 위한 크루즈</h3>
+        <p class="desc">시설·구조·운영 이면·실전팁·국내상품비교·세계기록.</p>
+        <span class="go">바로가기</span>
+      </a>
+    </div>
+  </section>
+  <section class="cat story" id="story">
+    <h2 class="cat-title">이야깃거리 <small>3</small></h2>
+    <div class="grid">
+      <a class="card story" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%AF%B8%EC%8B%A0.html">
+        <div class="card-top"><span class="card-icon">🧿</span></div>
+        <h3>가이드를 위한 미신 이야기</h3>
+        <p class="desc">근거 판정·분야·지역·계절별로 찾아보는 미신 이야기.</p>
+        <div class="tags"><span class="tag">151개</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card story" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%9E%98%EB%AA%BB%EB%90%9C%EC%83%81%EC%8B%9D.html">
+        <div class="card-top"><span class="card-icon">💡</span></div>
+        <h3>가이드를 위한 잘못된 상식</h3>
+        <p class="desc">버스·식사·관광지에서 꺼내 쓰는 "사실은요…" 이야기.</p>
+        <div class="tags"><span class="tag">424선</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card story" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%9C%A0%EB%A8%B8.html">
+        <div class="card-top"><span class="card-icon">🎭</span></div>
+        <h3>가이드를 위한 유머</h3>
+        <p class="desc">재미포인트가 부족할 때 즉흥적으로 꺼내 쓰는 기법 뱅크.</p>
+        <span class="go">바로가기</span>
+      </a>
+    </div>
+  </section>
+  <section class="cat work" id="work">
+    <h2 class="cat-title">가이드 실무 <small>4</small></h2>
+    <div class="grid">
+      <a class="card work" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%97%AC%ED%96%89%EC%84%A4%EB%AA%85%EC%96%B4%ED%9C%98.html">
+        <div class="card-top"><span class="card-icon">🗣️</span></div>
+        <h3>가이드를 위한 여행설명어휘</h3>
+        <p class="desc">같은 말 반복 없이 현장에서 꺼내 쓰는 설명 어휘 — 멘트 예시·유사어 맵.</p>
+        <div class="tags"><span class="tag">1158개</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card work" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%ED%98%84%EC%9E%A5%EA%B0%90%EA%B0%81.html">
+        <div class="card-top"><span class="card-icon">👁️</span></div>
+        <h3>가이드를 위한 현장감각</h3>
+        <p class="desc">설명하지 않고 포착하는 여행 — 감각·행동·생각.</p>
+        <div class="tags"><span class="tag">v4</span></div>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card work" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EC%B4%AC%EC%98%81.html">
+        <div class="card-top"><span class="card-icon">🎥</span></div>
+        <h3>가이드를 위한 촬영방법</h3>
+        <p class="desc">출발 전 정할 것과 현장 즉흥으로 할 것, 준비도 기준 정리.</p>
+        <span class="go">바로가기</span>
+      </a>
+      <a class="card work" href="%EA%B0%80%EC%9D%B4%EB%93%9C%EB%A5%BC%EC%9C%84%ED%95%9C_%EB%8C%80%EC%A4%91%EA%B5%90%ED%86%B5.html">
+        <div class="card-top"><span class="card-icon">🚆</span></div>
+        <h3>가이드를 위한 대중교통</h3>
+        <p class="desc">철도·도로·해운·항공·관광 이동수단 정리.</p>
+        <div class="tags"><span class="tag">2026년 11월 기준</span></div>
+        <span class="go">바로가기</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site">여행바구니 가이드 참고자료 모음</footer>
+
+</body>
+</html>

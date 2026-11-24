@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 아쿠아리움</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#2b2620; --sub:#7a7268; --line:#e8e2d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    line-height:1.6;}
+  header{background:linear-gradient(135deg,#0e3b4a,#1f6f6a);color:#fff;padding:28px 18px 22px;text-align:center;}
+  header h1{font-size:21px;margin:0 0 6px;letter-spacing:-0.3px;}
+  header p{font-size:13px;opacity:0.88;margin:0;}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px;}
+
+  .search-box{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  #search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fff;color:var(--ink);}
+  .search-count{font-size:12px;color:var(--sub);margin-top:4px;min-height:16px;}
+
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+  .nav-btn{border:1.5px solid var(--cat-color,#999);background:#fff;color:var(--cat-color,#333);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+  .nav-btn.active, .nav-btn:hover{background:var(--cat-color,#999);color:#fff;}
+  .nav-btn[data-cat="all"]{border-color:#333;color:#333;}
+  .nav-btn[data-cat="all"].active{background:#333;color:#fff;}
+
+  .topic h2{font-size:17px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid currentColor;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .card summary{padding:12px 14px;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;}
+  .card summary::-webkit-details-marker{display:none;}
+  .card summary::after{content:"+";margin-left:auto;color:var(--sub);font-weight:400;}
+  .card[open] summary::after{content:"−";}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .card-body{padding:2px 14px 14px 32px;font-size:13.8px;color:#3a352c;}
+  .card-body p{margin:6px 0;}
+  .card-body ul{margin:6px 0;padding-left:18px;}
+  .card-body li{margin:4px 0;}
+
+  .table-scroll{overflow-x:auto;margin:10px 0;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:#f0ede6;font-weight:700;white-space:nowrap;}
+
+  .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:2px;}
+  .tag-fact{background:#dcfce7;color:#166534;}
+  .tag-lore{background:#fef3c7;color:#92400e;}
+  .warn-tag{color:#b45309;}
+
+  .warn-block{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;
+    margin:10px 0 4px;font-size:12.8px;color:#7c2d12;}
+  .warn-block b{display:block;margin-bottom:4px;color:#b45309;}
+  .warn-block p{margin:4px 0;}
+
+  .hidden-by-filter{display:none;}
+
+  @media (max-width:480px){
+    header h1{font-size:19px;}
+    .nav-btn{font-size:11.5px;padding:5px 10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🐠 가이드를 위한 아쿠아리움</h1>
+  <p>어디서든 써먹는 아쿠아리움 상식 — 시설·어종·운영이면·실전팁·스토리텔링·전국비교</p>
+</header>
+<div class="wrap">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="키워드로 검색 (예: 벨루가, 순환여과, 울진)">
+    <div class="search-count" id="searchCount"></div>
+  </div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="history" style="--cat-color:#6b4f3b">🏛️ 시설·역사</button>
+<button class="nav-btn" data-cat="species" style="--cat-color:#1f7a5c">🐟 주요 어종</button>
+<button class="nav-btn" data-cat="backstage" style="--cat-color:#7c3aed">🎙️ 사육사·운영 이면</button>
+<button class="nav-btn" data-cat="tips" style="--cat-color:#0f766e">🧭 관람 실전 팁</button>
+<button class="nav-btn" data-cat="story" style="--cat-color:#b45309">💬 교육·스토리텔링</button>
+<button class="nav-btn" data-cat="compare" style="--cat-color:#0369a1">🗺️ 전국 비교</button>
+<button class="nav-btn" data-cat="world" style="--cat-color:#9d174d">🌍 세계 기록·특이사례</button>
+  </div>
+  
+<section class="topic" id="history">
+  <h2 style="color:#6b4f3b">🏛️ 시설·역사</h2>
+  
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>1. 아쿠아리움이라는 말은 어디서 왔나</summary>
+  <div class="card-body"><ul>
+<li>'아쿠아리움(Aquarium)'은 라틴어 aqua(물)에 장소를 뜻하는 접미사 -arium을 붙인 조어. 영국 박물학자 필립 헨리 고스(Philip Henry Gosse)가 1854년경 이 단어를 대중화한 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>세계 최초의 공공 아쿠아리움은 1853년 런던동물원(London Zoo) 내 개관한 '피시 하우스(Fish House)'로 보는 것이 통설 <span class="tag tag-fact">정사</span></li>
+<li>초기 아쿠아리움은 지금처럼 관람 목적보다 '수생 생물을 물 밖에서도 오래 살게 할 수 있는가'를 확인하는 과학 실험의 성격이 강했음 — 빅토리아 시대 유리 온실(그린하우스) 유행과 맞물려 확산</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>2. 세계 아쿠아리움사 — &#x27;수족관&#x27;에서 &#x27;오세아나리움&#x27;으로</summary>
+  <div class="card-body"><ul>
+<li>19세기 후반~20세기 초까지의 초기 아쿠아리움은 대부분 작은 유리 수조를 벽면에 나열하는 '전시장' 형태였음 — 지금 기준으로 보면 대형 어항 진열에 가까움</li>
+<li>흐름을 바꾼 결정적 사건은 1938년 미국 플로리다에서 개관한 '마린 스튜디오(Marine Studios, 현 마린랜드)' — 할리우드 수중 영화 촬영을 위해 세워진 시설이었으나, 개장 당일 3만 명 가까운 인파가 몰리며 세계 최초의 '오세아나리움(Oceanarium)'이라는 신조어를 만들어냄 <span class="tag tag-fact">정사</span></li>
+<li>오세아나리움은 기존 아쿠아리움과 달리 여러 종을 한 수조 안에 '바닷속처럼' 섞어 전시한다는 개념적 차이가 있었음 — 이전까지는 종별로 분리된 개별 수조가 일반적이었음</li>
+<li>마린랜드는 이후 돌고래 조련의 발상지로도 유명해졌고, 이곳에서의 연구가 돌고래 반향정위(에코로케이션) 발견으로 이어졌다는 점도 특기할 만함 <span class="tag tag-fact">정사</span></li>
+<li>20세기 후반 이후 대형 아쿠아리움은 '해양생물 전시'를 넘어 '연구·보전·교육 기관'으로서의 정체성을 강조하는 흐름으로 이동 — 몬터레이베이 아쿠아리움(미국, 1984년 개관)이 이 흐름의 대표 사례로 자주 언급됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>3. 국내 아쿠아리움 도입사</summary>
+  <div class="card-body"><ul>
+<li>국내 최초의 대형 상업 아쿠아리움은 1997년 개관한 코엑스 아쿠아리움(현 씨라이프 코엑스 아쿠아리움)으로 통용됨 — 다만 이보다 앞선 소규모 수족관·전시관이 있었을 가능성은 배제 못 함 <span class="warn-tag">⚠️</span>확인 필요</li>
+<li>2000년대 이후 부산(2001), 여수(아쿠아플라넷 여수) 등 지방 대형 수족관이 순차 개관하며 '체류형 관광지'로서 아쿠아리움 개념이 자리잡음</li>
+<li>2014년 롯데월드 아쿠아리움 개관 이후 국내 아쿠아리움 시장은 대형 복합쇼핑몰 입점형(코엑스·롯데월드·광교 등)과 지역 랜드마크형(여수·제주·거제 등)으로 양분되는 흐름을 보임</li>
+<li>최근(2020년대 중반) 흐름: 해수 중심 대형관 신설은 둔화되고, 충북아쿠아리움·다누리아쿠아리움처럼 <b>담수(민물) 생태 특화형</b>, 충주아쿠아리움처럼 <b>지역 생태공원 결합형</b> 시설이 늘어나는 추세 — 바다가 없는 내륙 지자체들이 관광 인프라로 담수 아쿠아리움을 택하는 경향</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>4. 수조 기술 — 유리 vs 아크릴</summary>
+  <div class="card-body"><ul>
+<li>초창기 수조는 판유리(플레이트 글라스)를 사용했으나, 두께가 두꺼워질수록 강도는 늘어도 시야가 뿌옇게 왜곡되는 한계가 있었음</li>
+<li>현대 대형 수조는 대부분 <b>아크릴(폴리메타크릴산메틸)</b> 사용 — 같은 두께라면 유리보다 가볍고 인장강도가 높아 대형 곡면 수조 제작에 유리함. 다만 표면이 유리보다 무른 편이라 스크래치에는 약함</li>
+<li>비유하자면, 유리는 '두꺼운 창문을 여러 장 겹친 것', 아크릴은 '휘어지는 투명 플라스틱 판을 열 접합해 하나의 통짜 곡면으로 만든 것'에 가까움 — 그래서 롯데월드·아쿠아플라넷 제주 같은 대형 메인수조의 곡면·터널형 구조가 가능해짐</li>
+<li>세계적으로도 '세계에서 가장 큰 아크릴 패널' 기록은 계속 갱신되는 분야임 — 오키나와 추라우미 수족관의 '쿠로시오 해류의 바다' 수조 아크릴판(가로 22.5m·세로 8.2m, 두께 60cm)이 한때 세계 최대로 알려졌으나, 이후 싱가포르 S.E.A. 아쿠아리움 등 후발 시설이 더 큰 패널을 도입하며 기록이 갱신되어 왔음 — 특정 시점의 '세계 최대'라는 표현은 항상 갱신 가능성을 열어두고 사용하는 것이 안전 <span class="warn-tag">⚠️</span></li>
+<li>수조 규모는 보통 '톤(t)' 단위로 표기하는데, 이는 수조에 담긴 물의 무게(=부피, 1톤≈1㎥≈1,000리터)를 의미함. 아쿠아리움 간 규모 비교 시 흔히 쓰이는 지표지만, 총 수조 용량(전체 시설 합산)인지 메인수조 단독 용량인지 자료마다 기준이 다를 수 있어 인용 시 주의 필요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>5. 순환여과 시스템 — 왜 물을 안 갈아도 되는가</summary>
+  <div class="card-body"><ul>
+<li>바닷물을 매번 새로 떠올 수 없기 때문에, 대형 아쿠아리움은 대부분 <b>폐쇄순환여과시스템</b>을 사용 — 물을 계속 정화해 재사용</li>
+<li>기본 원리는 크게 세 단계: ①물리적 여과(모래·필터로 배설물·찌꺼기 걸러내기) ②생물학적 여과(박테리아가 암모니아 같은 유해물질을 분해) ③화학적 여과(활성탄 등으로 냄새·색소 제거)</li>
+<li>비유하면 '거대한 어항용 정수기'를 24시간 돌리는 셈 — 사람이 눈으로 못 보는 수조 뒤편·아래층에 실제 필터·펌프실이 있고, 아쿠아리움 규모가 커질수록 이 후방 설비도 함께 커짐</li>
+<li>해수 아쿠아리움 중 일부는 실제 바닷물을 끌어와 쓰기도 하고(취수 시설), 일부는 인공해수(소금+미네랄 배합)를 사용 — 시설별로 방식이 다르므로 특정 시설의 방식을 단정하려면 개별 확인 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>6. 전시 방식의 흐름</summary>
+  <div class="card-body"><ul>
+<li><b>파노라마형</b>: 대형 평면 유리창 하나로 넓은 수조를 통째로 보여주는 초기 방식</li>
+<li><b>터널형</b>: 관람객이 수조 아래·안쪽 통로를 걸어가며 사방(혹은 위)으로 물속을 보는 방식 — 롯데월드·아쿠아플라넷 여수/광교 등 국내 대형관 다수가 채택. '물속에 들어와 있다'는 몰입감이 핵심. 세계적으로는 상하이 오션 아쿠아리움이 세계에서 가장 긴 해저 전망 터널 중 하나로 자주 소개됨</li>
+<li><b>생태 재현형</b>: 특정 지역의 실제 생태계(예: 동해 왕돌초, 아마존강)를 테마로 삼아 그 지역 고유종 위주로 구성 — 울진아쿠아리움(왕돌초), 아쿠아플라넷(아마존관 등)이 대표적</li>
+<li><b>체험형</b>: 관람보다 촉감·먹이주기 등 상호작용에 무게를 둔 방식 — 플레이아쿠아리움 부천, 충북·충주아쿠아리움의 터치풀 등</li>
+<li><b>하이브리드형</b>: 스크린·미디어아트를 실제 수조와 결합한 방식(대전엑스포아쿠아리움) — 다만 실물 생물 전시가 부족한 걸 영상으로 보완한다는 비판도 함께 존재함 <span class="tag tag-lore">야사·설</span></li>
+<li><b>랜드마크 결합형(원통형·구조물형)</b>: 독일 베를린의 '아쿠아돔(AquaDom)'처럼 호텔 로비 한가운데 거대한 원통형 수조를 세우고 엘리베이터로 관통하는 구조도 있었음 — 다만 이 시설은 2022년 12월 자재 피로로 추정되는 원인으로 파열 사고가 발생해 폐쇄됐고, 현재는 존재하지 않음. '세계적으로 특이한 구조'를 소개할 때 과거형으로 다뤄야 하는 대표 사례 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>'국내 최초' '아시아 최대' '세계 최초' 등 최상급 표현은 시설 홍보자료에 근거한 경우가 많아, 실제 투어에서 언급할 때는 최신 자료로 한 번 더 확인하는 것을 권장합니다.</li>
+<li>수조 톤수·규모 비교는 시설마다 산정 기준(전체 vs 메인수조)이 다를 수 있어 절대적 서열로 단정하지 않는 게 안전합니다.</li>
+<li>세계 기록(최대 아크릴판, 최대 수조 등)은 신규 시설 개관으로 계속 갱신되므로, 특정 시점 정보임을 전제하고 설명하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="species">
+  <h2 style="color:#1f7a5c">🐟 주요 어종</h2>
+  
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>1. 상어류 — 가장 흔한 &#x27;얼굴마담&#x27;</summary>
+  <div class="card-body"><ul>
+<li>대부분의 대형 아쿠아리움 메인수조에 상어가 있는 이유는 단순함 — 큰 몸집, 느긋한 유영, 사람에게 위협적이라는 대중적 인식이 만드는 시각적 긴장감 때문에 '대표 전시종'으로 선호됨</li>
+<li>실제 전시되는 종은 대부분 온순한 저서성(바닥 생활) 상어 — <b>샌드타이거상어(모래뱀상어)</b>, <b>흑기흉상어</b>, <b>얼룩말상어</b> 등이 국내 아쿠아리움에 흔히 등장</li>
+<li>상어는 부레가 없어 헤엄을 멈추면 가라앉는 종이 많음 — 그래서 계속 움직이는 모습이 정상 행동이라는 점을 설명하면 관람 포인트가 됨</li>
+<li><b>고래상어</b>는 현존 어류 중 최대종(성체 몸길이 10m 이상 성장 보고)이지만, 사육 난이도가 극히 높아 상시 전시하는 시설이 전 세계적으로도 소수에 불과함 — 일본 오키나와 추라우미 수족관이 고래상어 장기 사육으로 특히 유명하고, 국내에서는 상시 전시 사례가 흔치 않음 <span class="warn-tag">⚠️</span>최신 보유 현황 확인 필요</li>
+<li><b>백상아리(그레이트 화이트 샤크)</b>는 사육 자체가 세계적으로도 극히 드문데, 미국 몬터레이베이 아쿠아리움이 한때 장기간(수개월 단위) 사육에 성공한 유일한 시설로 소개된 바 있음 — 다만 결국 야생 방류하는 방식으로 운영했다는 점도 함께 알아두면 좋은 배경 지식</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>2. 가오리류</summary>
+  <div class="card-body"><ul>
+<li>상어와 같은 연골어류 그룹. 넓적한 몸으로 물속을 '날아다니듯' 움직이는 모습이 대표적 포토 포인트</li>
+<li>대형 수조 상부(관람객 머리 위)를 지나가는 연출이 많은데, 이는 가오리가 실제로 수조 상층부를 넓게 유영하는 습성과 맞아떨어져 자연스러운 전시가 가능하기 때문</li>
+<li>꼬리에 독침을 가진 종도 있어 터치풀에서는 대개 독침을 제거하거나 안전 처리한 개체만 사용 — 이 부분은 시설별 안전관리 방식이라 일반화해서 단정하지 않는 게 안전</li>
+<li><b>쥐가오리(만타레이)</b>는 세계적으로도 대형 아쿠아리움의 '상징종'으로 자주 꼽히는 종 — 일부 해외 대형 시설은 쥐가오리 보유 개체수 자체를 홍보 포인트로 내세우기도 함(세계 최다 보유를 주장하는 시설도 있으나, 이런 '세계 최다' 주장은 시설 자체 홍보에 근거한 경우가 많아 교차검증 없이 단정하지 않는 게 안전) <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>3. 해파리</summary>
+  <div class="card-body"><ul>
+<li>뇌·심장·뼈가 없는 무척추동물. 몸의 약 95%가 수분으로 이루어져 있어 조명 연출과 특히 잘 어울림 — 최근 신설되는 소규모 아쿠아리움일수록 '해파리존'을 별도로 만드는 경우가 많음(비교적 적은 공간·비용으로도 시각적 임팩트를 낼 수 있기 때문)</li>
+<li>해파리는 자체 번식·양식이 비교적 용이한 편이라, 아쿠아플라넷 광교처럼 자체 '해파리 연구소' 같은 사육·연구 공간을 갖춘 시설도 있음</li>
+<li>쏘임 사고 위험 때문에 전시수조와 관람객 사이 거리를 넉넉히 두는 경우가 많음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>4. 펭귄</summary>
+  <div class="card-body"><ul>
+<li>국내 아쿠아리움에서 가장 흔하게 만나는 펭귄 종은 <b>훔볼트펭귄</b> — 남미 페루·칠레 연안 서식종으로, 온대~아열대 기후에도 적응하는 편이라 국내 사육 난이도가 상대적으로 낮음(로열펭귄·황제펭귄 같은 극지 대형종보다)</li>
+<li>국제자연보전연맹(IUCN) 기준 훔볼트펭귄은 취약종(Vulnerable)으로 분류 — 서식지 어업 경쟁·기후변화가 주요 위협 요인으로 꼽힘 <span class="warn-tag">⚠️</span>최신 등급 확인 필요(등급은 주기적으로 재평가됨)</li>
+<li>세계적으로는 남극 서식 황제펭귄·젠투펭귄을 전시하는 냉대 특화 시설(예: 일부 유럽·일본 시설의 저온 사육관)도 있으나, 국내에는 극지 대형종을 상시 전시하는 시설이 흔치 않음 <span class="warn-tag">⚠️</span></li>
+<li>펭귄 먹이주기 프로그램은 대부분의 시설에서 하루 1~2회 고정 시간에 진행 — 실전 가이드 팁에서 별도로 다룸</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>5. 대형 담수어 — 철갑상어·피라루쿠</summary>
+  <div class="card-body"><ul>
+<li><b>철갑상어</b>: 약 2억 년 전부터 형태가 크게 변하지 않은 '살아있는 화석'으로 자주 소개되는 어종. 다누리아쿠아리움·충북아쿠아리움·충주아쿠아리움 등 민물 특화 시설의 대표 전시종. 다만 '2억 년 전부터 형태가 그대로'라는 표현은 대중적으로 널리 쓰이는 서술이지 계통분류학적으로 완전히 정밀한 표현은 아니라는 점은 감안하는 것이 좋음</li>
+<li><b>피라루쿠</b>: 아마존강 원산의 세계 최대급 담수어 중 하나(몸길이 2m 이상 성장 가능) — 공기호흡 보조기관(부레의 일부가 폐처럼 기능)을 가져 주기적으로 수면 위로 올라와 숨을 쉬는 습성이 관람 포인트</li>
+<li><b>자이언트 도롱뇽(왕도롱뇽)</b>: 중국 상하이 오션 아쿠아리움의 '차이나 존'처럼 자국 고유 담수 생물을 특화 전시하는 해외 사례도 있음 — 국내 다누리·충북아쿠아리움 계열의 담수 특화 전시와 비슷한 접근 방식으로 비교해 설명하면 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#1f7a5c"></span>6. 해양 포유류 — 벨루가·바다코끼리·돌고래</summary>
+  <div class="card-body"><ul>
+<li><b>벨루가(흰고래)</b>: 롯데월드 아쿠아리움과 아쿠아플라넷 여수의 대표 전시종. 북극해 서식 고래류로, 이마의 둥근 융기(멜론기관 — 음파 발신에 관여)와 표정이 풍부해 보이는 입 모양 때문에 '웃는 고래'라는 별명으로 불림. 미국 조지아 아쿠아리움도 벨루가를 보유한 대표 해외 시설로 자주 언급됨</li>
+<li><b>바다코끼리</b>: 해양 포유류로 어류는 아니지만, 아쿠아플라넷 일산이 국내 유일 보유 시설로 알려져 있어 '전국 유일' 소재로 자주 언급됨 — 이런 '국내 유일' 표현은 개체 이동(타 시설로 이적 등)이 있을 수 있어 방문 직전 재확인 권장</li>
+<li><b>돌고래</b>: 국내에서는 거제씨월드가 대표적인 체험형 돌고래 시설로 소개됨. 국내 벨루가·돌고래 사육은 동물복지 논쟁의 중심 소재이기도 함(좁은 수조 크기 vs 야생 이동 반경) — ③운영 이면 섹션에서 별도로 다룸</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>특정 시설이 특정 종을 '국내 유일' 혹은 '세계 최다' 보유한다는 표현은 개체 이동·폐사·신규 도입에 따라 언제든 바뀔 수 있습니다. 투어 진행 전 해당 시설 최신 공지로 재확인하는 것이 안전합니다.</li>
+<li>멸종위기 등급(IUCN 적색목록 등)은 주기적으로 재평가되므로, 특정 등급을 단정적으로 설명하기보다 '취약종으로 분류된 적 있다' 정도로 여지를 두는 편이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="backstage">
+  <h2 style="color:#7c3aed">🎙️ 사육사·운영 이면</h2>
+  
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>1. 생태설명회·피딩쇼 — 동선에 넣으면 밀도가 올라가는 이유</summary>
+  <div class="card-body"><ul>
+<li>대부분의 아쿠아리움은 하루 몇 차례 정해진 시간에 사육사가 직접 나와 특정 수조 앞에서 생태 설명·먹이주기를 진행 — 울진아쿠아리움(수달·물범), 경포아쿠아리움(수달·펭귄), 아쿠아플라넷 계열(메인수조 다이빙쇼) 등 시설마다 시간표가 다름</li>
+<li>이 시간표는 계절·요일에 따라 바뀌는 경우가 많아 방문 당일 현장 안내판이나 홈페이지 재확인이 필수 — 사전에 못 박아 안내하면 어긋날 위험이 큼 <span class="warn-tag">⚠️</span></li>
+<li>가이드 입장에서는 '언제 어디서 뭐가 열리는지'를 코스에 미리 배치해두면, 관람객이 그냥 지나칠 뻔한 시간대에 자연스럽게 밀도 있는 볼거리를 붙일 수 있음</li>
+<li>해외 대형 시설은 다이버가 직접 수조 안에 들어가 관람객과 상호작용하는 '다이빙 인터랙션 쇼'를 정례화한 경우가 많음(투명 아크릴 너머로 손을 흔들거나 사인보드를 들어 보이는 방식) — 국내 대형 아쿠아리움도 유사한 형태를 도입한 사례가 있으나 시설별 편차가 커 일반화는 피하는 것이 안전</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>2. 동물복지 논쟁 — 최근 관광객이 자주 묻는 주제</summary>
+  <div class="card-body"><ul>
+<li>대형 해양포유류(돌고래·벨루가 등) 사육 관련해 '좁은 수조가 스트레스를 유발한다'는 지적은 국내외에서 꾸준히 제기되어 온 논쟁임 [정사: 논쟁의 존재 자체는 사실]</li>
+<li>대표적으로 언급되는 스트레스 행동으로는 반복적으로 같은 동선을 도는 정형행동(스테레오타입 행동) 등이 거론되나, 특정 개체·시설에 대한 구체적 판단은 전문가 사이에서도 견해가 갈림 — 가이드가 특정 시설을 콕 집어 단정적으로 평가하는 발언은 피하는 게 안전</li>
+<li>반대편 입장에서는 '보전·연구·교육 기능', '야생에서 다치거나 좌초된 개체 구조 후 방생 불가능한 경우의 대안'이라는 근거를 내세움</li>
+<li>해외에서는 이 논쟁이 실제 정책 변화로 이어진 사례도 있음 — 일부 국가·지역에서는 신규 고래류 포획·사육을 금지하거나 규제를 강화하는 방향으로 법·조례가 개정된 사례가 보고된 바 있음(구체적 국가·시점은 계속 바뀌므로 특정 국가를 단정적으로 언급하기보다 '이런 흐름이 있다' 정도로 소개하는 것이 안전) <span class="warn-tag">⚠️</span></li>
+<li>실전 팁: 이 주제는 가이드가 정답을 제시하기보다 "이런 논쟁이 있다"는 사실을 소개하고 판단은 관람객에게 맡기는 중립적 화법이 안전함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>3. 사육사라는 직업</summary>
+  <div class="card-body"><ul>
+<li>사육사는 단순히 먹이만 주는 게 아니라 수질 관리, 개체별 건강 상태 관찰, 번식 프로그램 관리, 신규 개체 검역 등 폭넓은 업무를 담당</li>
+<li>신규 생물이 시설에 들어오면 곧바로 전시하지 않고 별도 검역수조에서 일정 기간 격리·관찰하는 절차를 거치는 것이 일반적 — 거제씨월드처럼 검역수조를 별도로 갖춘 시설도 있음</li>
+<li>사육사와의 토크 프로그램(생태설명회)은 아이들에게는 교육, 성인에게는 '뒷이야기'로 소구되는 콘텐츠라 가이드 스토리텔링에 활용도가 높음</li>
+<li>대형 아쿠아리움은 전담 다이버·수의사·영양사가 별도로 존재하는 경우가 많음 — 관람객 눈에 보이지 않는 후방 인력 규모가 상당하다는 점을 언급하면 '보이는 것 이상의 시설'이라는 인상을 줄 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>4. 개체 이동 — 아쿠아리움들끼리도 서로 &#x27;교류&#x27;한다</summary>
+  <div class="card-body"><ul>
+<li>국내 아쿠아리움 간에는 번식 관리·전시 다양화 목적으로 개체를 서로 이동시키는 경우가 종종 있음 — 예를 들어 특정 개체가 한 시설에서 다른 시설로 이적한 사례가 보고된 바 있음(구체적 개체·시점은 시설별로 다르므로 최신 확인 필요) <span class="warn-tag">⚠️</span></li>
+<li>이런 이동은 '전 세계 유일 개체' 같은 표현을 쓸 때 특히 조심해야 하는 이유이기도 함 — 오늘 맞는 정보가 몇 달 뒤엔 틀릴 수 있음</li>
+<li>국제적으로도 대형 해양포유류(벨루가·범고래 등)는 시설 간 교환·대여 형태로 이동하는 경우가 있어, 특정 개체의 '고향'과 '현재 위치'가 다른 경우가 드물지 않음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>5. 폐업·리뉴얼·사고 이면 — 왜 문을 닫거나 이름이 바뀌는가</summary>
+  <div class="card-body"><ul>
+<li>대형 아쿠아리움도 임대 계약 종료, 건물 재개발, 운영사 교체 등의 이유로 폐업하거나 브랜드가 바뀌는 경우가 있음(예: 서울 63빌딩 소재 시설의 2024년 영업 종료, 그 인프라 일부가 타 시설로 이관된 사례)</li>
+<li>운영사가 외국계 그룹으로 인수되면서 브랜드명이 바뀌는 경우도 있음(국내 일부 시설이 글로벌 엔터테인먼트 그룹 인수 후 이름을 변경한 사례) — 가이드 입장에서는 '예전 이름으로 알고 있는 관람객'이 있을 수 있어, 구 명칭도 함께 언급해주는 게 도움이 됨</li>
+<li>해외에서는 시설 노후화로 인한 대형 사고 사례도 있음 — 독일 베를린의 원통형 수조 '아쿠아돔'이 2022년 12월 자재 피로로 추정되는 원인으로 파열해 다량의 어류가 폐사하고 시설이 완전히 폐쇄된 사례가 대표적. '오래된 대형 수조 구조물은 유지·보수가 관건'이라는 교훈으로 소개할 수 있는 소재</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>동물복지 논쟁은 민감한 주제입니다. 특정 시설을 비난하거나 옹호하는 단정적 발언보다, 양쪽 입장이 있다는 사실을 소개하는 중립적 화법을 권장합니다.</li>
+<li>개체 이동·폐업·리뉴얼 관련 정보는 시점에 따라 계속 바뀌므로, 투어 진행 전 해당 시설 최신 공지를 확인하는 습관이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="tips">
+  <h2 style="color:#0f766e">🧭 관람 실전 팁</h2>
+  
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>1. 유리 반사 없이 사진 찍는 법</summary>
+  <div class="card-body"><ul>
+<li>카메라(스마트폰) 렌즈를 수조 유리에 최대한 밀착시키는 것이 반사를 줄이는 가장 확실한 방법 — 렌즈와 유리 사이 틈이 있을수록 조명·관람객이 유리에 비쳐 들어옴</li>
+<li>플래시는 반드시 끄기 — 유리에 정면으로 반사되어 하얗게 날아간 사진이 되기 쉬움</li>
+<li>조명이 강한 방향(위·옆 스포트라이트)을 등지고 서서 찍으면 반사가 줄어듦</li>
+<li>편광 필터가 있는 렌즈 액세서리를 쓰면 반사를 물리적으로 걸러낼 수 있음(단체 촬영보다는 개인 촬영에 적합)</li>
+<li>아크릴 수조는 유리보다 표면 스크래치가 많은 경우가 있어, 스크래치가 적은 구간을 찾아 위치를 살짝 옮기는 것만으로도 화질이 크게 개선되는 경우가 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>2. 붐비는 시간대 vs 한산한 시간대</summary>
+  <div class="card-body"><ul>
+<li>일반적으로 평일 오전 개장 직후, 폐장 1~2시간 전이 상대적으로 한산한 편 — 주말·공휴일, 방학 시즌 오후는 혼잡도가 크게 올라감</li>
+<li>실내시설 특성상 우천 시 관람객이 몰리는 경향이 있음(비 오는 날 실내 관광지 수요가 몰리기 때문) — 우천여행 콘텐츠와 연계 가능한 지점</li>
+<li>정확한 실시간 혼잡도는 시설 앱·SNS 실시간 공지로 확인하는 게 가장 정확 — 요일별 통계치를 일반화해서 안내하는 것은 계절·이벤트에 따라 달라질 수 있어 주의 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>3. 동선 순서 추천</summary>
+  <div class="card-body"><ul>
+<li>대체로 '입구 근처 소형 수조 → 중반 대형 메인수조/터널 → 후반 체험존(터치풀 등)' 순으로 설계된 시설이 많음 — 시설 안내도를 미리 확인해 역순으로 가지 않도록 유의</li>
+<li>생태설명회·피딩쇼 시간이 동선 중간에 걸리면, 그 시간에 맞춰 해당 구역에 도착하도록 속도를 조절하는 것이 밀도 있는 관람의 핵심</li>
+<li>단체 관광의 경우 좁은 통로(터널형 구간)에서 정체가 발생하기 쉬우므로, 인원이 많을수록 소그룹으로 나눠 진입시키는 것이 유리</li>
+<li>터널형 수조 구간은 특성상 '멈춰서 사진 찍는 사람'이 몰려 병목이 자주 생기는 구간 — 단체 인솔 시 이 구간만 별도로 시간을 넉넉히 배정해두는 것이 실전에서 유용</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>4. 무장애·접근성 관련 참고사항</summary>
+  <div class="card-body"><ul>
+<li>상당수 대형 아쿠아리움이 휠체어 대여, 장애인 주차구역, 엘리베이터 동선을 갖추고 있으나, 세부 편의시설 수준은 시설마다 차이가 큼 — 복지단체 대상 무장애 여행을 기획할 경우 반드시 사전에 개별 시설에 직접 문의해 확인하는 것이 안전 <span class="warn-tag">⚠️</span>(시설별 편차가 커서 일반화 어려움)</li>
+<li>일부 지자체 운영 시설은 장애인 할인·동반인 할인 제도를 운영 — 할인율·대상 기준은 시설별로 상이하므로 단체 견적 낼 때마다 개별 확인 필요</li>
+<li>터널형 구조는 바닥이 평탄한 경우가 많아 휠체어 이동에는 오히려 유리한 편이나, 입구 회전문·계단형 진입 구간이 있는 구시설은 사전 확인이 필수</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>5. 아이 동반 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>수유실·기저귀교환대 유무는 시설별 편차가 있으며, 최근 신설 시설(충주아쿠아리움 등)일수록 관련 시설이 잘 갖춰진 편</li>
+<li>유모차 대여는 수량이 한정된 경우가 많아 주말에는 개인 유모차 지참을 권장하는 시설이 다수</li>
+<li>터치풀·체험존은 대체로 미취학~초등 저학년 눈높이로 설계되어 있어, 성인 단체 관광 코스에서는 우선순위를 낮추고 관람형 구간 위주로 동선을 짜는 것이 효율적</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>6. 계절·날씨별 참고사항</summary>
+  <div class="card-body"><ul>
+<li>아쿠아리움은 대표적인 전천후(실내) 관광지라 우천·폭염·혹한 시즌 대체 코스로 활용도가 높음</li>
+<li>여름 성수기에는 물놀이 체험 프로그램(충북아쿠아리움의 여름철 어린이 물놀이장 등)을 임시 운영하는 시설도 있음 — 상시 프로그램이 아니므로 시즌별 별도 확인 필요</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>혼잡도·시간표·편의시설 관련 정보는 시설별·시점별 편차가 크므로, 이 노트는 '일반적으로 자주 나타나는 패턴' 수준으로 참고하고 실제 단체 진행 전에는 반드시 개별 시설에 최신 정보를 확인하시기 바랍니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="story">
+  <h2 style="color:#b45309">💬 교육·스토리텔링</h2>
+  
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>1. 멸종위기종 보전 이야기로 연결하기</summary>
+  <div class="card-body"><ul>
+<li>다수의 대형 아쿠아리움은 특정 멸종위기종의 서식지외보전기관(방주 역할)으로 지정되어 있거나, 보전·연구 프로그램에 참여하는 경우가 있음 — 어떤 시설이 어떤 종의 보전기관인지는 개별적으로 다르므로 특정 시설을 소개할 때는 사전 확인 후 언급하는 게 안전함 <span class="warn-tag">⚠️</span></li>
+<li>'이 수조 안의 물고기가 그냥 구경거리가 아니라, 야생에서 사라져가는 종을 지키는 역할도 한다'는 프레임은 아이·성인 모두에게 설득력 있는 스토리텔링 포인트가 됨</li>
+<li>국내에서 잘 알려진 멸종위기종 복원 사례(반달가슴곰·산양·따오기·황새·저어새 등)는 아쿠아리움이 아닌 육상 기관(국립공원 등)이 주도한 경우가 많으므로, 아쿠아리움 고유의 해양생물 보전 사례와 혼동하지 않도록 구분해서 설명하는 것이 정확함</li>
+<li>해외 대형 아쿠아리움은 '연구소' 기능을 전면에 내세우는 경우가 많음(예: 몬터레이베이 아쿠아리움의 해달 재활·방류 프로그램, 조지아 아쿠아리움의 고래상어 위성태그 연구 협력 등) — 국내 시설과 비교하며 "해외는 이렇게도 한다"는 식으로 스토리를 확장하면 좋은 소재가 됨 <span class="warn-tag">⚠️</span>(구체 프로그램명·현재 운영 여부는 개별 확인 필요)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>2. 아이 눈높이 설명 템플릿 — 어려운 개념을 비유로 바꾸기</summary>
+  <div class="card-body"><ul>
+<li><b>부레(부력 조절 기관)</b>: "물고기 몸속에 있는 튜브(공기주머니)"라고 설명하면 이해가 쉬움 — 튜브에 바람을 넣고 빼듯, 물고기도 이 기관으로 뜨고 가라앉는 걸 조절한다는 식</li>
+<li><b>아가미 호흡</b>: "우리가 코로 숨쉬듯, 물고기는 아가미로 물속의 산소만 걸러 마신다"는 식의 비유</li>
+<li><b>순환여과 시스템</b>: "이 수조는 거대한 정수기가 계속 돌아가는 어항이라고 생각하면 된다"</li>
+<li><b>상어가 부레 없이 계속 헤엄치는 이유</b>: "자전거가 멈추면 넘어지듯, 상어도 멈추면 가라앉기 때문에 계속 움직이는 것"</li>
+<li><b>아크릴 수조 vs 유리 수조</b>: "물안경과 그냥 안경의 차이라고 생각하면 된다 — 둘 다 투명하지만 소재와 만드는 방식이 다르다"</li>
+<li>이런 비유는 정확한 과학적 디테일보다 '직관적으로 와닿는 것'이 우선이므로, 지나치게 단순화된 설명이라는 점은 가이드 스스로 인지하고 있는 게 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>3. &#x27;왜 이 동물이 여기 있는가&#x27; — 기원 스토리로 몰입도 높이기</summary>
+  <div class="card-body"><ul>
+<li>특정 종이 왜 그 시설의 대표종이 됐는지(예: 개관 당시 최초 도입종, 지역 상징과 연결된 마스코트 지정 등) 뒷이야기를 붙이면 단순 관람이 스토리로 바뀜</li>
+<li>예: 지역 서식 동물을 마스코트로 삼은 시설(경포아쿠아리움의 수달 마스코트 — 경포호에 실제 수달이 서식한다는 이유로 지정된 사례)은 '왜 하필 이 동물이냐'는 질문 자체가 좋은 도입부가 됨</li>
+<li>세계사적으로도 '왜 이 시설이 이 동물로 유명해졌는가'는 좋은 스토리 소재 — 예를 들어 미국 마린랜드가 돌고래 조련의 발상지가 된 것은 애초 계획(영화 촬영용 해양 스튜디오)과 무관하게 우연히 시작된 조련 실험에서 비롯됐다는 뒷이야기가 있음 — '계획대로 되지 않았던 것이 오히려 대표 콘텐츠가 됐다'는 서사는 관람객의 흥미를 끄는 좋은 도입부가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>4. 지역 연계 스토리텔링</summary>
+  <div class="card-body"><ul>
+<li>지역 특산물·설화를 아쿠아리움 테마와 연결하면 로컬 콘텐츠 밀도가 올라감 — 예: 울진아쿠아리움의 왕돌초·대게 테마는 동해안 어업 문화와 자연스럽게 이어지는 소재</li>
+<li>담수 아쿠아리움(다누리·충북·충주 등)은 '우리 동네 강에 실제로 사는 물고기'라는 접근이 가능해, 지역 정체성과 결합한 설명이 특히 잘 먹힘</li>
+<li>해외에서도 '자국 고유종 특화관'을 두는 사례가 많음 — 중국 상하이 오션 아쿠아리움의 '차이나 존'(양쯔강 악어·중국 철갑상어 전시)이 대표적. 국내 담수 특화 아쿠아리움을 소개할 때 이런 해외 사례와 병렬 비교하면 "우리도 이런 흐름을 따라가고 있다"는 맥락을 줄 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>5. 세계 기록·순위를 스토리텔링에 활용하기</summary>
+  <div class="card-body"><ul>
+<li>'세계에서 몇 번째로 큰 수조' '아시아 최대' 같은 순위 정보는 관람객의 호기심을 자극하는 효과적인 도입 멘트가 됨 — 다만 이런 순위는 신규 시설 개관으로 계속 갱신되므로, 투어 시점에 최신 순위를 확인한 뒤 사용하는 것이 안전</li>
+<li>실제로 국내 아쿠아플라넷 제주는 한때 세계적으로도 손꼽히는 대형 수조 보유 시설로 해외 순위 목록에 이름을 올린 바 있음 — 이런 사실은 "우리나라에도 세계적 규모의 수조가 있다"는 자부심 포인트로 스토리텔링에 활용 가능 <span class="warn-tag">⚠️</span>(순위는 시점에 따라 바뀌므로 최신 확인 권장)</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>특정 시설이 특정 멸종위기종의 공식 보전기관인지 여부는 개별 확인이 필요합니다. 근거 없이 "이 시설이 이 종을 보전한다"고 단정하는 발언은 피하는 것이 안전합니다.</li>
+<li>아이 눈높이 비유는 이해를 돕기 위한 단순화이며 엄밀한 과학적 정의와는 차이가 있을 수 있다는 점을 가이드 스스로 인지하고 사용하는 것을 권장합니다.</li>
+<li>세계 순위·기록은 계속 갱신되므로 특정 시점의 정보임을 전제하고 사용하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="compare">
+  <h2 style="color:#0369a1">🗺️ 전국 비교</h2>
+  
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>1. 전국 아쿠아리움 비교표 (2026년 8월 기준, 확인된 17곳)</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>명칭</th><th>위치</th><th>개관/특징</th><th>규모(수조/종·개체수)</th><th>비고</th></tr>
+<tr><td>씨라이프 코엑스 아쿠아리움</td><td>서울 강남</td><td>1997년 개관(국내 최초 대형 아쿠아리움으로 통용), 이후 멀린 엔터테인먼트 그룹 인수 후 리브랜딩</td><td>3,000톤 / 650여 종 20,000여 마리</td><td>입장료는 자료마다 28,000~35,000원으로 차이 <span class="warn-tag">⚠️</span>최신가 재확인</td></tr>
+<tr><td>롯데월드 아쿠아리움</td><td>서울 잠실</td><td>2014년 개관</td><td>5,200톤 / 650종 55,000여 마리</td><td>벨루가 보유. 입장료 자료 간 31,000~37,000원 편차 <span class="warn-tag">⚠️</span></td></tr>
+<tr><td>아쿠아플라넷 여수</td><td>전남 여수</td><td>한화 아쿠아플라넷 계열</td><td>6,030톤 / 300종 34,000마리</td><td>벨루가, 아쿠아 뮤지컬</td></tr>
+<tr><td>아쿠아플라넷 제주</td><td>제주</td><td>한화 아쿠아플라넷 계열</td><td>10,800톤 / 500여 종 28,000~48,000마리</td><td>국내 최대급 수조 규모</td></tr>
+<tr><td>아쿠아플라넷 일산</td><td>경기 고양</td><td>한화 아쿠아플라넷 계열, 수도권 최대 규모로 소개됨</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>국내 유일 바다코끼리 보유(2025년 2월 기준 재도입 기록)</td></tr>
+<tr><td>아쿠아플라넷 광교</td><td>경기 수원</td><td>2021년 개관, 한화 아쿠아플라넷 계열</td><td>2,000톤 / 210여 종 30,000마리</td><td>26m 해저터널, 경기 남부 최대</td></tr>
+<tr><td>씨라이프 부산 아쿠아리움</td><td>부산 해운대</td><td>2001년 개관</td><td>250종 10,000여 마리</td><td>국내 최대 길이(80m) 해저터널로 소개됨</td></tr>
+<tr><td>다누리아쿠아리움</td><td>충북 단양</td><td>국내 최대 민물고기 중심 아쿠아리움으로 통용</td><td>종·개체수 자료 상충(234종 23,000마리 vs 319종 30,000여 마리) <span class="warn-tag">⚠️</span></td><td>단양팔경 테마 연출</td></tr>
+<tr><td>아라마루 아쿠아리움</td><td>경남 사천(초양도)</td><td>2021년 개장, 경남 최초 수족관</td><td>4,000톤</td><td>하마 등 육상동물도 함께 전시(어드벤처ZOO 결합)</td></tr>
+<tr><td>경포아쿠아리움</td><td>강원 강릉(경포호)</td><td>강원권 거의 유일</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>마스코트 수달, 지역 서식 연계 스토리</td></tr>
+<tr><td>플레이아쿠아리움 부천</td><td>경기 부천(웅진플레이도시)</td><td>체험형, 한화 아쿠아플라넷 대비 소규모·저가형으로 소개됨</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>정글존·극지관 등 동물원 결합형</td></tr>
+<tr><td>충북아쿠아리움</td><td>충북 괴산</td><td>2024년 5월 개관, 담수(민물) 중심</td><td>305톤 메인수조 / 106종 4,600여 마리</td><td>관람료 무료(운영 시점 기준, 변경 가능)</td></tr>
+<tr><td>충주아쿠아리움</td><td>충북 충주(탄금공원)</td><td>2025년 10월 개관</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>내륙 테마형 아쿠아리움으로 소개, 야외동물원(수달·라쿤·카피바라) 결합</td></tr>
+<tr><td>대전엑스포아쿠아리움</td><td>대전 유성(신세계 Art&amp;Science)</td><td>2021년 개관</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>생물+디지털미디어 결합형</td></tr>
+<tr><td>대전아쿠아리움</td><td>대전 중구(보문산)</td><td>과거 방공호 부지 활용, 담수 위주</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>대전엑스포아쿠아리움과 별개 시설 — 혼동 주의</td></tr>
+<tr><td>거제씨월드</td><td>경남 거제(지세포)</td><td>국내 최대 돌고래 체험시설로 소개됨</td><td>11,100~11,400톤(자료 간 편차)</td><td>벨루가 체험 프로그램 국내 유일로 소개</td></tr>
+<tr><td>울진아쿠아리움</td><td>경북 울진(왕피천공원)</td><td>국내 3번째로 큰 수족관으로 소개됨</td><td>종·개체수 자료 상충(120종 5,000마리 vs 150종 10,000마리) <span class="warn-tag">⚠️</span></td><td>왕돌초·대게 테마</td></tr>
+</table></div></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>2. 계열별로 묶어서 보기</summary>
+  <div class="card-body"><ul>
+<li><b>한화 아쿠아플라넷 계열</b>: 일산·광교·여수·제주 4곳 정상 운영. 서울(63빌딩) 지점은 2024년 6월 영업 종료 확인됨 — 과거 자료에 '전국 5개 지점'으로 나오는 경우 63빌딩 포함 구버전 정보이므로 주의</li>
+<li><b>멀린 엔터테인먼트 계열(씨라이프)</b>: 코엑스, 부산 2곳 확인됨</li>
+<li><b>지자체·공공기관 운영형</b>: 다누리(단양), 충북아쿠아리움(괴산), 충주아쿠아리움, 울진아쿠아리움, 경포아쿠아리움 등 — 담수·지역생태 특화, 상대적으로 저가·무료 운영 사례가 많음</li>
+<li><b>체험·복합시설형</b>: 플레이아쿠아리움 부천, 아라마루(사천), 거제씨월드 — 관람보다 체험·교감 프로그램에 무게</li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>3. 명칭 혼동 주의 지점</summary>
+  <div class="card-body"><ul>
+<li><b>충북 지역에 2곳</b>: 괴산군 소재 '충북아쿠아리움'과 충주시 소재 '충주아쿠아리움'은 별개 시설. 이름이 비슷해 혼동하기 쉬움</li>
+<li><b>대전에 2곳</b>: 유성구 신세계 소재 '대전엑스포아쿠아리움'과 중구 보문산 소재 '대전아쿠아리움'은 별개 시설</li>
+<li><b>코엑스 아쿠아리움 명칭 변경</b>: 과거 자료에는 '코엑스 아쿠아리움'으로만 표기된 경우가 많으나, 현재는 '씨라이프 코엑스 아쿠아리움'이 공식 명칭 — 최근 리뉴얼 시점·세부 내용은 추가 확인 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>이 표는 2026년 8월 기준 웹 검색으로 확인 가능했던 정보를 정리한 것이며, 규모·입장료 등 수치는 출처마다 편차가 있는 항목이 다수 포함되어 있습니다. 단체 견적·정확한 안내가 필요한 경우 반드시 해당 시설 공식 홈페이지 또는 전화로 최신 정보를 재확인하시기 바랍니다.</li>
+<li>이 목록이 국내 모든 아쿠아리움을 포괄한다고 단정할 수 없습니다. 소규모 지자체·사설 시설이 추가로 존재할 가능성이 있습니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="world">
+  <h2 style="color:#9d174d">🌍 세계 기록·특이사례</h2>
+  
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>1. 세계 최대 아쿠아리움 순위 (총 수용량 기준)</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>순위</th><th>명칭</th><th>위치</th><th>총 수용량</th><th>최대 단일 수조</th><th>비고</th></tr>
+<tr><td>1</td><td>침롱 스페이스십(Chimelong Spaceship)</td><td>중국 헝친</td><td>약 7,535만 리터</td><td>약 5,645만 리터</td><td>현재 세계 최대로 소개됨</td></tr>
+<tr><td>2</td><td>씨월드 아부다비</td><td>UAE 아부다비</td><td>약 5,800만 리터</td><td>약 2,500만 리터</td><td></td></tr>
+<tr><td>3</td><td>침롱 오션킹덤</td><td>중국 헝친</td><td>약 4,875만 리터</td><td>약 2,270만 리터</td><td>2014년 기네스 세계기록 인증(당시 세계 최대)</td></tr>
+<tr><td>4</td><td>S.E.A. 아쿠아리움</td><td>싱가포르</td><td>약 4,520만 리터</td><td>약 1,817만 리터</td><td>2012~2014년 기네스 세계기록 보유</td></tr>
+<tr><td>5</td><td>로세아노그라피크</td><td>스페인 발렌시아</td><td>약 4,160만 리터</td><td>약 700만 리터</td><td></td></tr>
+<tr><td>6</td><td>조지아 아쿠아리움</td><td>미국 애틀랜타</td><td>약 4,164만 리터</td><td>약 2,385만 리터</td><td>2005~2012년 기네스 세계기록 보유</td></tr>
+<tr><td>7</td><td>나고야항 수족관</td><td>일본 나고야</td><td>약 2,700만 리터</td><td>약 1,340만 리터(공연 풀)</td><td><span class="warn-tag">⚠️</span>아래 주석 참고</td></tr>
+<tr><td>—</td><td>오사카 아쿠아리움 가이유칸</td><td>일본 오사카</td><td>약 1,000만 리터</td><td>약 750만 리터</td><td></td></tr>
+<tr><td>—</td><td>오키나와 추라우미 수족관</td><td>일본 오키나와</td><td>약 980만 리터</td><td>약 750만 리터(관람 전시 수조)</td><td>2002년 개관, 조지아 아쿠아리움 개관(2005) 전까지 세계 최대 '관람 전시 수조' 보유</td></tr>
+<tr><td>—</td><td>아쿠아플라넷 제주</td><td>한국 제주</td><td>약 2,000만 리터</td><td>약 1,080만 리터</td><td><b>세계 대형 아쿠아리움 목록에 이름을 올린 국내 유일 사례</b></td></tr>
+</table></div><ul>
+<li>이 순위는 위키피디아 'List of largest aquariums' 문서를 기준으로 정리한 것으로, 신규 시설 개관·증축에 따라 계속 갱신됨 — 특정 시점 기준임을 전제하고 사용 필요 <span class="warn-tag">⚠️</span></li>
+<li><b><span class="warn-tag">⚠️</span>중요 — '최대 수조' 수치는 두 종류가 섞여 있음</b>: 나고야항 수족관의 1,340만 리터는 범고래·돌고래 <b>쇼 공연용 풀장</b>(가로 60m×깊이 30m×최대수심 12m) 수치이지, 관람객이 유리 너머로 들여다보는 전시 수조가 아님. 반면 추라우미의 750만 리터는 고래상어를 전시하는 <b>관람 전시 수조</b>(쿠로시오 해류의 바다) 기준. 즉 "공연 풀 포함 전체 시설 규모"로 보면 나고야가 크고, "실제로 관람객이 서서 들여다보는 전시 수조"만 비교하면 추라우미가 세계적으로 더 유명한 대형 전시 수조를 보유한 것으로 알려져 있음 — 두 기준을 섞어 "어디가 더 크다"고 단정하면 틀리기 쉬우므로, 설명할 때는 반드시 '공연풀 기준'인지 '전시 수조 기준'인지 구분해서 말하는 것이 정확함</li>
+<li><b>주목할 점</b>: 아쿠아플라넷 제주가 이 세계 순위표에 등재되어 있다는 사실 자체가 좋은 가이드 소재 — "우리나라 아쿠아리움 중 세계 20위권 안에 드는 곳이 있다"는 자부심 포인트로 활용 가능</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>2. 기네스 세계기록 보유 이력으로 보는 &#x27;세계 최대&#x27;의 변천사</summary>
+  <div class="card-body"><ul>
+<li>2005년 이전: 오키나와 추라우미 수족관(일본)이 세계 최대 단일 수조 보유 시설로 통용</li>
+<li>2005~2012년: 미국 조지아 아쿠아리움이 개관하며 기록 경신, 이후 기네스 세계기록 '세계 최대 아쿠아리움' 인증 보유</li>
+<li>2012~2014년: 싱가포르 S.E.A. 아쿠아리움이 기록 경신</li>
+<li>2014년~현재: 중국 헝친의 침롱 오션킹덤이 기네스 세계기록 인증(다만 이후 개관한 침롱 스페이스십이 총 수용량 기준으로는 더 큰 것으로 소개되는 등, '세계 최대'를 특정 하나로 단정하기 어려운 상황 — 총 수용량 기준과 기네스 공식 인증 기준이 다를 수 있음) <span class="warn-tag">⚠️</span></li>
+<li>이 변천사 자체가 좋은 스토리텔링 소재 — "세계 최대 타이틀은 10년 주기로 계속 주인이 바뀌어 왔다"는 흐름을 소개하면 규모 경쟁의 역사를 재미있게 풀어낼 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>3. 특이한 종을 보유한 세계 아쿠아리움</summary>
+  <div class="card-body"><ul>
+<li><b>몬터레이베이 아쿠아리움(미국)</b>: 백상아리(그레이트 화이트 샤크)를 장기간 사육하는 데 성공한 사실상 유일한 시설로 소개됨. 북방참다랑어·알바트로스 등 사육 자체가 까다로운 종도 함께 전시하는 것으로 알려져, 세계적으로도 '최상급 수족관'이라는 평가를 받는 경우가 많음 <span class="warn-tag">⚠️</span>(구체 개체 보유 현황은 시점에 따라 변동)</li>
+<li><b>오키나와 추라우미 수족관(일본)</b>: 고래상어를 장기간 사육하는 것으로 유명하며, 대형 수조('쿠로시오 해류의 바다')에서 고래상어와 쥐가오리를 함께 전시하는 연출이 대표적</li>
+<li><b>케이프타운 투오션스 아쿠아리움(남아공)</b>: '두 대양(대서양·인도양)'이라는 이름 그대로, 두 해류가 만나는 남아공 특유의 해양 환경을 테마로 삼아 다른 곳에서 보기 힘든 종 조합을 전시</li>
+<li><b>침롱 오션킹덤(중국)</b>: 범고래·고래상어·쥐가오리 등 세계적으로 흔치 않은 대형 해양생물을 다수 보유한 것으로 소개됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>4. 특이한 구조의 세계 아쿠아리움</summary>
+  <div class="card-body"><ul>
+<li><b>베를린 아쿠아돔(독일, 2003~2022)</b>: 호텔 로비 한가운데 높이 약 16m·너비 약 11.5m 규모의 받침대 없는 원통형 수조를 세우고, 내부에 설치된 엘리베이터로 수조를 관통해 오르내리는 독특한 구조로 유명했음. 그러나 2022년 12월 자재 피로로 추정되는 원인으로 파열 사고가 발생해 약 1,500마리의 열대어가 폐사하고 시설이 완전히 폐쇄됨 — 현재는 존재하지 않는 시설이므로 '과거에 있었던 특이 구조'로 소개해야 함 <span class="tag tag-fact">정사</span></li>
+<li><b>디즈니 엡콧 '더 시즈(The Seas with Nemo &amp; Friends)'(미국)</b>: 놀이공원 안에 있으면서도 세계적으로도 손꼽히는 대형 수용량을 갖춘 사례 — 테마파크와 대형 아쿠아리움이 결합된 대표 사례로 소개됨</li>
+<li><b>두바이몰 아쿠아리움(UAE)</b>: 쇼핑몰 한복판에 대형 수조를 설치하고 긴 해저 터널을 결합한 구조로 유명 — 국내 코엑스·롯데월드처럼 '복합쇼핑몰 입점형' 아쿠아리움의 해외 원조 격 사례로 비교 설명하기 좋음</li>
+<li><b>뉴질랜드 켈리 탈턴스 아쿠아리움</b>: 옛 하수처리 터널을 재활용해 만든 시설로 알려져 있어, '기존 인프라를 재활용한 아쿠아리움'이라는 독특한 조성 배경을 가짐 <span class="warn-tag">⚠️</span>(세부 연혁은 추가 확인 권장)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>5. 아시아권 대형 아쿠아리움 스냅샷</summary>
+  <div class="card-body"><ul>
+<li><b>오키나와 추라우미 수족관(일본)</b>: 2002년 개관, '관람 전시 수조' 기준으로는 아시아 최대급으로 통용되는 경우가 많음(다만 이후 중국·싱가포르 시설이 더 큰 전시 수조를 도입하며 순위가 갱신되었을 가능성이 있어 확인 필요, 또한 나고야항 수족관처럼 공연 풀 기준으로는 더 큰 시설도 있어 '수조'의 정의에 따라 순위가 달라짐) <span class="warn-tag">⚠️</span></li>
+<li><b>오사카 아쿠아리움 가이유칸(일본)</b>: 환태평양 조산대(불의 고리)를 테마로 한 8층 규모의 대형 원형 수조 구조로 유명</li>
+<li><b>침롱 오션킹덤(중국)</b>: 범고래 등 대형 해양포유류를 다수 보유한 아시아 최대급 복합 해양테마파크</li>
+<li><b>S.E.A. 아쿠아리움(싱가포르)</b>: 리조트월드 센토사 내 위치, 대형 관람 패널로 유명</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>이 노트의 수치·순위는 위키피디아 및 각종 소개 기사를 종합한 것으로, 시점에 따라 계속 갱신되는 정보입니다. '세계 최대' '아시아 최대' 같은 표현을 투어에서 사용할 때는 최신 자료로 재확인하는 것을 권장합니다.</li>
+<li>베를린 아쿠아돔처럼 이미 폐쇄된 시설을 현재형으로 소개하지 않도록 주의가 필요합니다.</li>
+<li>특정 시설의 특정 종 보유 여부(백상아리·고래상어 등)는 시점에 따라 달라질 수 있어, 단정적 표현보다는 '~로 알려져 있다' 수준의 화법이 안전합니다.</li>
+</ul></div>
+</section>
+</div>
+<script>
+(function(){
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const cards = document.querySelectorAll('.card');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'all';
+
+  function applyFilters(){
+    const term = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      let topicHasVisibleCard = false;
+      const topicCards = topic.querySelectorAll('.card');
+      topicCards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = card.textContent.toLowerCase();
+        const catMatch = (currentCat === 'all' || currentCat === cat);
+        const termMatch = (!term || text.includes(term));
+        const show = catMatch && termMatch;
+        card.classList.toggle('hidden-by-filter', !show);
+        if (term && show) card.open = true;
+        else if (!term) card.open = false;
+        if (show){ topicHasVisibleCard = true; visibleCount++; }
+      });
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term ? `검색결과: ${visibleCount}개 항목` : '';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all'){
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

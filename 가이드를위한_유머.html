@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 유머</title>
+<style>
+  :root{
+    --bg:#faf8f5; --card:#ffffff; --ink:#2b2620; --sub:#7a7268;
+    --line:#e8e2d8; --accent:#c2410c; --accent2:#0f766e; --accent3:#7c3aed; --accent4:#1d4ed8;
+    --warn:#b91c1c; --ok:#15803d;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.55;}
+  .wrap{max-width:720px;margin:0 auto;padding:16px 14px 60px;}
+  header{padding:18px 4px 12px;border-bottom:2px solid var(--ink);margin-bottom:14px;}
+  h1{font-size:20px;margin:0 0 4px;}
+  .sub{font-size:13px;color:var(--sub);}
+
+  .rule-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;}
+  .rule-box b{color:var(--accent);}
+  .rule-box ul{margin:6px 0 0;padding-left:18px;}
+  .rule-box li{margin-bottom:3px;}
+  .rule-forbid{color:var(--warn);font-weight:700;}
+
+  .searchbar{position:sticky;top:0;background:var(--bg);padding:8px 0 10px;z-index:10;}
+  .searchbar input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;background:#fff;}
+  .filters{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+  .filter-btn{flex:1;min-width:64px;padding:8px 4px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:12px;color:var(--sub);cursor:pointer;text-align:center;}
+  .filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  .tier-head{font-size:13px;font-weight:700;color:var(--sub);margin:20px 0 8px;padding-left:2px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .card-head{padding:12px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  .card-title{font-size:15px;font-weight:700;}
+  .tag{font-size:10.5px;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+  .tag-1{background:#fef2f2;color:var(--accent);}
+  .tag-2{background:#f0fdfa;color:var(--accent2);}
+  .tag-3{background:#f5f3ff;color:var(--accent3);}
+  .tag-4{background:#eff6ff;color:var(--accent4);}
+  .tag-5{background:#f5f5f4;color:#57534e;}
+  .tag-fit{background:#f0fdf4;color:var(--ok);border:1px solid #bbf7d0;}
+  .tag-unfit{background:#fef2f2;color:var(--warn);border:1px solid #fecaca;}
+  .tag-partial{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}
+  .card-body{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 14px;}
+  .card.open .card-body{max-height:800px;padding:0 14px 14px;}
+  .desc{font-size:13.5px;color:#4a453d;margin-bottom:8px;}
+  .example{background:#f7f5f0;border-radius:8px;padding:8px 10px;font-size:13px;margin-bottom:8px;}
+  .example b{display:block;font-size:11px;color:var(--sub);margin-bottom:2px;}
+  .boundary{border:1px dashed #d1c9ba;border-radius:8px;padding:8px 10px;font-size:12.5px;margin-top:6px;}
+  .boundary .ok-line{color:var(--ok);margin-bottom:4px;}
+  .boundary .no-line{color:var(--warn);}
+  .arrow{font-size:12px;color:var(--sub);transition:transform .2s;}
+  .card.open .arrow{transform:rotate(180deg);}
+
+  footer{margin-top:24px;font-size:11.5px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🎭 가이드를 위한 유머</h1>
+  <div class="sub">현장에서 재미포인트가 부족할 때 즉흥적으로 꺼내 쓰는 기법 뱅크 · 서브폰 현장용 겸 촬영 전 예습용</div>
+</header>
+
+<div class="rule-box">
+  <b>시그니처 개그 규칙 (항상 우선 확인)</b>
+  <ul>
+    <li><b>메타개그</b> — 영상당 2~3회 제한 (남발하면 캐릭터 무너짐)</li>
+    <li><b>지인 실명개그</b> — 강제 아님, 자연스러울 때만 서브로</li>
+    <li class="rule-forbid">역사 인물 실명 개그 — 절대 금지</li>
+    <li class="rule-forbid">사전기획 없이 개인기 금지 — 성대모사·마술·판토마임·저글링 (스탠드업 자유, 기타는 사전기획 시만)</li>
+  </ul>
+</div>
+
+<div class="searchbar">
+  <input id="search" placeholder="기법명·상황 검색 (예: 침묵, 콜백, 반전, 애아빠)">
+  <div class="filters">
+    <div class="filter-btn active" data-f="1">현장즉흥</div>
+    <div class="filter-btn" data-f="2">사전설계</div>
+    <div class="filter-btn" data-f="3">편집단계</div>
+    <div class="filter-btn" data-f="4">캐릭터</div>
+  </div>
+</div>
+
+<div id="subtabs" style="display:none;margin-bottom:10px;">
+  <div class="filters">
+    <div class="filter-btn active" data-sub="gochesa">고처사 페르소나</div>
+    <div class="filter-btn" data-sub="8char">8캐릭터 참고자료</div>
+  </div>
+</div>
+
+<div id="ref-note" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12.5px;color:#1e40af;">
+  ⚠️ 이 항목들은 <b>다른 크리에이터(크울 엠씨고)의 개그코드/캐릭터 자료</b>입니다. 고처사 캐릭터 바이블과는 별개이며, 구조·아이디어 참고용으로만 원본 그대로 보존합니다. 각 항목에 <b>고처사 적합/불합</b> 태그를 달아두었으니 실제 적용 여부는 직접 판단하세요.
+</div>
+
+<div id="list"></div>
+
+</div>
+
+<footer>가이드를 위한 ~~ 시리즈 · 고처사 도보역사투어 프로젝트</footer>
+
+<script>
+const items = [
+  // ===== 1. 현장즉흥 =====
+  {
+    tier:1, name:"예측 어긋나기",
+    desc:"골목·건물 등을 보고 결과를 미리 예측하는 멘트를 담담하게 던진다. 틀리면 그 자체가 웃음 포인트, 맞아도 자랑개그로 연결.",
+    example:{label:"멘트 예시", text:"\"이 골목 끝엔 분명 카페 있을 거예요.\" → (틀림) \"어… 아니네요.\" / (맞음) \"제가 좀 촉이 있죠?ㅎㅎ\""},
+    boundary:{ok:"담담한 톤으로 던지고, 틀려도 담담하게 인정하며 바로 넘어간다.", no:"\"두구두구\" 식으로 긴장을 인위적으로 조성하거나 목소리 톤을 예능식으로 고조시키는 것 — 텐션 과잉 배제 위반."}
+  },
+  {
+    tier:1, name:"자문자답 / 역할극",
+    desc:"동상, 간판, 음식 등을 인터뷰하듯 질문하고 본인이 답하는 짧은 미니 콩트. (사투리·가이드·기자 등 짧은 상황극도 이 범주)",
+    example:{label:"멘트 예시", text:"\"(동상에게) 여기 계신 지 얼마나 되셨어요?\" \"...네, 벌써 100년째 서 계시답니다.\""},
+    boundary:{ok:"사투리·가이드·기자 등 일반 역할 바꾸기는 자유롭게 활용.", no:"역사 인물을 상황극 소재로 쓰는 것 — 역사 인물 실명 개그 절대 금지 원칙과 충돌."}
+  },
+  {
+    tier:1, name:"말장난 / 언어유희",
+    desc:"지명·음식명을 활용한 즉석 말장난.",
+    example:{label:"멘트 예시", text:"순대 앞에서 \"이 순간, 순대\""}
+  },
+  {
+    tier:1, name:"미니 챌린지 / 내기",
+    desc:"코스나 골목 전체 단위로 스스로 규칙을 걸고 성패에 따른 결과(내기)를 미리 정해두는 셀프 미션. 미션 하나가 코스 진행 내내 이어지는 긴 호흡.",
+    example:{label:"멘트 예시", text:"\"이 골목에서 고양이 3마리 못 찾으면 오늘 저녁 제가 쏩니다.\""}
+  },
+  {
+    tier:1, name:"가짜 진지모드 → 반전",
+    desc:"일부러 심각한 척 시작했다가 별거 아닌 걸로 반전시키는 톤 전환.",
+    example:{label:"멘트 예시", text:"\"이건 정말 중요한 얘긴데요... 저 배고파요.\""},
+    boundary:{ok:"도입부 톤을 살짝만 낮추고 담담히 진행하다 툭 던지듯 반전.", no:"정색하며 침묵을 끄는 클리프행어 연출, 예능식으로 긴장을 극대화한 뒤 반전 — 텐션 과잉 배제 위반."}
+  },
+  {
+    tier:1, name:"즉석 별명 짓기",
+    desc:"장소·사물·간판 등에 그 자리에서 즉흥 별명을 붙이고 이후 그 별명으로 계속 부른다.",
+    example:{label:"멘트 예시", text:"\"이 계단 이름은 오늘부터 '무릎각서 계단'입니다.\" (이후 코스 내내 재호출 가능 → 러닝개그로 확장)"},
+    boundary:{ok:"한 번 담담히 붙이고 이후엔 자연스럽게 섞어 쓴다.", no:"별명을 지을 때마다 '짜잔' 식으로 리액션을 과장하며 강조하는 것."}
+  },
+  {
+    tier:1, name:"절제된 감탄사 시리즈",
+    desc:"똑같은 감탄사를 상황마다 톤만 살짝 바꿔 반복 사용 — 담백한 리액션으로 웃음 포인트를 쌓는 방식.",
+    example:{label:"멘트 예시", text:"\"어어어...\" (감탄) / \"어어어?\" (당황) / \"어어어...\" (체념) — 같은 감탄사, 다른 상황"}
+  },
+  {
+    tier:1, name:"관찰 디스 (담백 지적)",
+    desc:"사물·간판·건물의 특이점을 과장 없이 담담하게 지적하는 관찰형 드립.",
+    example:{label:"멘트 예시", text:"\"이 간판, 폰트가 3개나 섞여있네요. 사장님 고민이 느껴집니다.\""}
+  },
+  {
+    tier:1, name:"3초 카운트다운 미션",
+    desc:"미니 챌린지와 달리 결과에 내기를 걸지 않는, 그 자리에서 3초 안에 끝나는 즉석 퀴즈형 리듬 장치. 긴장 조성이 아니라 템포 전환용.",
+    example:{label:"멘트 예시", text:"\"3초 안에 이 간판 뜻 맞혀볼게요. 3, 2, 1... 땡, 모르겠네요.\""},
+    boundary:{ok:"실패를 담담히 인정하고 바로 다음으로 넘어가는 템포용 장치로 사용.", no:"카운트다운 자체를 예능식으로 늘어뜨리며 긴장을 조성하는 것."}
+  },
+  {
+    tier:1, name:"개인의견 가볍게 던지기",
+    desc:"친구한테 말하듯 아주 가벼운 말투로 주관적인 코멘트를 부담 없이 던지는 기법. 정보성 설명 사이사이에 섞으면 톤 완급 조절용으로도 쓸 수 있음.",
+    example:{label:"멘트 예시", text:"\"저는 개인적으로 이 골목이 딱 제 스타일이에요.\" / \"이건 그냥 제 취향인데요...\""},
+    boundary:{ok:"담백하게 한마디 던지고 바로 넘어간다.", no:"의견을 강요하듯 반복하거나 시청자 동의를 억지로 구하는 것."}
+  },
+  {
+    tier:1, compat:"partial", name:"자랑 — 멘트뱅크 '자랑(라이트)' 제약판",
+    desc:"멘트뱅크에 이미 있는 '자랑(라이트)'에 상한선을 명시한 카드. 원본 개그코드 자료의 '무한영업'(반복·과장)까지는 고처사 톤과 안 맞아서, 라이트하게 한두 번 던지고 마는 선까지만 적용.",
+    example:{label:"멘트 예시", text:"\"저 이 골목 세 번째 오는 거예요. 이 정도면 반 주민이죠?ㅎㅎ\""},
+    boundary:{ok:"한두 번 가볍게 던지고 바로 넘어간다.", no:"같은 자랑을 반복·과장하며 강조하는 것 — 장사치 같은 가벼움 배제 원칙과 충돌."}
+  },
+  {
+    tier:1, compat:"partial", name:"오버 칭찬 — 멘트뱅크 '칭찬(오버)' 제약판",
+    desc:"멘트뱅크에 이미 있는 '칭찬(오버)'에 제외 조건을 명시한 카드. 대상을 과장해서 칭찬하되, 돌려 말해서 실제로는 비판이 되는 패턴('물이 참 맛있었다' 식)은 실제 업체 저격 리스크가 있어 제외.",
+    example:{label:"멘트 예시", text:"\"와 이거는 진짜 미쳤다, 미쳤어. 손이 예술이에요, 예술.\""},
+    boundary:{ok:"대상을 진심으로 오버해서 칭찬하는 데까지만.", no:"칭찬처럼 들리지만 뒤집으면 비판이 되는 이중적 표현 — 비난/돌려까기 의도적 배제 원칙 위반."}
+  },
+  {
+    tier:1, compat:"unfit", name:"유행어 · 성대모사",
+    desc:"최근 영화·예능 유행어나 실존 인물 성대모사를 상황에 맞게 따라하는 기법. 원본 자료엔 실존 배우 다수를 대상으로 한 성대모사 리스트가 있었음.",
+    example:{label:"불합 사유", text:"개인기(성대모사 포함)는 '계획된 소재 아님, 짐 부담 때문에 배제' 원칙과 정면 충돌. 실존 인물을 다수 대상으로 삼는 것도 별도 리스크. 상황 되면 자연발생적으로만, 편집에서 우연히 나온 걸 살리는 정도로 제한."}
+  },
+  {
+    tier:1, compat:"unfit", name:"과잉행동",
+    desc:"특별히 할 게 없을 때 '파이팅', '나가자' 등을 성량 있게 외치거나 동물소리를 낸 뒤 편집으로 끊는 유머.",
+    example:{label:"불합 사유", text:"예능식 텐션 과잉 명시적 배제 원칙과 정면 충돌. 담담한 톤 유지 원칙과 맞지 않아 미사용."}
+  },
+  {
+    tier:1, compat:"unfit", name:"개소리 · 막말",
+    desc:"조금 거부감 드는 얘기도 일단 던진 후 편집으로 사과 처리하는 기법.",
+    example:{label:"불합 사유", text:"'장사치 같은 가벼움 배제' 원칙과 충돌. 여행바구니 사업 이미지 리스크도 있어 미사용."}
+  },
+
+  // ===== 2. 사전설계 =====
+  {
+    tier:2, name:"콜백 개그",
+    desc:"영상 초반에 던진 드립이나 사건을 후반부에 다시 언급 (같은 영상 안, 또는 다음 편에서).",
+    example:{label:"활용 팁", text:"초반 실수나 대사를 편집 단계에서 기억해뒀다가 마무리 멘트에 슬쩍 재활용."}
+  },
+  {
+    tier:2, name:"떡밥 회수 시리즈",
+    desc:"\"다음엔 저기 꼭 가볼게요\" 하고 다음 편에서 실제로 가는 장기 떡밥.",
+    example:{label:"활용 팁", text:"시리즈 전체를 관통하는 장치이므로 촬영 전 어떤 떡밥을 던질지 미리 정해두는 것이 안전."}
+  },
+  {
+    tier:2, name:"러닝개그 (고정 반복 개그)",
+    desc:"매 에피소드 특정 타이밍에 동일한 리액션·멘트를 반복해 시청자가 기대하게 만드는 시그니처.",
+    example:{label:"활용 팁", text:"타이밍(예: 코스 시작 전 인사, 식사 직전 멘트 등)을 고정해두면 자연스럽게 러닝개그화됨."}
+  },
+  {
+    tier:2, name:"자체 미니게임 / 규칙",
+    desc:"코스 전체에 걸리는 셀프 룰을 미리 짜두고 실패 과정 자체를 콘텐츠로.",
+    example:{label:"활용 팁", text:"\"이번 코스는 말 안 하고 3분 버티기\" 같은 규칙을 촬영 전 정해두고 시작."}
+  },
+  {
+    tier:2, name:"시즌 오프닝 변주",
+    desc:"확정된 45초 오프닝 포맷(훅→정체성→동선프리뷰→본편진입) 중 '훅' 구간(0~15초, 오늘 코스 핵심 한 줄)만 계절·코스 테마에 맞춰 바꾸는 장치. 정체성 구간의 고정 인사말·메타개그 배치는 그대로 유지.",
+    example:{label:"멘트 예시", text:"훅: \"오늘은 물에 좀 젖어볼게요.\" (스노클링 편) → 이어서 정체성 구간 \"안녕하세요, 고처사입니다\"는 그대로."}
+  },
+  {
+    tier:2, name:"코스별 시그니처 소품",
+    desc:"특정 코스나 시리즈에서만 반복 등장하는 소품을 미리 준비해 시각적 러닝개그로 활용.",
+    example:{label:"활용 팁", text:"계절여행 시리즈처럼 반복 포맷이 있는 프로그램에서 특히 효과적 — 매번 같은 소품이 등장하면 그 자체가 기대 포인트가 됨."}
+  },
+  {
+    tier:2, name:"댓글·시청자 반응 예고",
+    desc:"떡밥 회수와 달리 출발점이 '내가 던진 예고'가 아니라 '시청자 댓글'인 버전. 이전 편 시청자 반응을 다음 편 도입부에 언급하며 연속성을 만드는 장치.",
+    example:{label:"멘트 예시", text:"\"지난 편에 다들 그 골목 다시 가라고 하셨는데, 오늘 진짜 갑니다.\""}
+  },
+  {
+    tier:2, name:"필러 소재 (삼행시 · 영상편지)",
+    desc:"동선상 붕 뜨는 시간(이동·대기)이나 촬영 중 막힐 때 미리 준비해두는 백업 소재. 급조 티가 안 나게 코스 주제나 장소명과 연결지어 만들어둔다.",
+    example:{label:"활용 예시", text:"장소명으로 삼행시: \"자, 인사동으로 삼행시 갑니다. 인... 사... 동...\" / 다음 코스에 보내는 짧은 영상편지: \"다음 편 저에게 한마디 하자면...\""},
+    boundary:{ok:"막힐 때 자연스럽게 꺼내는 짧은 필러로만 사용.", no:"매 코스마다 의무적으로 넣어 형식이 반복 노동처럼 느껴지게 하는 것."}
+  },
+
+  // ===== 3. 편집단계 =====
+  {
+    tier:3, compat:"unfit", name:"흥분 후 화면조정 편집",
+    desc:"마음껏 흥분한 리액션을 찍은 뒤 편집으로 화면조정 영상 같은 효과를 붙여 끊는 연출.",
+    example:{label:"불합 사유", text:"과잉행동과 마찬가지로 예능식 텐션 과잉 배제 원칙과 정면 충돌해 미사용."}
+  },
+  {
+    tier:3, name:"NG · 돌발상황 모음",
+    desc:"현장에서 재미없어 보였던 실수·헛발질도 편집에서 살리면 웃음 포인트가 됨.",
+    example:{label:"활용 팁", text:"멘트뱅크의 '돌발 상황' 카테고리와 연결해서 자막·리액션 편집."}
+  },
+  {
+    tier:3, name:"자막 개그 (절제된 선에서)",
+    desc:"리액션에 짧은 자막 하나를 결정적 순간에만 얹기.",
+    example:{label:"주의", text:"캐릭터 바이블의 '이모티콘 범벅형 배제' 원칙 — 남발 금지, 핵심 순간에만 사용."}
+  },
+  {
+    tier:3, name:"가짜 광고 패러디",
+    desc:"협찬 없는 소규모 채널이라는 걸 자조하는 메타개그 확장판.",
+    example:{label:"멘트 예시", text:"\"이건 여행바구니 협찬입니다 (사실 제 돈).\""}
+  },
+  {
+    tier:3, name:"점프컷 리듬개그",
+    desc:"같은 말이나 동작이 반복되는 장면을 빠른 컷으로 이어붙여 리듬감 있게 편집하는 기법.",
+    example:{label:"활용 팁", text:"같은 멘트를 여러 각도·톤으로 여러 번 찍었을 때, 그걸 짧게 이어붙이면 반복 자체가 개그가 됨."}
+  },
+  {
+    tier:3, name:"자료화면풍 편집",
+    desc:"뉴스·다큐 자료화면 톤의 자막/효과를 흉내낸 편집으로 진지함을 패러디. (성대모사 아닌 편집 기법이므로 개인기 금지 항목과 무관)",
+    example:{label:"멘트+편집 예시", text:"평범한 장면에 \"단독 입수\" 자막을 얹어 과장된 진지함을 패러디."}
+  },
+  {
+    tier:3, name:"날것 그대로 노출",
+    desc:"편집으로 자르지 않고 어색한 정적·머뭇거림을 그대로 살려서, 그 어색함 자체를 웃음 포인트로 사용.",
+    example:{label:"활용 팁", text:"과도한 편집 개그가 부담스러운 장면에서 오히려 안 자르는 게 더 자연스러운 웃음을 만들 때 사용."}
+  },
+
+  // ===== 4. 캐릭터형 유머 =====
+  {
+    tier:4, sub:"gochesa", name:"유부남 페르소나",
+    desc:"기혼자라는 정체성에서 나오는 리얼토크형 유머. 아내 눈치, 결혼생활 자기고백 등을 소재로. 연애·미혼 시절과 대비되는 '지금'을 계속 소환하는 게 핵심 — 결혼 전후 비교가 웃음 포인트를 만든다.",
+    example:{label:"자주 쓸 말 / 만들 상황", text:"멘트: \"이거 아내한테 걸리면 큰일나는데...\" / \"결혼하면 다 이렇게 됩니다, 여러분.\" / \"연애 땐 이런 거 안 그랬는데 말이죠.\" / \"이건 저 혼자만 알고 있을게요, 조용히.\"\n상황: 특산품·기념품 앞에서 \"사갈까 말까\" 갈등하는 콩트, 신혼여행지 코스에서 \"그때랑 지금이랑 다른 점\" 비교 멘트, 로맨틱한 장소에서 오히려 현실적인 리액션으로 반전 주기."}
+  },
+  {
+    tier:4, sub:"gochesa", name:"애아빠 페르소나",
+    desc:"자녀가 있는 부모 시점에서 나오는 공감형 유머. 아이 반응을 대신 예측하거나 육아 습관이 무의식중에 튀어나오는 설정. 시청자 중 부모 세대와의 공감대 형성에도 활용 가능.",
+    example:{label:"자주 쓸 말 / 만들 상황", text:"멘트: \"우리 애가 여기 오면 분명 이럴 텐데...\" / \"저도 모르게 애 눈높이로 설명하게 되네요.\" / \"이거 애들한테 딱 맞는 표현인데, 그냥 써볼게요.\" / \"제가 아빠라서 그런지 위험한 데만 보이네요.\"\n상황: 체험·놀이 코스에서 아이처럼 신나하다가 스스로 \"어이쿠, 애 아빠 모드 나왔다\" 자각 개그, 계단·난간 등에서 반사적으로 안전 체크하는 습관을 개그로 노출."}
+  },
+  {
+    tier:4, sub:"gochesa", name:"중년 페르소나",
+    desc:"체력·트렌드에서 오는 자기비하형 유머. 나이듦을 담백하게 인정하고 웃음으로 승화하되, 궁상맞음이 아니라 여유 있는 자기인정으로 처리하는 게 핵심.",
+    example:{label:"자주 쓸 말 / 만들 상황", text:"멘트: \"제 무릎이 이 계단을 반대합니다.\" / \"라떼는 말이야...\" (스스로 끊기: \"아, 이 말 하면 안 되는데.\") / \"이 단어 뜻은 나중에 애한테 물어볼게요.\" / \"체력은 예전만 못한데, 눈치는 그때보다 늘었어요.\"\n상황: 급경사·계단 구간에서 체력 자학 개그, 최신 트렌드(신조어·핫플)를 못 따라가서 헤매는 장면, 젊은 층 많은 핫플에서 살짝 겉도는 리액션을 자연스럽게 노출."}
+  },
+  {
+    tier:4, sub:"gochesa", name:"감성적 페르소나",
+    desc:"풍경·순간 앞에서 진심으로 뭉클해지는 감정을 담백하게 드러내는 유머 아닌 유머 — 웃음보다는 따뜻함으로 캐릭터를 채우는 장치. 다른 4개 페르소나가 웃음 위주라면 이건 채널의 정서적 무게중심 역할.",
+    example:{label:"자주 쓸 말 / 만들 상황", text:"멘트: \"이 노을 보니까 괜히 뭉클하네요.\" / \"이런 순간 때문에 이 일 하는 것 같아요.\" / \"말로 설명 못 하겠는데, 그냥 좋네요.\" / \"이 골목도 언젠간 없어지겠죠. 그전에 와서 다행이에요.\"\n상황: 계절여행 저녁 파트, 도보역사투어 마무리 멘트, 오래된 가게·사라져가는 풍경 앞에서 자연스럽게 진심을 담되 곧바로 메타개그로 무게를 덜어 균형 맞추기."},
+    boundary:{ok:"진짜 감정을 담백하게 표현하고 길게 끌지 않는다.", no:"감성 멘트를 예능식으로 늘어뜨리거나 BGM·연출로 감정을 과장하는 것 — 텐션 과잉 배제 원칙과 동일선상."}
+  },
+  {
+    tier:4, sub:"gochesa", name:"계획적 페르소나",
+    desc:"동선·시간에 강박적으로 신경 쓰는 성격에서 나오는 유머. 계획이 틀어졌을 때의 당황이 핵심 소재 — 평소의 철저함과 무너지는 순간의 낙차가 웃음을 만든다.",
+    example:{label:"자주 쓸 말 / 만들 상황", text:"멘트: \"저 이거 어제 밤에 세 번 시뮬레이션 했어요.\" / \"계획에 없던 일이라 당황했습니다.\" / \"동선 짤 때 이 변수는 진짜 생각 못 했네요.\" / \"원래 여기서 5분만 있으려고 했는데... 어쩌죠.\"\n상황: 예상 못한 변수(날씨·휴업·교통)가 생겼을 때 계획형 인간의 멘붕 리액션을 그대로 살려서 편집 단계에서 개그로 승화, 촬영 전 짜온 동선표를 카메라에 잠깐 보여주며 계획적 성향을 시각적으로 증명."}
+  },
+
+  // ===== 4-b. 8캐릭터 참고자료 (외부: 크울 엠씨고 자료 원본 보존) =====
+  {
+    tier:4, sub:"8char", name:"01. 엠씨고 — 주도/나댐",
+    desc:"생성의 근원: 대학 입학 직후. 센스·외모·술 등 타고난 강점이 자연스럽게 '분위기 주도형 자아'를 만들어냄. \"걱정은 군대 가서 하자\"는 마인드 위에 형성.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 주도적, 나서기 좋아함, 분위기 메이커, 미친놈(평가)\n말투: \"자자, 주목!\" / \"~인 거죠~\" (늘여 말하기)\n등장시기: 대학 입학~군 입대 전 / 복학 후 재등장\n시그니처 대사: \"분위기는 내가 만든다, 엠씨고입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"02. 포동왕자 — 귀염/소심",
+    desc:"생성의 근원: 유년시절, 태생부터 가지고 있던 가장 순수한 형태의 자아. 왕따를 겪기 이전의 '나'. 이후 백곰 형성에 영향(계승 아닌 영향 관계).",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 귀여움, 소심함, 위축되기 쉬움\n말투: \"저... 너~요?\" (말끝 올리며 망설이는 톤)\n등장시기: 유년시절 (왕따 이야기 전반)\n시그니처 대사: \"겁 많고 소심했던, 그래도 버텨낸 포동왕자입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"03. 궁극도리 — 계획/활동",
+    desc:"생성의 근원: 군 입대 전후. 체력 약함, 많은 책임감, 특공대 지원 계기. \"2년 안에 후회하고 전역하지 말자\"는 다짐과 함께 형성.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 계획적, 활동적, 책임감\n말투: \"~다, ~까\" (다나까체)\n등장시기: 군대 전 기간\n시그니처 대사: \"다, 까로 말하지만 마음은 여전히 흔들립니다. 궁극도리입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"04. 백곰 — 편안/좋은형",
+    desc:"생성의 근원: 결혼·육아 시기. 포동왕자의 성향에 영향받았지만 독립적으로 새로 형성. 새로운 책임 앞에서 '편안하고 포용적인 자아'가 필요해지며 등장.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 편안함, 포용적, 좋은형 이미지, 지속 성장형\n말투: \"괜찮아~\" / \"천천히 해도 돼\"\n등장시기: 결혼·육아 시기, 30대 이후\n시그니처 대사: \"괜찮아, 천천히 해도 돼. 백곰입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"05. 폴로 — 사랑/감성",
+    desc:"생성의 근원: 초등학교 4학년. 8개 캐릭터 중 가장 오래 지속되는 자아 — 초4→고3→대학교→결혼까지 이어짐.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 사랑 담당, 감성적, 이성보다 감정 우선\n말투: \"...진짜?\" (말끝 흐리기, 망설임)\n등장시기: 초4~결혼까지 전 생애 (연애사 EP 전담)\n시그니처 대사: \"초4부터 지금까지, 사랑만 생각하는 폴로입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"06. 코모 — 센스/야망·허세",
+    desc:"생성의 근원: 군 제대 후 복학 시기. 명예·야망·허세가 필요한 시기에 형성. 궁극도리의 계획적 성향에서 반전해 능글맞고 자신만만한 방향으로 전환. 허세의 방향은 이성에게 어필하기 위한 것에 가까움.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 센스, 야망, 허세, 능글맞음, 이성 관심 높음, 인기욕\n말투: \"~인 거 모르세요?\" / \"이 정도는 기본이죠\" / \"저 원래 이런 사람 아닌데~\"\n등장시기: 군대 이후~복학~결혼 전\n시그니처 대사: \"이 정도는 기본이죠. 코모입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"07. 올폭 — 계산/정리",
+    desc:"생성의 근원: 대학 복학 이후. 현실(살아갈 길)에 대한 계산이 필요해지면서 형성. 사회진출하면서 지속 성장.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 계산적, 정리 능숙, 현실주의자, 지속 성장형\n말투: \"그래서 결론이 뭔데?\" / \"정리하면...\"\n등장시기: 복학 이후~사회진출~현재까지 지속\n시그니처 대사: \"그래서 결론이 뭔데? 올폭입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"08. 또라이 — 충동/이기적·공격적",
+    desc:"생성의 근원: 특정 시기에 생성된 게 아니라 처음부터 내재된 자아. 다른 7개 캐릭터의 '안전핀이 빠졌을 때' 등장. 곤란해질수록 더 자주 출현 — 모든 캐릭터의 '그림자' 역할.",
+    example:{label:"성격 / 말투 / 등장시기", text:"성격: 충동적, 이기적, 공격적, 통제 불가\n말투: \"몰라, 그냥 끌리는 대로~\"\n등장시기: 전 생애 산발적 등장 (모든 시기에 잠재)\n시그니처 대사: \"끌리는 대로 사는 게 뭐가 문제야? 또라이입니다\""}
+  },
+  {
+    tier:4, sub:"8char", name:"타임라인 · 관계도 (참고)",
+    desc:"시기별 등장: 유년시절(포동왕자·또라이·폴로) → 대학입학(엠씨고·폴로·또라이) → 군대(궁극도리) → 복학(엠씨고·코모·올폭·폴로) → 사회진출(올폭·코모·백곰) → 결혼육아(백곰·폴로·또라이·코모)",
+    example:{label:"관계 구조", text:"포동왕자→백곰: 계승 아닌 영향 관계 / 포동왕자↔또라이: 위축될 때 또라이 등장 / 궁극도리→코모: 계획형에서 허세형으로 시간순 교체 / 엠씨고↔올폭: 복학 EP 공존, 서로 견제 / 코모↔올폭: 사회진출 EP 공존, 갈등 구조 / 또라이↔전체: 모든 캐릭터의 그림자 / 폴로↔전체: 최장기간(초4~결혼) 병존"}
+  },
+];
+
+const tierNames = {1:"1. 현장 즉흥 기법", 2:"2. 사전 설계 기법", 3:"3. 편집 단계 기법", 4:"4. 캐릭터형 유머"};
+const compatLabel = {fit:"✅ 고처사 적합", unfit:"🚫 고처사 불합", partial:"⚠️ 부분 적합"};
+const compatClass = {fit:"tag-fit", unfit:"tag-unfit", partial:"tag-partial"};
+const list = document.getElementById('list');
+const subtabsEl = document.getElementById('subtabs');
+const refNoteEl = document.getElementById('ref-note');
+let currentFilter = '1';
+let currentSub = 'gochesa';
+let currentQuery = '';
+
+function render(){
+  list.innerHTML = '';
+  subtabsEl.style.display = currentFilter==='4' ? 'block' : 'none';
+  refNoteEl.style.display = (currentFilter==='4' && currentSub==='8char') ? 'block' : 'none';
+
+  const t = parseInt(currentFilter);
+  let pool = items.filter(it=>it.tier===t);
+  if(t===4) pool = pool.filter(it=>it.sub===currentSub);
+  const filtered = pool.filter(matchQuery);
+  if(filtered.length===0){
+    const empty = document.createElement('div');
+    empty.style.cssText='padding:20px;text-align:center;color:var(--sub);font-size:13px;';
+    empty.textContent = '검색 결과가 없습니다.';
+    list.appendChild(empty);
+    return;
+  }
+  filtered.forEach(it=>list.appendChild(buildCard(it)));
+}
+
+function matchQuery(it){
+  if(!currentQuery) return true;
+  const hay = (it.name+it.desc+(it.example?it.example.text:'')).toLowerCase();
+  return hay.includes(currentQuery.toLowerCase());
+}
+
+function buildCard(it){
+  const card = document.createElement('div');
+  card.className='card';
+  const head = document.createElement('div');
+  head.className='card-head';
+  const rightTag = it.compat
+    ? `<span class="tag ${compatClass[it.compat]}">${compatLabel[it.compat]}</span>`
+    : `<span class="tag tag-${it.tier}">${tierNames[it.tier].split('. ')[1]}</span>`;
+  head.innerHTML = `<div class="card-title">${it.name}</div><div style="display:flex;align-items:center;gap:6px;">${rightTag}<span class="arrow">▾</span></div>`;
+  head.onclick = ()=>card.classList.toggle('open');
+  const body = document.createElement('div');
+  body.className='card-body';
+  let html = `<div class="desc">${it.desc}</div>`;
+  if(it.example) html += `<div class="example"><b>${it.example.label}</b>${it.example.text.replace(/\n/g,'<br>')}</div>`;
+  if(it.boundary) html += `<div class="boundary"><div class="ok-line">✅ 허용 — ${it.boundary.ok}</div><div class="no-line">🚫 배제 — ${it.boundary.no}</div></div>`;
+  body.innerHTML = html;
+  card.appendChild(head);
+  card.appendChild(body);
+  return card;
+}
+
+document.querySelectorAll('.filters')[0].querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll('.filters')[0].querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.f;
+    render();
+  };
+});
+document.getElementById('subtabs').querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.getElementById('subtabs').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSub = btn.dataset.sub;
+    render();
+  };
+});
+document.getElementById('search').addEventListener('input', e=>{
+  currentQuery = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 박물관</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#2b2620; --sub:#7a7268; --line:#e8e2d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    line-height:1.6;}
+  header{background:linear-gradient(135deg,#5c1a1a,#a13d2e);color:#fff;padding:28px 18px 22px;text-align:center;}
+  header h1{font-size:21px;margin:0 0 6px;letter-spacing:-0.3px;}
+  header p{font-size:13px;opacity:0.88;margin:0;}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px;}
+
+  .search-box{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  #search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fff;color:var(--ink);}
+  .search-count{font-size:12px;color:var(--sub);margin-top:4px;min-height:16px;}
+
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+  .nav-btn{border:1.5px solid var(--cat-color,#999);background:#fff;color:var(--cat-color,#333);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+  .nav-btn.active, .nav-btn:hover{background:var(--cat-color,#999);color:#fff;}
+  .nav-btn[data-cat="all"]{border-color:#333;color:#333;}
+  .nav-btn[data-cat="all"].active{background:#333;color:#fff;}
+
+  .topic h2{font-size:17px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid currentColor;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .card summary{padding:12px 14px;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;}
+  .card summary::-webkit-details-marker{display:none;}
+  .card summary::after{content:"+";margin-left:auto;color:var(--sub);font-weight:400;}
+  .card[open] summary::after{content:"−";}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .card-body{padding:2px 14px 14px 32px;font-size:13.8px;color:#3a352c;}
+  .card-body p{margin:6px 0;}
+  .card-body ul{margin:6px 0;padding-left:18px;}
+  .card-body li{margin:4px 0;}
+
+  .table-scroll{overflow-x:auto;margin:10px 0;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:#f0ede6;font-weight:700;white-space:nowrap;}
+
+  .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:2px;}
+  .tag-fact{background:#dcfce7;color:#166534;}
+  .tag-lore{background:#fef3c7;color:#92400e;}
+  .warn-tag{color:#b45309;}
+
+  .warn-block{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;
+    margin:10px 0 4px;font-size:12.8px;color:#7c2d12;}
+  .warn-block b{display:block;margin-bottom:4px;color:#b45309;}
+  .warn-block p{margin:4px 0;}
+
+  .hidden-by-filter{display:none;}
+
+  @media (max-width:480px){
+    header h1{font-size:19px;}
+    .nav-btn{font-size:11.5px;padding:5px 10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏺 가이드를 위한 박물관</h1>
+  <p>어디서든 써먹는 박물관 상식 — 시설·유형·운영이면·실전팁·스토리텔링·국내비교·세계기록</p>
+</header>
+<div class="wrap">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="키워드로 검색 (예: 외규장각, 모나리자, 학예사)">
+    <div class="search-count" id="searchCount"></div>
+  </div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="history" style="--cat-color:#6b4f3b">🏛️ 시설·역사</button>
+<button class="nav-btn" data-cat="types" style="--cat-color:#166534">🖼️ 주요 유형·테마</button>
+<button class="nav-btn" data-cat="backstage" style="--cat-color:#7c3aed">🔍 학예사·운영 이면</button>
+<button class="nav-btn" data-cat="tips" style="--cat-color:#0f766e">🧭 관람 실전 팁</button>
+<button class="nav-btn" data-cat="story" style="--cat-color:#b45309">💬 교육·스토리텔링</button>
+<button class="nav-btn" data-cat="compare" style="--cat-color:#0369a1">🗺️ 국내 비교</button>
+<button class="nav-btn" data-cat="world" style="--cat-color:#9d174d">🌍 세계 기록·특이사례</button>
+  </div>
+  
+<section class="topic" id="history">
+  <h2 style="color:#6b4f3b">🏛️ 시설·역사</h2>
+  
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>1. &#x27;뮤지엄&#x27;이라는 말은 어디서 왔나</summary>
+  <div class="card-body"><ul>
+<li>'뮤지엄(museum)'은 그리스어 '무세이온(Mouseion)'에서 유래 — 학예의 여신 무사(뮤즈)를 모시는 신전이자 학자들이 모여 연구하던 공간을 뜻함. 고대 이집트 알렉산드리아의 무세이온(기원전 3세기경)이 대표적 어원적 기원으로 소개됨 <span class="tag tag-fact">정사</span></li>
+<li>즉 박물관도 아쿠아리움·동물원·식물원과 마찬가지로 처음엔 '학술 연구 공간'이라는 개념에서 출발했다는 공통점이 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>2. 세계 최초의 근대적 박물관</summary>
+  <div class="card-body"><ul>
+<li>'뮤지엄'이라는 이름으로 불린 세계 최초의 기관은 1683년 개관한 영국 옥스퍼드의 애슈몰린 박물관 — 골동품 수집가 엘리아스 애슈몰이 자신의 소장품을 옥스퍼드 대학교에 기증하며 설립됨. 세계 최초의 대학 박물관이자 공공박물관으로 소개됨 <span class="tag tag-fact">정사</span></li>
+<li>그 이전에도 '호기심의 방(캐비닛 오브 큐리오시티)'이라 불리던 귀족·왕실의 사적 수집 전시 공간이 존재했으나, 이는 소수 특권층에게만 공개된 것이라 '공공' 박물관으로 보지는 않음</li>
+<li>프랑스 루브르 박물관은 1793년 '중앙 예술 박물관'으로 처음 문을 열었으며, 원래 12세기 필립 2세 때 지어진 요새·왕궁을 개조한 건물 — 프랑스 대혁명 이후 왕실 소장품을 시민에게 공개한다는 상징적 의미가 컸음 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>3. 국내 박물관 도입사</summary>
+  <div class="card-body"><ul>
+<li>한국 최초로 설립된 박물관은 대한제국 황실이 1909년 11월 서울 창경궁에 개관한 '제실박물관(帝室博物館)' — 이후 1911년 이왕가박물관, 1938년 이왕가미술관으로 개편됨 <span class="tag tag-fact">정사</span></li>
+<li>일제강점기인 1915년 12월에는 경복궁 안에 조선총독부박물관이 별도로 개관됨 — 8·15 광복 이후 이 조선총독부박물관을 인수하는 형식으로 1945년 12월 3일 '국립박물관'이 문을 열었고, 1972년 현재의 명칭인 '국립중앙박물관'으로 재발족함 <span class="tag tag-fact">정사</span></li>
+<li>국립중앙박물관은 이후 경복궁 부지(현 국립민속박물관 자리)→옛 조선총독부 청사(중앙청)→2005년 현재의 용산 부지로 세 차례 이전하는 과정을 거침 — 특히 옛 조선총독부 청사는 1995년 철거가 결정되며 자리를 옮기게 된 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>즉 국립중앙박물관 하나만 놓고 봐도 대한제국→일제강점기→광복 이후 현대사가 그대로 압축되어 있어, 박물관 자체의 연혁이 좋은 역사 교육 콘텐츠가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>4. 박물관 vs 미술관 vs 과학관 — 개념 구분</summary>
+  <div class="card-body"><ul>
+<li>넓은 의미의 '박물관'은 역사·미술·과학·기술 등 다양한 분야의 수집품을 보존·연구·전시하는 항구적 공공시설을 통칭하며, 법적으로는 동물원·식물원·수족관까지도 포괄하는 경우가 있음 <span class="tag tag-fact">정사</span></li>
+<li>일반적으로는 '박물관(역사·유물 중심)', '미술관(회화·조각 등 예술작품 중심)', '과학관(과학기술 원리·체험 중심)'으로 구분해 부르는 관행이 있음 — 다만 루브르 박물관처럼 역사 유물관+미술관 성격을 동시에 가진 복합형 시설도 많아 엄밀한 경계는 흐릿한 편</li>
+<li>실전 팁: 관람객에게 굳이 엄밀히 구분해 설명할 필요는 없지만, "이곳은 유물 중심이라 역사 공부하듯 보면 좋다" "이곳은 작품 감상 위주라 편하게 느낌으로 봐도 된다" 정도로 관람 태도를 안내하면 실질적으로 도움이 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>5. 유물 보존과학 — 왜 조명이 어둡고 습도를 맞추는가</summary>
+  <div class="card-body"><ul>
+<li>종이·직물·목재 유물은 자외선·습도 변화에 특히 취약해, 전시실 조명을 낮추고 항온항습 설비를 갖추는 경우가 많음 — 국보급 서화·전적류는 정기적으로 전시와 수장고 보관을 교대하는 '순환 전시' 방식을 택하는 경우가 흔함(국립중앙박물관의 외규장각 의궤 전시가 8책씩 교체하며 공개하는 방식이 대표적 사례) <span class="tag tag-fact">정사</span></li>
+<li>금속·도자기 유물은 상대적으로 환경 변화에 강하지만, 부식·염분 결정화 등을 막기 위한 별도의 보존처리 과정을 거치는 경우가 많음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>'세계 최초' 타이틀은 학술적 정의(공공박물관 vs 대학박물관 vs 왕실 소장품 공개 등)에 따라 다르게 서술될 수 있어, 투어에서는 "~로 통용된다" 식으로 여지를 두는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="types">
+  <h2 style="color:#166534">🖼️ 주요 유형·테마</h2>
+  
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>1. 역사·고고 박물관</summary>
+  <div class="card-body"><ul>
+<li>발굴 유물(토기·석기·금속기 등)을 시대순으로 배치하는 것이 가장 일반적인 전시 방식 — 국립중앙박물관·국립경주박물관 등 국내 국립박물관 다수가 이 형식을 따름</li>
+<li>실전 팁: 시대순 배치의 큰 흐름(구석기→신석기→청동기→철기→삼국→통일신라~고려→조선)만 미리 알아두면, 관람객에게 "지금 보는 이 유물이 대략 몇 년 전인지" 감을 잡아주는 설명이 훨씬 수월해짐</li>
+</ul></div>
+</details>
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>2. 미술관 — 회화·조각 중심</summary>
+  <div class="card-body"><ul>
+<li>시대·사조별 분류(고전주의·인상주의·근현대 등)로 전시하는 경우가 많음 — 국립현대미술관(서울·과천·덕수궁·청주 4관 체제)처럼 시대·장르별로 분관을 나누는 대형 시설도 있음</li>
+<li>사립 미술관(리움미술관 등)은 특정 소장가의 개인 컬렉션에서 출발한 경우가 많아, "이 미술관은 왜 이런 작품들을 갖고 있는가"라는 수집 스토리 자체가 좋은 설명 포인트가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>3. 과학관 — 체험형 전시의 대표주자</summary>
+  <div class="card-body"><ul>
+<li>원리를 직접 만지고 작동시켜 보는 체험형 전시가 핵심 — 국립과천과학관·국립중앙과학관(대전) 등이 대표적</li>
+<li>천체투영관(플라네타리움)을 별도로 갖춘 과학관이 많아, 실내에서 밤하늘 관측 체험을 제공하는 것이 계절·날씨에 구애받지 않는 강점</li>
+</ul></div>
+</details>
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>4. 전문 특화 박물관</summary>
+  <div class="card-body"><ul>
+<li>특정 주제(전쟁·화폐·우표·인형·신발 등)만 집중적으로 다루는 소규모 박물관도 전국 각지에 다수 존재 — 전쟁기념관(서울 용산)이 대표적인 대형 특화박물관 사례</li>
+<li>이런 특화 박물관은 규모는 작아도 그 주제에 관한 밀도 높은 스토리텔링이 가능하다는 장점이 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>5. 왕실·궁중 유물 박물관</summary>
+  <div class="card-body"><ul>
+<li>국립고궁박물관(경복궁 경내)처럼 조선 왕실의 생활·의례 유물을 전문적으로 다루는 박물관도 있음 — 궁궐 관람과 연계하면 좋은 시너지를 내는 코스가 됨</li>
+<li>외규장각 의궤(조선 왕실 행사 기록화)처럼, 왕실 문화재는 프랑스 약탈→반환이라는 굴곡진 역사를 가진 경우도 있어(⑤교육스토리텔링 참고) 단순 유물 이상의 서사를 갖춘 경우가 많음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="types">
+  <summary><span class="dot" style="background:#166534"></span>6. 민속박물관 — 생활사 중심</summary>
+  <div class="card-body"><ul>
+<li>국립민속박물관(경복궁 경내)처럼 유물보다는 '옛사람들이 어떻게 살았는가'를 재현 전시(가옥 모형·생활도구 등)로 보여주는 방식 — 아이들에게 특히 직관적으로 다가가는 전시 형식</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>박물관 유형 구분은 편의상 분류이며, 실제로는 여러 성격이 혼합된 복합형 시설이 많다는 점을 감안해 유연하게 설명하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="backstage">
+  <h2 style="color:#7c3aed">🔍 학예사·운영 이면</h2>
+  
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>1. 학예사라는 직업</summary>
+  <div class="card-body"><ul>
+<li>학예사(큐레이터)는 단순히 전시를 배치하는 사람이 아니라, 유물 연구·수집·보존관리·전시기획을 총괄하는 전문직 — 국내에서는 '박물관 및 미술관 진흥법'에 따라 학예사 자격을 준학예사·1~3급으로 등급화해 관리함 <span class="tag tag-fact">정사</span></li>
+<li>대형 국립박물관은 전시율이 소장품 대비 매우 낮은 편 — 국립중앙박물관의 경우 약 150만여 점을 소장하지만 상설 전시되는 유물은 1만여 점 수준으로 알려져 있음 <span class="tag tag-fact">정사</span> — "박물관에 걸린 것보다 훨씬 많은 유물이 수장고에 잠들어 있다"는 사실은 관람객에게 흥미로운 이면 정보가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>2. 순환 전시와 특별전 — 왜 갔던 곳인데도 다시 가면 다른 게 보이는가</summary>
+  <div class="card-body"><ul>
+<li>빛·습도에 민감한 서화·전적류는 상설 전시와 수장고 보관을 주기적으로 교대하는 경우가 많음(외규장각 의궤가 8책씩 1년에 4차례 교체 공개되는 방식이 대표적) <span class="tag tag-fact">정사</span></li>
+<li>이 때문에 "박물관은 한 번 가봤다고 끝나는 곳이 아니라, 갈 때마다 다른 유물을 만날 수 있는 곳"이라는 프레임이 재방문을 유도하는 좋은 설명 포인트가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>3. 반환·기증 문화재 — 유물이 박물관에 오게 된 사연</summary>
+  <div class="card-body"><ul>
+<li>프랑스가 1866년 병인양요 당시 강탈해간 외규장각 의궤는 145년 만인 2011년 대여 형식으로 한국에 반환되었고, 2024년 11월부터 국립중앙박물관에 상설 전시되고 있음 <span class="tag tag-fact">정사</span></li>
+<li>이런 반환 문화재는 단순 전시물이 아니라 "왜 원래 있어야 할 곳을 떠났다가 돌아왔는가"라는 역사적 맥락 자체가 강력한 스토리텔링 소재가 됨</li>
+<li>개인 소장가가 평생 모은 유물을 국가에 기증하는 사례도 많음(국립중앙박물관의 이홍근·박병래 등 기증자별 전시실이 대표적) — "이 유물들은 한 개인의 평생 수집품이 나라의 자산이 된 것"이라는 설명은 감동적인 도입부가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>4. 소장품 취득의 이면 — 식민지 시기 유물의 복잡한 경로</summary>
+  <div class="card-body"><ul>
+<li>국립중앙박물관 소장품 중 일부는 일제강점기 일본인 수집가(오타니 백작 등)가 반출·수집했던 유물이 광복 이후 국가로 귀속된 경로를 거친 것으로 알려짐 — 유물의 소유·이동 경로가 식민지 역사와 얽혀 복잡한 경우가 있다는 점을 인지하는 것이 정확한 설명에 도움이 됨 <span class="warn-tag">⚠️</span>구체 사례는 민감할 수 있어 사실관계 위주로 간략히 다루는 것이 안전</li>
+<li>해외 유명 박물관(대영박물관·루브르 등)도 식민지 시기 반출 문화재를 다수 소장하고 있어 국제적으로 반환 논쟁이 진행 중임(⑦세계 기록·특이사례에서 상세히 다룸)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>5. 대중문화와 방문객 수의 관계 — 예상 밖의 흥행 변수</summary>
+  <div class="card-body"><ul>
+<li>국립중앙박물관은 2023년 연간 관람객 418만 명으로 세계 6위권을 기록했고, 2025년에는 한국 소재 넷플릭스 애니메이션이 세계적으로 흥행하며 관람객이 급증해 연간 500만 명을 넘긴 것으로 알려짐 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+<li>이는 박물관 흥행이 반드시 콘텐츠 자체의 질만으로 결정되는 것이 아니라, 대중문화(드라마·영화·애니메이션 등)와의 우연한 연결로 크게 좌우될 수 있다는 흥미로운 사례로 소개할 수 있음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>식민지 시기 유물 취득 경로 관련 내용은 민감할 수 있어 사실관계 전달 위주로 간략히 다루는 것이 안전합니다.</li>
+<li>관람객 순위·통계는 집계 시점·기관에 따라 계속 바뀌므로 최신 확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="tips">
+  <h2 style="color:#0f766e">🧭 관람 실전 팁</h2>
+  
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>1. 사진 찍는 법</summary>
+  <div class="card-body"><ul>
+<li>유리 진열장 안 유물은 반사가 심한 편 — 렌즈를 유리에 최대한 밀착시키고 플래시를 끄는 것이 기본 원칙(아쿠아리움·동물원 관람창 촬영과 동일한 원리)</li>
+<li>저조도 전시실이 많아 손떨림에 취약함 — 벽이나 진열장 프레임에 팔을 살짝 기대 흔들림을 줄이는 방법이 실전에서 유용</li>
+<li>일부 특별전·해외 대여 작품은 촬영 자체가 금지된 경우가 있어, 입구 안내판의 촬영 가능 여부를 먼저 확인하는 것이 중요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>2. 혼잡 시간대 vs 한산한 시간대</summary>
+  <div class="card-body"><ul>
+<li>평일 오전 개장 직후가 가장 한산한 편 — 주말·공휴일 오후, 특히 인기 특별전 기간은 사전예약이 필수인 경우가 많음</li>
+<li>최근에는 대중문화(드라마·영화·애니메이션 등) 흥행으로 특정 전시실에 갑자기 관람객이 몰리는 경우도 있어, 방문 전 최신 화제성 여부를 확인해두면 동선 계획에 도움이 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>3. 동선 순서 추천</summary>
+  <div class="card-body"><ul>
+<li>대형 국립박물관은 규모가 방대해(국립중앙박물관 상설전시관만 6개 상설전시실) 하루에 전부 보기 어려운 경우가 많음 — 사전에 "오늘은 이 구역만 집중해서 본다"는 목표를 정하고 동선을 짜는 것이 효율적</li>
+<li>시대순 배치를 따라가면 자연스럽게 역사 흐름을 이해할 수 있어, 초행 관람객에게는 "입구부터 시대순으로 쭉 따라가 보라"는 안내가 무난함</li>
+<li>특별전(임시 전시)은 상설전시관과 동선이 분리된 경우가 많아, 특별전 관람 시간을 별도로 확보해두는 것이 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>4. 무장애·접근성 관련 참고사항</summary>
+  <div class="card-body"><ul>
+<li>대형 국립박물관(용산 국립중앙박물관 등)은 대체로 휠체어 대여, 엘리베이터, 장애인 화장실 등을 잘 갖춘 편 — 복지단체 단체여행에 상대적으로 적합</li>
+<li>다만 옛 건물을 그대로 활용한 소규모 사립 박물관은 계단·단차가 있는 경우가 있어 사전 확인이 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>5. 아이 동반 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>어린이박물관(국립중앙박물관 내 어린이박물관 등)을 별도로 운영하는 대형 시설이 많아, 성인 관람과 아동 체험을 분리해 동선을 짜면 만족도가 높아짐</li>
+<li>오디오가이드·도슨트 프로그램을 아이 눈높이에 맞춰 운영하는 경우도 있어, 사전 예약 가능 여부를 확인해두면 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>6. 날씨·계절별 참고사항</summary>
+  <div class="card-body"><ul>
+<li>박물관은 대표적인 전천후 실내 관광지라 우천·폭염·혹한 시즌 대체 코스로 활용도가 높음 — 아쿠아리움·과학관과 함께 '실내 3대장'으로 묶어 코스를 짜기 좋음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>특별전 예약 필요 여부, 촬영 가능 범위는 시설·전시별로 계속 바뀌므로 방문 직전 재확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="story">
+  <h2 style="color:#b45309">💬 교육·스토리텔링</h2>
+  
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>1. 유물의 &#x27;귀환 서사&#x27;로 몰입도 높이기</summary>
+  <div class="card-body"><ul>
+<li>외규장각 의궤처럼 "원래 있던 곳에서 강탈당했다가 145년 만에 돌아온 유물"이라는 서사는 단순 전시물 설명보다 훨씬 강력한 몰입 포인트가 됨 — "이 책이 어떻게 프랑스까지 갔다가, 어떻게 다시 돌아왔는가"를 순서대로 풀어주는 방식이 효과적</li>
+<li>개인 기증자의 사연(평생 모은 수집품을 국가에 기증한 이야기)도 좋은 인물 중심 스토리텔링 소재가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>2. 아이 눈높이 설명 템플릿</summary>
+  <div class="card-body"><ul>
+<li><b>박물관 = 시간여행 창고</b>: "박물관은 옛날 사람들이 쓰던 물건을 모아둔, 시간을 거슬러 가볼 수 있는 창고 같은 곳"</li>
+<li><b>수장고</b>: "전시장에 나와 있지 않은 유물들이 잠들어 있는 방 — 사실 전시된 것보다 훨씬 많은 유물이 이 안에 있다"</li>
+<li><b>학예사</b>: "박물관의 의사 선생님 같은 사람 — 유물이 아프지 않게(손상되지 않게) 돌보고, 어떤 유물을 언제 보여줄지 정한다"</li>
+<li><b>보존처리</b>: "오래되고 약해진 유물을 다치지 않게 조심조심 고쳐주는 것 — 사람으로 치면 병원 치료와 비슷하다"</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>3. &#x27;왜 이 유물이 여기 있는가&#x27; — 기원 스토리</summary>
+  <div class="card-body"><ul>
+<li>국립중앙박물관 자체의 연혁(대한제국 황실 제실박물관→일제강점기 조선총독부박물관→광복 후 국립박물관→용산 이전)을 소개하면, 박물관 건물 자체가 한국 근현대사의 축소판이라는 흥미로운 프레임을 만들 수 있음</li>
+<li>반환 문화재는 "왜 원래 자리를 떠났다가 돌아왔는가"라는 질문 자체가 좋은 도입부가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>4. 지역 연계 스토리텔링</summary>
+  <div class="card-body"><ul>
+<li>지방 국립박물관(경주·부여·공주 등)은 그 지역의 역사(신라·백제 등)와 직결되는 유물을 전문적으로 다루는 경우가 많아, 지역 답사와 결합하면 좋은 시너지를 냄</li>
+<li>전문 특화 박물관(전쟁기념관 등)은 그 지역·시대의 특정 사건을 깊이 파고드는 콘텐츠로 활용 가능</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>5. 대중문화와 연결하기</summary>
+  <div class="card-body"><ul>
+<li>최근에는 드라마·영화·애니메이션 등 대중문화 흥행이 특정 박물관·유물에 대한 관심으로 이어지는 경우가 늘고 있음 — "이 작품에 나온 그 유물이 바로 여기 있다"는 식의 연결은 젊은 관람객에게 특히 효과적인 도입부가 됨 <span class="warn-tag">⚠️</span>구체 작품·유물 연결은 시의성이 있어 최신 트렌드로 업데이트해서 사용하는 것이 좋음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>반환·약탈 문화재 관련 설명은 국가 간 민감한 역사 논쟁을 포함할 수 있어, 사실관계 위주로 담담하게 전달하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="compare">
+  <h2 style="color:#0369a1">🗺️ 국내 비교</h2>
+  
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>1. 국내 주요 박물관·미술관 비교표</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>명칭</th><th>위치</th><th>유형</th><th>규모·특징</th><th>비고</th></tr>
+<tr><td>국립중앙박물관</td><td>서울 용산</td><td>국립·역사종합</td><td>소장품 약 150만여 점, 상설전시 약 1만여 점</td><td>2023년 관람객 418만명 세계 6위권, 2025년엔 대중문화 흥행 영향으로 500만명 돌파(<span class="warn-tag">⚠️</span>순위·수치는 집계시점마다 변동)</td></tr>
+<tr><td>국립민속박물관</td><td>서울 종로(경복궁 내)</td><td>국립·생활사</td><td>-</td><td>옛사람들의 생활상을 재현 전시 중심</td></tr>
+<tr><td>국립고궁박물관</td><td>서울 종로(경복궁 내)</td><td>국립·왕실유물</td><td>-</td><td>조선 왕실 생활·의례 유물 전문</td></tr>
+<tr><td>국립현대미술관</td><td>서울·과천·덕수궁·청주</td><td>국립·미술</td><td>4관 체제</td><td>시대·장르별로 분관 구성</td></tr>
+<tr><td>국립경주박물관</td><td>경북 경주</td><td>국립·지역사</td><td>2023년 관람객 134만명대</td><td>신라 유물 중심</td></tr>
+<tr><td>전쟁기념관</td><td>서울 용산</td><td>특화(전쟁사)</td><td>-</td><td>대형 특화 박물관의 대표 사례</td></tr>
+<tr><td>리움미술관</td><td>서울 용산</td><td>사립·미술</td><td>-</td><td>개인 소장가 컬렉션에서 출발한 사립 대형 미술관</td></tr>
+<tr><td>국립중앙과학관</td><td>대전 유성</td><td>국립·과학</td><td>-</td><td>체험형 전시 중심</td></tr>
+<tr><td>국립과천과학관</td><td>경기 과천</td><td>국립·과학</td><td>-</td><td>천체투영관(플라네타리움) 보유</td></tr>
+</table></div><ul>
+<li>이 표는 규모·화제성이 큰 대표 시설 위주로 정리한 것으로, 전국의 크고 작은 박물관·미술관을 전수 조사한 목록이 아님 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>2. 유형별로 묶어서 보기</summary>
+  <div class="card-body"><ul>
+<li><b>국립 역사종합형</b>: 국립중앙박물관, 국립경주박물관 등 지방 국립박물관</li>
+<li><b>국립 전문형</b>: 국립민속박물관, 국립고궁박물관, 국립현대미술관, 국립과학관 계열</li>
+<li><b>사립 대형</b>: 리움미술관 등 개인·기업 재단 소장 컬렉션 기반</li>
+<li><b>특화형</b>: 전쟁기념관처럼 특정 주제에 집중한 대형 시설</li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>3. 관람객 순위 관련 주의사항</summary>
+  <div class="card-body"><ul>
+<li>국립중앙박물관의 세계 관람객 순위는 매년 발표 기관·집계 방식에 따라 수치가 달라짐(2023년 6위, 2024년 8위, 2025년 3위 등으로 보도됨) — 특정 연도의 순위를 단정적으로 말하기보다 "최근 몇 년간 세계 최상위권, 아시아 1위 수준을 유지하고 있다" 정도로 소개하는 것이 안전 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>이 비교표의 관람객 수·순위는 연도별 발표 기준으로 변동이 크므로, 최신 자료로 재확인하는 것을 권장합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="world">
+  <h2 style="color:#9d174d">🌍 세계 기록·특이사례</h2>
+  
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>1. 세계에서 가장 많은 관람객을 모으는 박물관</summary>
+  <div class="card-body"><ul>
+<li>프랑스 루브르 박물관은 세계에서 가장 많은 방문객이 찾는 박물관으로 꼽히며, 2018년 기준 연간 약 1,020만 명이 방문한 것으로 소개됨 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+<li>대영박물관은 약 800만 점 이상의 방대한 소장품을 보유한 것으로 알려져 있으며, 로제타 스톤(고대 이집트 문자 해독의 열쇠가 된 유물)이 대표 소장품으로 꼽힘 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>2. 세계에서 가장 유명한 그림 — 모나리자</summary>
+  <div class="card-body"><ul>
+<li>레오나르도 다빈치가 1503~1519년경 제작한 것으로 알려진 '모나리자'는 세계에서 가장 유명한 미술작품 중 하나로, 그림의 보험 평가액 기준 기네스 세계기록을 보유한 것으로 소개됨 <span class="tag tag-fact">정사</span></li>
+<li>인기가 지나치게 높아 루브르 박물관의 가장 큰 전시실(살 데 제타)에 방탄유리로 별도 보호되어 전시되고 있는 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>3. 약탈 문화재 반환 논쟁</summary>
+  <div class="card-body"><ul>
+<li>그리스는 오랫동안 대영박물관이 소장한 '엘긴 마블스(파르테논 마블스)'의 반환을 요구해왔음 — 19세기 초 영국 외교관 엘긴 경이 오스만 제국 치하의 그리스에서 반출한 조각상들로, 원 소유국과 현 소장 박물관 간의 대표적인 국제 반환 논쟁 사례로 소개됨 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>구체 협상 진행 상황은 계속 바뀌므로 최신 확인 필요</li>
+<li>한국의 외규장각 의궤(프랑스→한국, 2011년 반환)도 이런 국제적 반환 논쟁의 흐름 속에서 이해할 수 있는 사례 — 다만 완전한 소유권 이전이 아니라 '대여 형식'으로 반환되었다는 점에서 완전한 반환과는 차이가 있다는 점도 함께 알아두면 정확함 <span class="tag tag-fact">정사</span></li>
+<li>이런 반환 논쟁은 "박물관에 전시된 유물이 항상 정당한 경로로 그곳에 있는 것은 아니다"라는 흥미로운 배경 지식으로 소개할 수 있음 <span class="warn-tag">⚠️</span>국가 간 민감한 논쟁이므로 중립적으로 사실관계만 전달하는 것이 안전</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>4. 특이한 구조·개념의 세계 박물관</summary>
+  <div class="card-body"><ul>
+<li><b>루브르 피라미드(프랑스)</b>: 옛 왕궁 건물에 현대적인 유리 피라미드 입구를 결합한 구조로, 처음 공개 당시에는 어울리지 않는다는 비판을 받았으나 현재는 루브르를 대표하는 랜드마크로 자리잡은 것으로 알려짐 <span class="tag tag-fact">정사</span> — '처음엔 욕먹다가 나중에 랜드마크가 된' 건축물이라는 점에서 에펠탑과 비슷한 사례로 자주 비교됨</li>
+<li><b>구겐하임 빌바오(스페인)</b>: 쇠퇴한 공업도시 빌바오에 프랭크 게리가 설계한 파격적인 티타늄 곡면 건물을 지어, 건축물 하나로 도시 전체의 관광 이미지를 바꾼 대표 사례('빌바오 효과'라는 용어의 유래) <span class="warn-tag">⚠️</span></li>
+<li><b>바티칸 박물관(바티칸 시국)</b>: 로마 가톨릭 교황청이 수집한 방대한 예술품을 소장한 박물관으로, 시스티나 성당의 천장화(미켈란젤로 작)로 특히 유명함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>5. 대중문화와 박물관 흥행의 연결 — 세계적으로도 나타나는 현상</summary>
+  <div class="card-body"><ul>
+<li>특정 영화·드라마·게임의 흥행이 관련 박물관·유물에 대한 관심 급증으로 이어지는 현상은 세계적으로도 자주 관찰됨 — 한국의 국립중앙박물관이 2025년 한국 소재 넷플릭스 애니메이션의 세계적 흥행으로 관람객이 급증한 사례가 대표적 국내 예시 <span class="tag tag-fact">정사</span></li>
+<li>이런 현상은 "박물관의 인기가 콘텐츠 자체의 질뿐 아니라 시대적 우연과도 연결된다"는 흥미로운 관찰 포인트가 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>문화재 반환 관련 논쟁은 국가 간 민감한 역사 문제를 포함하므로, 한쪽 입장을 옹호하기보다 사실관계와 쟁점을 균형 있게 전달하는 것이 안전합니다.</li>
+<li>관람객 수·순위 등 통계는 매년 갱신되므로 투어 시 최신 자료로 재확인하는 것을 권장합니다.</li>
+</ul></div>
+</section>
+</div>
+<script>
+(function(){
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'all';
+
+  function applyFilters(){
+    const term = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      let topicHasVisibleCard = false;
+      const topicCards = topic.querySelectorAll('.card');
+      topicCards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = card.textContent.toLowerCase();
+        const catMatch = (currentCat === 'all' || currentCat === cat);
+        const termMatch = (!term || text.includes(term));
+        const show = catMatch && termMatch;
+        card.classList.toggle('hidden-by-filter', !show);
+        if (term && show) card.open = true;
+        else if (!term) card.open = false;
+        if (show){ topicHasVisibleCard = true; visibleCount++; }
+      });
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term ? `검색결과: ${visibleCount}개 항목` : '';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all'){
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

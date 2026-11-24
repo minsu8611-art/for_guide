@@ -1,0 +1,2917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자연 해설 학습 자료 — 고처사 도보역사투어</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f6f1e6;
+    --parchment-dark: #ece3d0;
+    --ink: #2b2620;
+    --ink-soft: #5c5548;
+    --forest: #2f4a34;
+    --line: #d9cdb0;
+    --caution-bg: #fbeee0;
+    --caution-border: #c98a3f;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    padding-bottom: 80px;
+  }
+  h1, h2, h3, summary {
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  /* 헤더 */
+  header.site {
+    background: var(--forest);
+    color: var(--parchment);
+    padding: 36px 20px 28px;
+    text-align: center;
+    position: relative;
+  }
+  header.site h1 {
+    margin: 0 0 6px;
+    font-size: 1.7rem;
+    letter-spacing: 0.02em;
+  }
+  header.site p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #cfd9c8;
+  }
+
+  /* 검색 + 네비게이션 바 */
+  .control-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--parchment);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .search-wrap {
+    max-width: 720px;
+    margin: 0 auto 10px;
+    position: relative;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 11px 16px 11px 40px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--ink);
+  }
+  #searchInput:focus { outline: 2px solid var(--forest); }
+  .search-wrap::before {
+    content: "🔍";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+  .search-count {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    min-height: 1.2em;
+  }
+  .nav-row {
+    max-width: 720px;
+    margin: 10px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .nav-btn {
+    border: 1px solid var(--accent, var(--line));
+    background: #fff;
+    color: var(--ink);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-btn.active, .nav-btn:hover {
+    background: var(--accent, var(--forest));
+    color: #fff;
+  }
+
+  main { max-width: 780px; margin: 0 auto; padding: 24px 16px 40px; }
+
+  /* 주제(topic) 섹션 */
+  .topic { margin-bottom: 44px; }
+  .topic.hidden-by-filter { display: none; }
+  .topic-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .topic-icon { font-size: 1.4rem; }
+  .topic-head h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--forest);
+  }
+  .topic-intro {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    background: var(--parchment-dark);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .topic-intro blockquote { margin: 0; }
+  .topic-intro p { margin: 0.3em 0; }
+
+  /* 카드(details/accordion) */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .card[open] { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .card summary {
+    cursor: pointer;
+    padding: 13px 16px;
+    font-weight: 700;
+    font-size: 1rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card summary::-webkit-details-marker { display: none; }
+  .card summary::after {
+    content: "+";
+    font-size: 1.2rem;
+    color: var(--accent);
+    font-family: sans-serif;
+    margin-left: 10px;
+    flex-shrink: 0;
+  }
+  .card[open] summary::after { content: "−"; }
+  .card-body {
+    padding: 4px 18px 18px;
+    font-size: 0.92rem;
+  }
+  .card-body p { margin: 0.6em 0; }
+  .card-body ul, .card-body ol { padding-left: 1.3em; }
+  .card-body li { margin: 0.3em 0; }
+  .card-body strong { color: var(--forest); }
+
+  .caution-block { border-left-color: var(--caution-border) !important; background: var(--caution-bg); }
+  .caution-block summary::after { color: var(--caution-border); }
+
+  /* 표 */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 12px 0;
+    border-radius: 4px;
+  }
+  .card-body table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 0.87rem;
+  }
+  .card-body th, .card-body td {
+    border: 1px solid var(--line);
+    padding: 7px 9px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .card-body th {
+    background: var(--parchment-dark);
+    color: var(--forest);
+    font-family: 'Noto Serif KR', serif;
+    white-space: nowrap;
+  }
+  .card-body tr:nth-child(even) td { background: #fbfaf5; }
+
+  mark {
+    background: #ffe28a;
+    color: inherit;
+    border-radius: 2px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    padding: 20px;
+  }
+
+  @media print {
+    .control-bar { position: static; }
+    .card { break-inside: avoid; }
+    .card summary::after { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    header.site { padding: 26px 14px 22px; }
+    header.site h1 { font-size: 1.25rem; }
+    header.site p { font-size: 0.82rem; }
+    .control-bar { padding: 10px 10px; }
+    #searchInput { font-size: 16px; padding: 12px 14px 12px 38px; }
+    .nav-btn {
+      font-size: 0.78rem;
+      padding: 9px 12px;
+      min-height: 40px;
+    }
+    main { padding: 18px 12px 32px; }
+    .topic-head h2 { font-size: 1.12rem; }
+    .card summary { padding: 14px 14px; font-size: 0.95rem; }
+    .card-body { padding: 2px 14px 16px; font-size: 0.9rem; }
+    .card-body table, .card-body th, .card-body td { font-size: 0.82rem; }
+  }
+
+  /* 가로 스크롤 방지: 화면 폭을 벗어나는 요소 차단 */
+  html, body { overflow-x: hidden; }
+  img, svg { max-width: 100%; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>🌿 자연 해설 학습 자료</h1>
+  <p>고처사 도보역사투어 · 여행바구니 가이드 참고용 통합노트</p>
+</header>
+
+<div class="control-bar">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="검색: 예) 진달래, 참나무, 벚나무, 회화나무...">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="seasons" style="--accent: #3f7d5c;"><span>🌸</span>사계절 자연해설</button>
+<button class="nav-btn" data-cat="vegetation" style="--accent: #2e5f8a;"><span>🗺️</span>우리나라 식생의 특징</button>
+<button class="nav-btn" data-cat="history" style="--accent: #a15c2e;"><span>🏯</span>도심 조경의 역사</button>
+<button class="nav-btn" data-cat="trees" style="--accent: #4b6b2f;"><span>🌳</span>나무 개별 카드</button>
+<button class="nav-btn" data-cat="landform" style="--accent: #1f6f6a;"><span>🏔️</span>우리나라 자연지형 개관</button>
+<button class="nav-btn" data-cat="seoulgeo" style="--accent: #5a4a8a;"><span>🧭</span>서울 지형·지리 개관</button>
+<button class="nav-btn" data-cat="riverbridge" style="--accent: #2f6f9e;"><span>🌉</span>하천·다리 (청계천·한강다리)</button>
+<button class="nav-btn" data-cat="urbanfauna" style="--accent: #8a6d1f;"><span>🐦</span>도심 동식물 생태</button>
+<button class="nav-btn" data-cat="solarterms" style="--accent: #b03a3a;"><span>📅</span>24절기와 전통 계절문화</button>
+<button class="nav-btn" data-cat="palacegarden" style="--accent: #6a4423;"><span>⛩️</span>궁궐 전통 조경 철학</button>
+<button class="nav-btn" data-cat="monument" style="--accent: #3a6a4a;"><span>🛡️</span>천연기념물 제도</button>
+<button class="nav-btn" data-cat="urbansupp" style="--accent: #5a7d8a;"><span>➕</span>도심 자연 보충노트</button>
+<button class="nav-btn" data-cat="skyweather" style="--accent: #4472b0;"><span>☁️</span>하늘·날씨 현상</button>
+  </div>
+</div>
+
+<main id="mainContent">
+
+    <section class="topic" id="seasons" data-cat="seasons" style="--accent: #3f7d5c;">
+      <div class="topic-head">
+        <span class="topic-icon">🌸</span>
+        <h2>사계절 자연해설</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>사계절 자연 해설 요약노트 (도보역사투어용)</h1>
+<blockquote>
+<p>서울 도심 코스(고궁·하천·골목) 기준. 정확한 개화·단풍 시기는 그 해 기온에 따라 1~2주 앞뒤로 움직이므로, 현장에서는 "보통 ○월경" 식으로 폭을 두고 말하는 게 안전합니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="seasons">
+          <summary>1. 봄 (3월~5월)</summary>
+          <div class="card-body">
+            <h3>꽃 개화 순서 (대략)</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>꽃</th>
+<th>특징/해설 포인트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3월 초중순</td>
+<td>매화</td>
+<td>잎보다 꽃이 먼저 핀다. 추위 속에 피어 "선비의 절개" 상징으로 자주 인용됨</td>
+</tr>
+<tr>
+<td>3월 말~4월 초</td>
+<td>산수유, 개나리</td>
+<td>노란 꽃, 도심 화단·둑길에 흔함</td>
+</tr>
+<tr>
+<td>1~3월(제주) / 3~5월(내륙)</td>
+<td>유채꽃</td>
+<td>제주가 가장 빠르고(1~3월 절정), 내륙(안성·고양 등 화단형 명소)은 4월 초가 절정. 자생군락이 아니라 대부분 관광지에서 조성한 화훼단지</td>
+</tr>
+<tr>
+<td>4월 초</td>
+<td>진달래</td>
+<td>잎 나기 전 분홍꽃. 먹을 수 있어 화전 재료로 쓰임 (철쭉과 혼동 주의)</td>
+</tr>
+<tr>
+<td>4월 초중순</td>
+<td>벚꽃</td>
+<td>잎과 거의 동시에 피고 일주일 내 짐. 개화→만개→낙화 사이클이 빠름</td>
+</tr>
+<tr>
+<td>4월</td>
+<td>튤립</td>
+<td>자생종 아님(네덜란드 연상), 축제용 식재 화훼. 매년 새로 심는 구근식물</td>
+</tr>
+<tr>
+<td>4월 중하순</td>
+<td>철쭉</td>
+<td>진달래보다 늦게, 잎이 난 뒤에 핀다. 꽃이 더 진하고 큼. <strong>독성 있어 식용 불가</strong> (진달래와 구분 포인트)</td>
+</tr>
+<tr>
+<td>5월 초중순</td>
+<td>모란(목단)</td>
+<td>"화왕(花王)"으로 불릴 만큼 화려함. 나무에서 피는 목본성 꽃</td>
+</tr>
+<tr>
+<td>5월 중순</td>
+<td>작약</td>
+<td>모란이 진 직후 이어서 핌. 모란과 꽃 모양이 비슷해 자주 헷갈림(아래 비교 참고)</td>
+</tr>
+<tr>
+<td>5월</td>
+<td>라일락(수수꽃다리), 이팝나무</td>
+<td>라일락은 향, 이팝나무는 흰 꽃이 쌀밥처럼 보인다 해서 이름 유래</td>
+</tr>
+<tr>
+<td>5월 중순~6월 초</td>
+<td>장미(1차 개화)</td>
+<td>한 해 중 가장 화려하게 피는 시기. 사계성 품종은 가을까지 반복 개화(여름 섹션에서 이어서 설명)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>진달래 vs 철쭉 구분법 (자주 묻는 질문)</h3>
+<ul>
+<li>진달래: 꽃이 먼저, 잎 없음, 먹을 수 있음 → "참꽃"</li>
+<li>철쭉: 잎과 같이 핌, 끈적한 점액질, 독성 → "개꽃"</li>
+</ul>
+<h3>모란 vs 작약 구분법</h3>
+<ul>
+<li>둘 다 작약과(科)로 꽃 모양이 거의 같아 헷갈리기 가장 쉬운 조합</li>
+<li>모란: 나무(목본), 줄기가 겨울에도 남아있음, 모란이 먼저 핌(5월 초)</li>
+<li>작약: 풀(초본), 겨울엔 줄기가 죽고 봄에 새로 올라옴, 모란보다 1~2주 늦게 핌(5월 중)</li>
+<li>현장 설명용 한 줄: "나무에서 피면 모란, 풀에서 피면 작약"</li>
+</ul>
+<h3>나무</h3>
+<ul>
+<li>신록(新綠): 4월 말~5월, 연두색 새잎이 도는 시기. 단풍과 대비해 "봄단풍"이라 부르기도 함</li>
+<li>가로수 새순: 은행나무·플라타너스(버즘나무)가 도심 가로수의 양대 축</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>2. 여름 (6월~8월)</summary>
+          <div class="card-body">
+            <h3>꽃</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>꽃</th>
+<th>시기</th>
+<th>포인트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>수국</td>
+<td>6월 초(제주·남부)~7월 중(중부)</td>
+<td>토양 산도에 따라 색이 변함: 산성 토양→파랑·보라, 중성→흰색, 알칼리성→분홍·빨강. 흰 수국은 산도와 무관하게 항상 흰색. 안토시아닌 색소가 토양 속 알루미늄 이온과 결합하는 원리</td>
+</tr>
+<tr>
+<td>장미(가을 재개화)</td>
+<td>5월 1차 개화 후, 사계성 품종은 9~10월까지 반복 개화</td>
+<td>봄 섹션의 장미와 같은 꽃. "장미는 봄에만 핀다"는 오해를 정정해주기 좋은 포인트</td>
+</tr>
+<tr>
+<td>해바라기</td>
+<td>명소마다 큰 차이(6월 중~10월 초)</td>
+<td>파종 시기를 인위적으로 조절하기 때문에 지역별 개화시기가 다름(예: 일찍 심으면 6월, 가을 행사용은 9~10월). <strong>해를 따라 도는 건 꽃이 핀 후가 아니라 봉오리(성장기) 때까지만</strong> — "해바라기=항상 해를 본다"는 통념은 부정확하므로 정정 포인트로 활용 가능</td>
+</tr>
+<tr>
+<td>무궁화</td>
+<td>7~9월 장기간</td>
+<td>나라꽃. 하루 피었다 지고 다음날 새 꽃이 또 핌(매일 새 꽃이 핀다는 뜻이지 한 송이가 100일 가는 게 아님)</td>
+</tr>
+<tr>
+<td>배롱나무(목백일홍)</td>
+<td>7~9월</td>
+<td>나무에서 피는 꽃. "백일 동안 붉다" 해서 백일홍이라고도 부르나, 아래 초화 백일홍과는 다른 식물이므로 구분 필요. 고궁·서원에 많이 심음(껍질이 매끈해 "간지럼나무"라고도 함)</td>
+</tr>
+<tr>
+<td>백일홍(초화/지니아)</td>
+<td>5월 파종~여름·가을 개화</td>
+<td>멕시코 원산의 한해살이풀(국화과). 배롱나무와 한글 이름이 같아 가장 헷갈리는 꽃 중 하나(아래 비교 참고). 강원 평창의 백일홍 축제(9월 말~10월 초)가 대표 명소</td>
+</tr>
+<tr>
+<td>능소화</td>
+<td>7~8월</td>
+<td>담장 타고 오르는 주황색 꽃. 양반집 마당에 많이 심었다는 이야기 전승(출처: 민간설화)</td>
+</tr>
+<tr>
+<td>연꽃</td>
+<td>7~8월</td>
+<td>진흙 속에서도 깨끗한 꽃 핀다 해서 불교·유교 모두에서 군자 상징</td>
+</tr>
+</tbody>
+</table></div>
+<h3>배롱나무(목백일홍) vs 백일홍(지니아) 구분법</h3>
+<ul>
+<li>가장 흔한 혼동: 한국에서 전통적으로 "백일홍"은 나무(배롱나무)를 가리켰으나, 20세기 이후 멕시코 원산의 초화(지니아)도 같은 이름으로 불리며 혼용됨</li>
+<li>배롱나무: 나무(낙엽소교목), 줄기가 매끈하고 알록달록, 고궁·서원·정자 옆에 많음</li>
+<li>백일홍(지니아): 한해살이풀, 화단·축제용 꽃밭에 심음, 색이 더 다양(흰색·주황·분홍 등)</li>
+<li>헷갈릴 땐 "목백일홍(나무)"과 "백일홍/백일초(풀)"로 구분해 말하는 게 가장 안전</li>
+</ul>
+<h3>생태 포인트</h3>
+<ul>
+<li>장마(6월 말~7월 말): 한반도 여름 강수의 절반 가까이 이 시기에 집중</li>
+<li>매미: 7~8월 절정. 수컷만 울며, 짝짓기를 위한 소리</li>
+<li>녹음(綠陰): 잎의 엽록소 농도가 가장 짙은 시기 → 가을 단풍과 대비 포인트로 연결하기 좋음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>3. 가을 (9월~11월)</summary>
+          <div class="card-body">
+            <h3>단풍의 원리 (해설용 핵심 개념)</h3>
+<ul>
+<li>가을이 되면 일조량이 줄면서 나무가 잎으로 가는 엽록소(초록색 색소) 생산을 멈춤</li>
+<li>엽록소가 분해되며 가려져 있던 카로티노이드(노란색)가 드러남 → <strong>은행나무 = 노란 단풍</strong></li>
+<li>일부 나무는 안토시아닌(붉은색 색소)을 새로 만들어냄 → <strong>단풍나무 = 붉은 단풍</strong></li>
+<li>즉 "단풍이 든다"는 건 색이 새로 생기는 게 아니라 초록색이 빠지며 원래 있던/새로 만든 색이 드러나는 현상</li>
+</ul>
+<h3>대표 수종</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>나무</th>
+<th>색</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>은행나무</td>
+<td>노랑</td>
+<td>암수딴그루. 암나무에서만 열매(은행) 열림, 냄새의 원인</td>
+</tr>
+<tr>
+<td>단풍나무</td>
+<td>빨강</td>
+<td>잎이 손바닥 모양으로 갈라짐</td>
+</tr>
+<tr>
+<td>느티나무</td>
+<td>갈색~주황</td>
+<td>고궁·마을 정자목으로 흔함(정자목=마을 어귀 큰 나무)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>꽃</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>꽃</th>
+<th>시기</th>
+<th>포인트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>코스모스</td>
+<td>초여름~10월(가을이 절정)</td>
+<td>멕시코 원산, 1910년대 전후 도입 추정. 거름 없이도 잘 자라 길가에 관상용으로 많이 심음. 순우리말로 "살살이꽃"</td>
+</tr>
+<tr>
+<td>국화</td>
+<td>6~11월(품종별 분산)</td>
+<td>6월 이전 개화종은 "하국", 7~9월은 "하추국", 10~11월은 "추국"으로 구분 — 흔히 보는 가을 국화 축제는 추국 기준. 서리에도 강해 "오상고절(傲霜孤節)" 등 절개의 상징으로 시문에 자주 등장</td>
+</tr>
+<tr>
+<td>핑크뮬리</td>
+<td>10월</td>
+<td>분홍색 억새처럼 보이지만 외래 도입종(북미 원산 관상용 그라스). 자생식물이 아니라 조경용으로 식재된 것이라는 점이 해설 포인트</td>
+</tr>
+<tr>
+<td>억새 vs 갈대</td>
+<td>9~11월(특히 10~11월 절정)</td>
+<td>가장 자주 헷갈리는 가을 식물 쌍. 아래 비교 참고</td>
+</tr>
+</tbody>
+</table></div>
+<h3>억새 vs 갈대 구분법</h3>
+<ul>
+<li>억새: 산이나 들 등 <strong>건조한 곳</strong>에서 자람, 이삭이 은백색, 한 곳에서 여러 줄기가 더부룩하게 자람("~~억새밭")</li>
+<li>갈대: 강가·습지 등 <strong>물가</strong>에서 자람, 이삭이 갈색~자주색에 가까움, 줄기가 굵고 곧게 자람</li>
+<li>현장 설명용 한 줄: "물가에 있으면 갈대, 산이나 마른 들판이면 억새"</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>4. 겨울 (12월~2월)</summary>
+          <div class="card-body">
+            <h3>상록수 vs 낙엽수</h3>
+<ul>
+<li>상록수(소나무, 측백나무, 향나무): 잎이 좁고 두꺼운 침엽 또는 비늘 모양 → 수분 증발을 최소화해 겨울에도 잎 유지</li>
+<li>낙엽수: 겨울엔 증산(蒸散) 자체를 포기하고 잎을 떨궈 에너지 소모를 줄임 → 한겨울 메마른 땅에서 물 흡수가 어렵기 때문</li>
+</ul>
+<h3>해설 포인트</h3>
+<ul>
+<li>소나무: 한국 산림 대표 수종, 고궁·서원에 가장 흔히 심긴 나무 — "선비의 지조" 상징으로 자주 인용</li>
+<li>겨울눈(冬芽): 가지 끝에 다음 해 잎·꽃이 될 눈을 미리 만들어두고 겨울을 남 → 나뭇가지 끝을 보면 이미 봄 준비가 되어 있다는 식으로 설명하면 좋음</li>
+</ul>
+<h3>꽃</h3>
+<ul>
+<li>동백꽃: 11월~이듬해 3월. 추위에 강해 주로 남부 지방(제주·여수·거제 등)에 분포, 중부 내륙(서울권)에서는 노지 월동이 어려워 보기 힘듦 — 서울 코스에서는 "남부 지방 한정" 단서를 꼭 붙일 것</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>5. 자주 쓰는 일반 개념 정리</summary>
+          <div class="card-body">
+            <ul>
+<li><strong>활엽수 vs 침엽수</strong>: 잎이 넓적한가(활엽, 단풍나무·은행나무 등) / 바늘 모양인가(침엽, 소나무·잣나무 등). <em>은행나무는 침엽수처럼 보이지 않지만 활엽수가 아닌 겉씨식물(나자식물) — 분류상 침엽수와 더 가까운 독특한 위치이므로, 단순 활엽/침엽 이분법보다는 "은행나무는 예외적인 나무"로 설명하는 게 안전</em></li>
+<li><strong>정자목(亭子木)</strong>: 마을 어귀나 고궁에 그늘을 만들어주는 큰 나무. 느티나무·팽나무가 대표적</li>
+<li><strong>천연기념물 노거수</strong>: 수령이 오래된 나무는 천연기념물로 지정되는 경우가 많음(코스별로 실제 지정 여부는 개별 확인 필요 — 추정으로 말하지 말 것)</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>6. 발밑의 들꽃 — 원예종이 아닌 자생 잡초성 꽃</summary>
+          <div class="card-body">
+            <p>지금까지 다룬 꽃은 대부분 관상용으로 심은 원예종이었습니다. 여기서는 아무도 심지 않았는데 저절로 피는, 길가·공터의 흔한 들꽃을 정리합니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>꽃</th>
+<th>시기</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제비꽃</td>
+<td>3~5월</td>
+<td>보라색 작은 꽃, 잎은 하트 모양. 씨앗에 개미가 좋아하는 지방 덩어리(엘라이오솜)가 붙어 있어 개미가 씨앗을 물어 나르며 퍼뜨리는 독특한 번식 방식을 가짐</td>
+</tr>
+<tr>
+<td>냉이</td>
+<td>3~5월</td>
+<td>흰색 십자 모양 꽃(4장 꽃잎). 봄나물로 유명한 그 냉이의 꽃 — 나물로 먹는 잎과 뿌리 부분에 정신이 팔려 꽃까지 보는 사람은 드묾</td>
+</tr>
+<tr>
+<td>토끼풀(클로버)</td>
+<td>5~8월</td>
+<td>흰색 둥근 꽃송이, 잎은 보통 3장(네잎클로버는 돌연변이). 원래 유럽 원산 목초로 들여온 것이 야생화된 귀화식물. 대표적인 밀원식물(꿀벌이 즐겨 찾는 꽃) 중 하나</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>해설 포인트</strong>: "예쁘게 가꾼 꽃밭 말고, 아무도 안 심었는데 자라는 이 작은 꽃들도 다 이름과 사연이 있다"는 식으로 짚어주면 발밑을 다시 보게 만드는 효과가 있습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="seasons">
+          <summary>7. 기후변화로 달라지고 있는 것들</summary>
+          <div class="card-body">
+            <p>앞선 개화시기 표는 "평년 기준"이라고 안내했지만, 최근에는 그 평년값 자체가 계속 앞당겨지고 있습니다.</p>
+<ul>
+<li>서울 벚꽃 개화 관측은 <strong>1922년부터 종로구 서울기상관측소의 지정된 왕벚나무(표준목)</strong>를 기준으로 이어지고 있음(한 가지에 꽃 3송이 이상 피면 "개화")</li>
+<li>2021년 서울 벚꽃 개화일은 <strong>3월 24일</strong> — 1922년 관측 이래 가장 빠른 기록이었고, 평년(4월 10일)보다 무려 17일 빨랐음</li>
+<li>최근 10년간 3월 개화가 여러 차례 관측되는 등, "벚꽃은 4월에 핀다"는 통념이 점점 안 맞게 되는 추세</li>
+<li>원인은 봄철 평균기온 상승 — 서울의 3월 평균기온은 1971~2000년 평균 5.2도에서 1991~2020년 평균 6.1도로 뚜렷하게 올라감</li>
+<li>도시열섬현상도 개화시기에 영향을 미쳐, <strong>여의도·석촌호수 같은 도심 공원은 인근 산지보다 벚꽃이 2~3일 더 빨리 핀다</strong>는 관측도 있음(위 "도심 자연 보충노트"의 열섬현상 항목과 연결됨)</li>
+<li>부작용도 보고되고 있음: 벚꽃·개나리·진달래가 예전엔 순차적으로 피었는데 최근엔 한꺼번에 동시에 피는 경우가 잦아지고 있고, 전문가들은 이것이 <strong>꿀벌의 수분 활동 시기와 꽃 피는 시기가 어긋나는 생태계 교란</strong>으로 이어질 가능성을 우려하고 있음(도심 동식물 생태 노트의 "꿀벌 실종" 항목 참고)</li>
+</ul>
+<p><strong>해설 포인트</strong>: "봄꽃 개화시기가 빨라지는 게 단순히 좋은 소식이 아니라, 그 뒤에는 꿀벌 같은 곤충과 꽃이 만나는 시점이 어긋나는 문제가 숨어있다"는 식으로 설명하면 기후변화를 체감시키는 좋은 소재가 됩니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="seasons">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>위 개화·단풍 시기는 <strong>평년 기준 대략치</strong>입니다. 실제 코스 진행 전 해당 주 개화 상황은 별도 확인 권장(기상 변동에 민감).</li>
+<li>유채꽃·해바라기·백일홍(지니아)·핑크뮬리·튤립 등은 <strong>자생식물이 아니라 관광지·축제장에서 인위적으로 조성한 화훼단지</strong>인 경우가 대부분입니다. 명소마다 파종 시기를 다르게 잡기 때문에 "전국 공통 개화시기"라는 게 사실상 없고, 장소별로 따로 확인해야 정확합니다. 이 점은 자생 야생화(진달래·철쭉 등)와 분명히 구분해서 설명하는 게 좋습니다.</li>
+<li>특정 고궁·장소에 "이 나무가 정확히 언제 심어졌다"는 식의 구체적 연대·고유 사실은 이 노트에 포함하지 않았습니다. 그런 정보는 각 장소 DB(역사해설) 쪽에서 출처 태그(실록·공식 등)와 함께 별도로 검증해서 넣는 걸 권장합니다.</li>
+<li>벚꽃 개화 기록(2021년 3월 24일 등)은 매년 갱신되는 수치입니다. 이 노트 작성 이후에도 더 빠른 기록이 나왔을 수 있어, 최신 기록은 기상청 자료로 재확인하는 걸 권장합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="vegetation" data-cat="vegetation" style="--accent: #2e5f8a;">
+      <div class="topic-head">
+        <span class="topic-icon">🗺️</span>
+        <h2>우리나라 식생의 특징</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>우리나라 식생의 특징 (입문 개관)</h1>
+<blockquote>
+<p>가이드 해설 활용 시: 이 노트는 "왜 이 지역엔 이 나무가 많은가"를 설명할 때 쓰는 배경지식입니다. 특정 코스의 특정 나무 이야기는 각 장소 DB에서 별도로 다루고, 여기서는 한반도 전체를 보는 틀만 정리합니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="vegetation">
+          <summary>1. 식생을 결정하는 두 가지 축: 위도와 고도</summary>
+          <div class="card-body">
+            <p>한반도는 북위 33°~43°에 걸쳐 있고 삼면이 바다입니다. 식생을 가르는 핵심 변수는 두 가지입니다.</p>
+<ul>
+<li><strong>위도(남북)</strong>: 남쪽일수록 따뜻해 상록 활엽수가, 북쪽일수록 추워 침엽수가 우세해짐</li>
+<li><strong>고도(수직)</strong>: 같은 위도라도 산을 오를수록 기온이 떨어져 평지의 더운 지역 식생 → 산 정상의 추운 지역 식생으로 바뀜 (마치 적도에서 극지방으로 가는 변화를 산 하나에서 압축해서 보는 것과 비슷)</li>
+</ul>
+<p>즉 "위도가 안 되면 고도로" 비슷한 효과를 낸다고 이해하면 쉽습니다. 태백산맥을 사이에 둔 영동(눈 많음)과 영서(건조)의 기후 차이도 부수적 변수로 작용합니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="vegetation">
+          <summary>2. 식생대 구분 (난대림·온대림·한대림)</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>위치</th>
+<th>대표 수종</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>난대림</td>
+<td>북위 35° 이남 — 제주도·남해안·울릉도 등</td>
+<td>동백나무, 후박나무, 가시나무류, 종가시나무 등 <strong>상록 활엽수</strong>(잎이 두껍고 광택, "조엽수림"이라고도 함)</td>
+</tr>
+<tr>
+<td>온대림(남부)</td>
+<td>중남부 내륙</td>
+<td>소나무·단풍나무류 중심, 참나무류 혼생</td>
+</tr>
+<tr>
+<td>온대림(중부)</td>
+<td>서울 포함 중부 지방</td>
+<td><strong>신갈나무·졸참나무 등 참나무류 + 소나무</strong>가 주축인 낙엽 활엽수림</td>
+</tr>
+<tr>
+<td>온대림(북부)</td>
+<td>북한 중북부</td>
+<td>자작나무·전나무 등 비중 증가</td>
+</tr>
+<tr>
+<td>한대림</td>
+<td>백두산 등 최북단·고산지대</td>
+<td>가문비나무·분비나무 등 침엽수림</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>서울 도보투어 코스 기준</strong>: 대부분 온대(중부) 식생대에 속합니다. 고궁·산자락에서 흔히 보는 신갈나무·졸참나무(참나무류)와 소나무가 바로 이 식생대의 표지종입니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="vegetation">
+          <summary>3. 수직 분포 (고도에 따른 변화)</summary>
+          <div class="card-body">
+            <p>한라산이 한국에서 수직 분포가 가장 뚜렷하게 나타나는 산으로 꼽힙니다(남사면 기준 대략치):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>고도</th>
+<th>식생대</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~600m 이하</td>
+<td>난대림(상록 활엽수)</td>
+</tr>
+<tr>
+<td>600m~1,400m</td>
+<td>온대림(낙엽 활엽수 + 침엽수 혼합)</td>
+</tr>
+<tr>
+<td>1,400m 이상</td>
+<td>한대림(침엽수 위주)</td>
+</tr>
+<tr>
+<td>1,800m 이상</td>
+<td>강풍·토양수분 부족으로 관목·초본 군락(고산대)</td>
+</tr>
+</tbody>
+</table></div>
+<p>같은 원리로 내륙 산(지리산·설악산 등)도 산 아래는 참나무류 활엽수, 정상부로 갈수록 침엽수·관목으로 바뀌는 패턴을 보입니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="vegetation">
+          <summary>4. 한국 산림의 역사적 변화 — &quot;왜 소나무가 이렇게 많은가&quot;</summary>
+          <div class="card-body">
+            <p>현장에서 자주 나오는 질문("우리나라는 왜 이렇게 소나무가 많아요?")에 대한 배경입니다.</p>
+<ol>
+<li><strong>일제강점기~6·25전쟁 전후</strong>: 전쟁물자 조달, 온돌 연료용 벌목, 전후 복구 수요 등으로 산림이 극도로 황폐화 — 전국 다수의 산이 "민둥산"이었음</li>
+<li><strong>치산녹화사업(1970~80년대)</strong>: 정부 주도로 대규모 조림 시행. 이때 척박한 땅에서도 빨리 자라는 속성수(리기다소나무, 아까시나무, 오리나무 등)와 소나무류를 집중적으로 심음</li>
+<li><strong>현재</strong>: 1960년대 ha당 임목축적 5.6㎥에서 2020년 165㎥로 늘 만큼 녹화에 성공했지만, 그 결과 지금 보이는 숲은 대부분 "심은 소나무 숲"이지 원래 자연 그대로의 숲은 아님</li>
+<li><strong>진행 중인 변화(천이)</strong>: 소나무는 양수(陽樹, 햇빛을 많이 요구)라 척박한 땅을 선점하는 데는 유리하지만, 시간이 지나 토양이 좋아지면 음수(陰樹)인 참나무류가 그 아래에서 자라 올라와 결국 소나무를 밀어내는 "자연 천이"가 진행됩니다. 그래서 장기적으로는 한반도 자연림의 극상(極相)이 참나무류 중심으로 수렴해가는 추세입니다.</li>
+</ol>
+<p>해설 포인트로 정리하면: <strong>"지금 보이는 소나무 숲 상당수는 자연 그대로가 아니라 전쟁 후 민둥산을 복구하며 심은 숲이고, 시간이 지나면 자연스럽게 참나무 숲으로 바뀌어 간다"</strong>는 식으로 설명하면 한국 산림사를 압축해서 전달할 수 있습니다.</p>
+<blockquote>
+<p>⚠️ 위 녹화사업 단계·수종별 비중에 대한 세부 수치는 자료마다 표현이 다를 수 있어, 정확한 통계가 필요한 발표·인쇄물에는 산림청 공식자료를 별도로 확인하는 걸 권장합니다.</p>
+</blockquote>
+</div>
+        </details>
+        <details class="card" data-cat="vegetation">
+          <summary>5. 자생 식생 vs 도심 조경 — 구분해서 설명하기</summary>
+          <div class="card-body">
+            <p>지난 사계절 노트에서 다룬 가로수(은행나무·플라타너스)나 화훼단지(유채꽃·튤립 등)는 <strong>이번 식생대 분류와는 다른 층위</strong>입니다.</p>
+<ul>
+<li><strong>자생 식생</strong>: 위 1~4번에서 다룬, 기후·고도에 따라 그 자리에 자연적으로 자라는 숲(참나무류·소나무 등)</li>
+<li><strong>도심 식재</strong>: 사람이 가로수·조경수로 골라 심은 나무(은행나무, 플라타너스, 이팝나무 등) — 반드시 그 지역 자생종은 아니며, 病害蟲·매연에 강한지, 보기 좋은지 등 실용적 기준으로 선택된 것</li>
+<li>고궁 안의 소나무도 마찬가지로 "자연림"이 아니라 <strong>조경·상징적 의도로 식재·관리된 숲</strong>인 경우가 많음(소나무=선비의 절개 상징이라 의도적으로 많이 심음)</li>
+</ul>
+<p>현장에서 "이게 원래 여기 있던 나무냐"는 질문을 받으면, 이 구분으로 답하면 정확합니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="vegetation">
+          <summary>6. 빠르게 보는 요약 표</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>지역</th>
+<th>식생대</th>
+<th>핵심 키워드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제주·남해안·울릉도</td>
+<td>난대림</td>
+<td>상록 활엽수, 동백나무</td>
+</tr>
+<tr>
+<td>서울 포함 중부 내륙</td>
+<td>온대림(중부)</td>
+<td>참나무류(신갈·졸참) + 소나무</td>
+</tr>
+<tr>
+<td>지리산·설악산 등 고산 정상부</td>
+<td>한대림(고산대)</td>
+<td>침엽수, 관목·초본대</td>
+</tr>
+<tr>
+<td>한반도 전역 도심</td>
+<td>(식생대 구분 밖)</td>
+<td>인위적 조경수 — 자생 여부와 무관하게 선택됨</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="vegetation">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>식생대 경계(예: 600m, 1,400m 등 고도 수치)는 산마다, 사면(남/북)마다 달라지는 <strong>대략적 기준</strong>입니다. 특정 산의 정확한 경계를 단정적으로 말하지 않는 게 안전합니다.</li>
+<li>"조엽수림", "극상" 같은 학술 용어는 현장에서는 쉬운 말(상록활엽수, 안정된 숲)로 풀어 쓰는 걸 권장합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="history" data-cat="history" style="--accent: #a15c2e;">
+      <div class="topic-head">
+        <span class="topic-icon">🏯</span>
+        <h2>도심 조경의 역사</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>도심 조경의 역사 (서울 가로수·조경수 변천사)</h1>
+<blockquote>
+<p>나무 자체의 생태(개화시기·특징)는 앞선 "사계절 자연해설" 노트에서 다뤘습니다. 이 노트는 "이 나무가 왜, 언제부터 여기 심어졌는가"라는 <strong>역사·정책</strong> 층위를 다룹니다. 특히 창경궁 벚나무 이야기는 종로·을지로 코스와 바로 연결되는 내용입니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="history">
+          <summary>1. 벚나무 — 가장 파란만장한 나무</summary>
+          <div class="card-body">
+            <h3>1-1. 창경궁이 "창경원"이 된 사연</h3>
+<ul>
+<li>1907년 순종이 창덕궁으로 거처를 옮긴 것을 계기로, 일제는 "위로한다"는 명목으로 창경궁 전각을 헐고 그 자리에 동물원·식물원을 조성</li>
+<li>1909년 창경원(昌慶苑)으로 개원 — 궁궐이 왕족 공간에서 누구나 들어오는 유원지로 격하됨. 한반도 최초의 "시민공원"이라는 역설적 타이틀도 여기서 나옴</li>
+<li>이때부터 1920년대에 걸쳐 경내에 벚나무 수천 그루가 식재되고, 봄철 밤벚꽃놀이 명소로 조성됨</li>
+</ul>
+<h3>1-2. <strong>정정 포인트</strong>: "광복 직후 잘랐다"는 통념은 부정확</h3>
+<p>말씀하신 "광복 직후 일제 잔재라며 벚나무를 많이 잘랐다"는 이야기, 실제로는 지역에 따라 사정이 다릅니다.</p>
+<ul>
+<li><strong>서울(창경원)</strong>: 광복 이후에도 벚나무는 그대로 남았고, 오히려 <strong>1960~80년대 초까지 창경원은 서울 시민이 가장 많이 찾는 봄나들이·벚꽃놀이 명소</strong>로 계속 인기를 누렸습니다. "일제 잔재"라는 비판은 계속 있었지만 실제 대규모 벌목·이식은 없었습니다.</li>
+<li>진짜 대규모 정리는 그로부터도 40년 가까이 지난 <strong>1983~1986년 창경궁 복원사업</strong> 때 일어났습니다. 동물원을 서울대공원(1984년 개장)으로 옮기고 궁궐 원형을 복원하는 과정에서 벚나무 대부분을 베어내거나 여의도 윤중로·서울대공원·어린이대공원으로 옮겨 심었고, 그 자리엔 소나무·느티나무 등 재래 수종을 다시 심었습니다.</li>
+<li><strong>진해</strong>는 반대로 실제로 광복 직후 벌목이 있었던 사례입니다. 이후 벚나무 자생지가 제주도라는 사실이 알려지자 "그럼 우리 나무니 다시 심자"고 결정했는데, 정작 1962년에 심은 건 제주 왕벚나무가 아니라 <strong>일본 개량종(소메이요시노) 묘목 2천여 그루</strong>였다는 아이러니가 있습니다.</li>
+</ul>
+<p>즉 "광복 직후 전국이 일제히 벚나무를 잘랐다"보다는 <strong>"지역마다 온도차가 컸고, 서울의 상징적 벌목은 오히려 1980년대 궁궐 복원사업과 맞물려 일어났다"</strong>고 설명하는 게 정확합니다.</p>
+<h3>1-3. 여의도 벚꽃길(윤중로)의 탄생</h3>
+<ul>
+<li>여의도에 벚나무가 처음 심어진 건 1960년대 후반, 한강 제방(윤중제) 조성과 함께</li>
+<li>여기에 1983~86년 창경궁에서 옮겨진 벚나무들이 대거 더해지며 지금의 벚꽃길 기반이 형성됨</li>
+<li>2005년 영등포구가 "여의도 봄꽃축제"로 공식화, 2007년엔 이름에서 "벚꽃"을 빼고 "봄꽃"으로 바꾸면서 진달래·개나리·철쭉 등 토종 꽃나무도 함께 심음 — 이름 하나에도 "일제 잔재는 빼고 봄 정서는 살리자"는 고민이 담김</li>
+<li>"윤중로"라는 이름 자체도 일본식 한자어("윤중"=강섬 둘레의 둑)라 최근 공식 도로명이 <strong>여의서로</strong>로 바뀜 — 도로 이름 변경까지 이어진, 나무를 넘어선 지명 차원의 일제 잔재 청산 사례</li>
+</ul>
+<h3>1-4. 왕벚나무는 사실 일본 나무가 아니다</h3>
+<ul>
+<li>1908년 제주에서 채집된 표본이 독일 학계에 보내지며 논쟁 시작 → 1933년 일본 학자 고이즈미가 한라산에서 왕벚나무 자생지를 직접 확인 → 2001년 국내 연구기관의 DNA 분석으로 일본에서 자라는 왕벚나무와 한라산 자생 왕벚나무가 같은 종임이 확인됨(단, 이 유전적 계통 논쟁은 최근까지도 완전히 종결된 건 아니라는 시각도 있어, "정설이지만 학계에서 계속 다뤄지는 주제"라고 소개하는 게 안전)</li>
+<li>즉 "벚꽃=일본 꽃"이라는 인식과 달리, 우리가 보는 왕벚나무 품종의 원산지 후보지 중 하나가 제주도 한라산이라는 게 핵심 반전 포인트</li>
+</ul>
+<h3>1-5. 참고: 북한은 정반대 선택</h3>
+<ul>
+<li>6·25전쟁 후 도시를 재건하며 김일성이 "벚나무 대신 살구나무를 가로수로 심으라"고 지시했다는 이야기가 전해짐(출처: 언론 보도, 공식 문헌 확인은 어려움 — 전승 수준으로 소개 권장)</li>
+<li>벚나무와 살구나무는 같은 속(屬)이라 봄에 꽃이 피면 분위기가 비슷하지만, 살구나무는 여름에 열매(살구)를 얻을 수 있다는 실용적 이유도 있었다고 함</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="history">
+          <summary>2. 은행나무 — 사랑받다 미움받는 나무</summary>
+          <div class="card-body">
+            <h3>왜 그렇게 많이 심었나</h3>
+<ul>
+<li>가을 단풍이 아름답고, 공기정화 능력이 좋고, 병충해·화재에 강함(껍질이 두꺼움) — 도심 가로수로서 거의 만점에 가까운 수종</li>
+<li>서울 가로수 중 은행나무 비중이 가장 높은 편(전체 30만여 그루 중 약 1/3 수준)</li>
+</ul>
+<h3>문제의 시작: 암나무 열매</h3>
+<ul>
+<li>은행나무는 암수딴그루인데, 겉모습만으로는 구분이 안 되고 <strong>최소 15년 이상 자라야 꽃과 열매로 암수를 판별</strong>할 수 있었음 — 그래서 처음 가로수를 심던 시절엔 어느 게 암나무인지 알 방법이 없었음</li>
+<li>가을에 열매(정확히는 씨앗의 육질 껍질)가 떨어져 밟히면서 빌로볼·은행산 성분이 터져 나와 악취 발생 — 나무 입장에선 씨앗을 곤충으로부터 지키는 자기방어 기능</li>
+<li>매년 9월 중순부터 서울시·각 자치구 민원이 집중</li>
+</ul>
+<h3>최근 대응 (2020년대)</h3>
+<ul>
+<li>"은행 열매 채취 기동반" 운영: 열매가 떨어지기 전 조기 채취, 그물망 설치</li>
+<li>DNA 검사로 암수 판별이 가능해지면서, 민원이 많은 구간의 암나무를 수나무로 교체하는 지자체도 등장(예: 영등포구 여의도 일대)</li>
+<li>다만 "암나무를 없애면 수나무 꽃가루만 남아 알레르기가 늘어난다"는 반론도 있어(미국 사례 인용), 지자체마다 교체 vs 유지 정책이 갈림</li>
+</ul>
+<h3>해설 포인트</h3>
+<p>"은행나무는 원래 죄가 없다. 인간이 암수를 구분 못 하고 심었던 과거의 한계가 지금 매년 가을 골칫거리로 돌아오고 있는 것"이라는 식으로 설명하면 흥미를 끌기 좋습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="history">
+          <summary>3. 플라타너스(양버즘나무) — 떠오르고 저무는 가로수</summary>
+          <div class="card-body">
+            <h3>도입과 전성기</h3>
+<ul>
+<li>서울에는 일제강점기(1910년대 무렵)부터 도입되어 심기 시작했다는 기록이 있고, 이후 1970년대에는 전국 도심 가로수로 본격 확산</li>
+<li>인기 이유: 성장이 빠르고, 잎이 넓어 여름 그늘이 좋고, 대기오염(매연)에 강함 — 산업화 시기 도시 환경에 최적화된 선택</li>
+</ul>
+<h3>최근의 퇴조</h3>
+<ul>
+<li>뿌리가 옆으로 넓게 퍼지는 특성 때문에 보도블록·경계석을 들어 올리는 문제</li>
+<li>나무가 커지면서 전선·가로등·간판을 가리는 민원</li>
+<li>태풍에 약해 쓰러지는 사고(2000년대 초 태풍 루사·매미 때 피해 사례)</li>
+<li>이런 이유로 2000년대 이후 상당수가 다른 수종으로 교체되며 도심에서 외곽으로 밀려나는 추세 (다만 지자체별로 "교체 후 다시 유지"로 정책이 오갔던 사례도 있어, 지역별 편차가 큼)</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="history">
+          <summary>4. 종합 정리 — 해설에 쓸 한 줄 메시지</summary>
+          <div class="card-body">
+            <p>세 나무의 공통점: <strong>가로수는 자연 발생이 아니라 그 시대의 필요와 가치관에 따라 인간이 선택한 결과물</strong>이라는 것.
+- 벚나무: 식민지 시기의 상징 조작 → 정체성 논쟁 → 자생지 재발견이라는 반전
+- 은행나무: 기능성 우선 선택 → 뒤늦게 드러난 부작용 → DNA 기술로 사후 대응
+- 플라타너스: 산업화 시기 최적해였지만 지금 도시 인프라와는 안 맞는 과거의 선택</p>
+<p>이 흐름은 "지금 이 거리에 심어진 나무를 보면, 그 시대 도시가 뭘 중요하게 여겼는지 알 수 있다"는 메시지로 정리하면 도보투어 해설 마무리 멘트로 쓰기 좋습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="history">
+          <summary>4. 도시공원이라는 개념 자체의 역사 — 탑골공원</summary>
+          <div class="card-body">
+            <p>지금까지는 가로수·조경수 "정책"을 다뤘는데, "공원"이라는 공간 개념 자체가 언제 한국에 들어왔는지도 흥미로운 대목입니다.</p>
+<ul>
+<li>공원은 원래 유럽에서 19세기 산업혁명 이후 도시화·인구 증가로 생긴 여러 문제(주택난, 전염병 등)를 완화하기 위해 등장한 <strong>근대의 발명품</strong>입니다. 그 전까지는 왕족·귀족의 개인 정원만 있었을 뿐, 누구나 드나드는 공공 공원이라는 개념 자체가 없었습니다</li>
+<li>한국 최초의 근대식 공원이라는 타이틀은 미묘하게 갈립니다:</li>
+<li>외국인이 조성한 것까지 포함하면 <strong>인천 자유공원(옛 만국공원, 1888~1890년경 조성)</strong>이 최초</li>
+<li><strong>한국 정부·한국인이 주도해 만든 공원</strong>으로는 <strong>탑골공원(1897년경, 고종 시대)</strong>이 최초 — 흔히 "한국 최초의 공원"으로 알려진 게 이쪽입니다</li>
+<li>탑골공원은 원래 조선시대 원각사라는 절이 있던 자리였는데, 억불정책으로 절이 헐리고 빈터만 남아있던 곳을 공원으로 조성한 것입니다</li>
+<li>이후 탑골공원은 <strong>1919년 3·1운동이 시작된 장소</strong>이자, 1960년 4·19혁명 때도 시민들이 모였던 곳으로, 공원이라는 공간이 한국 근현대사에서 계속 "시민이 모이는 장소"로 기능해온 상징성을 가집니다</li>
+</ul>
+<p><strong>해설 포인트</strong>: "공원이라는 개념 자체가 100년 남짓밖에 안 된 근대적 발명품이고, 그 최초의 한국 사례가 하필 독립운동의 발상지가 됐다"는 식으로 연결하면 조경사와 근현대사를 함께 엮어 설명할 수 있습니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="history">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>벚나무 관련 연도(1907·1909·1922 등)는 자료마다 약간의 편차가 있습니다. 특히 "몇 년에 몇 그루를 심었다" 식의 정확한 수치는 출처를 하나로 통일해 확인 후 확정하는 걸 권장합니다.</li>
+<li>왕벚나무 자생지·유전자 논쟁은 학계에서 여전히 세부적으로 다뤄지는 주제입니다. "정설이 이렇다"보다는 "이런 연구·논쟁의 흐름이 있었다"는 식으로 설명하는 게 안전합니다.</li>
+<li>은행나무·플라타너스 관련 그루 수·비율 통계는 조사 연도(2020·2023·2025 등)마다 다릅니다. 현장에서 구체적 수치를 언급할 계획이면 최신 자료로 다시 확인하시길 권합니다.</li>
+<li>북한 살구나무 관련 일화는 공식 1차 자료로 확인되지 않아 "전해지는 이야기" 수준으로만 소개하는 게 안전합니다.</li>
+<li>탑골공원의 정확한 조성 연도(1895/1896/1897년)는 사료가 명확하지 않아 학계에서도 정설이 없습니다. "1890년대 후반"이라는 폭으로 설명하는 게 안전합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="trees" data-cat="trees" style="--accent: #4b6b2f;">
+      <div class="topic-head">
+        <span class="topic-icon">🌳</span>
+        <h2>나무 개별 카드</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>나무 개별 카드 (수종별 구분법·상징)</h1>
+<blockquote>
+<p>이 노트는 "이 나무가 무슨 나무인지, 다른 나무와 어떻게 다른지"를 현장에서 즉답할 수 있도록 정리한 것입니다. 개화시기는 "사계절 자연해설", 식생 분류는 "우리나라 식생의 특징", 가로수 정책사는 "도심 조경의 역사" 노트를 참고하세요.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="trees">
+          <summary>소나무 · 잣나무 · 리기다소나무 — 침엽수 구분의 기본</summary>
+          <div class="card-body">
+            <p>바늘잎(침엽)이 <strong>몇 개씩 뭉쳐 나는지</strong>로 구분하는 게 가장 빠릅니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>수종</th>
+<th>잎 뭉치 개수</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>소나무</td>
+<td>2개 (이엽송)</td>
+<td>한국 자생 대표종. 궁궐·서원에 가장 흔함, "선비의 절개" 상징</td>
+</tr>
+<tr>
+<td>잣나무</td>
+<td>5개 (오엽송)</td>
+<td>열매(잣)를 식용. 산 중턱 이상에 많음</td>
+</tr>
+<tr>
+<td>리기다소나무</td>
+<td>3개 (삼엽송)</td>
+<td>북미 원산 도입종. 척박한 땅에서도 잘 자라 1970~80년대 치산녹화사업 때 속성수로 대량 식재(도심조경사 노트 참고)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>현장 한 줄</strong>: "잎을 한 움큼 뽑아 세어보면 된다 — 두 개면 소나무, 다섯 개면 잣나무"</p>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>느티나무 vs 회화나무 vs 팽나무 — &quot;정자목 3형제&quot;</summary>
+          <div class="card-body">
+            <p>마을 어귀·궁궐 마당의 큰 그늘나무는 대개 이 셋 중 하나입니다. 조선시대 5대 거목(은행나무·느티나무·회화나무·팽나무·왕버들) 중 세 종입니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>나무</th>
+<th>원산지·특징</th>
+<th>상징·용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>느티나무</td>
+<td>한국 자생, 생장 빠르고 수명 김(전국 노거수의 절반이 느티나무)</td>
+<td>마을 정자목의 대표. 서원에서는 원래 중국산인 회화나무 대신 심는 경우가 많았음</td>
+</tr>
+<tr>
+<td>회화나무</td>
+<td>중국 원산, 콩과. 국내에선 잘 못 크고 수명이 상대적으로 짧음</td>
+<td><strong>학자수(學者樹)</strong>: 궁궐 정문 안쪽·서원·향교에만 심을 수 있었던 나무. 창덕궁 돈화문 안쪽 8그루가 천연기념물. "괴(槐)=나무 목+귀신 귀"라 하여 잡귀를 쫓는 나무로도 여겨짐</td>
+</tr>
+<tr>
+<td>팽나무</td>
+<td>한국 자생</td>
+<td>남부지방 정자목으로 특히 흔함. 최근 드라마(이상한 변호사 우영우)로 재조명됨</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>구분 포인트</strong>: 잎 모양보다 "어디 심겨 있나"로 먼저 짐작하는 게 실전적입니다 — 서원·궁궐 정문 안쪽=회화나무 가능성, 마을회관 앞 그늘나무=느티나무 가능성이 높습니다. 정확한 최종 구분은 잎(회화나무는 작은 잎이 깃꼴로 여러 장 붙는 우상복엽, 느티나무는 톱니 있는 홑잎)으로 확인.</p>
+<p><strong>해설용 에피소드</strong>: 창경궁 명정전 옆 회화나무는 사도세자가 뒤주에 갇혀 죽는 것을 지켜봤다 하여 속이 새까맣게 썩어 있다는 이야기가 전해집니다(전승 수준으로 소개 권장).</p>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>참나무 6형제 — 가장 헷갈리는 그룹</summary>
+          <div class="card-body">
+            <p>"참나무"는 한 종이 아니라 참나무속(屬)에 속하는 6개 수종을 통칭하는 이름입니다. 도토리가 열리는 나무들입니다.</p>
+<h3>이름의 유래 (암기용)</h3>
+<p>"떡 싸먹자 떡갈나무 / 신발 깔아 신갈나무 / 껍질 갈아 갈참나무 / 졸병나무 졸참나무 / 껍질 굵은 굴참나무 / 임금님 수라상 상수리나무"</p>
+<h3>1차 구분: 잎 가장자리</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>그룹</th>
+<th>해당 수종</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>물결(파도)무늬</td>
+<td>신갈·떡갈·갈참·졸참</td>
+<td>잎 가장자리가 부드러운 물결 모양</td>
+</tr>
+<tr>
+<td>뾰족한 침 모양</td>
+<td>상수리·굴참</td>
+<td>밤나무 잎과 비슷하게 길쭉하고 가장자리에 침이 있음</td>
+</tr>
+</tbody>
+</table></div>
+<h3>2차 구분</h3>
+<ul>
+<li><strong>상수리 vs 굴참</strong>: 잎자루 긴 것=상수리(뒷면 연초록, 털 없음) / 잎자루 짧은 것=굴참(뒷면 회백색, 털 있음). 굴참나무는 코르크질 두꺼운 껍질이 특징(굴피집 재료)</li>
+<li><strong>떡갈 vs 신갈</strong>: 잎이 크고 뒷면에 털이 많으면 떡갈나무 / 털이 없으면 신갈나무</li>
+<li><strong>갈참 vs 졸참</strong>: 졸참나무가 잎·열매가 더 작음. 갈참나무는 잎자루가 더 길고 뒷면이 회백색, 졸참나무는 뒷면이 초록색</li>
+</ul>
+<h3>도토리 모양으로 구분(보조)</h3>
+<ul>
+<li>깍정이(모자)가 열매를 방석처럼 감싸는 형태: 상수리·굴참·떡갈</li>
+<li>깍정이가 기왓장 겹친 것처럼 도토리 윗부분만 덮는 형태: 신갈·갈참·졸참</li>
+</ul>
+<h3>어디서 잘 보이나</h3>
+<p>산 아래쪽엔 떡갈나무·상수리나무, 산 중턱 이상엔 신갈나무가 많은 편입니다(다만 이는 대체적 경향이라 절대적 기준은 아닙니다).</p>
+<blockquote>
+<p>⚠️ 6형제는 서로 자연 교잡이 잦아(예: 신갈+졸참=물참나무) 현장에서 "이건 100% 이거다"라고 단정하기 어려운 개체도 많습니다. 헷갈릴 땐 "참나무과 나무"라고 큰 범주로 설명하고 넘어가는 것도 방법입니다.</p>
+</blockquote>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>은행나무 — 침엽수도 활엽수도 아닌 예외</summary>
+          <div class="card-body">
+            <ul>
+<li>잎은 부채꼴, 겉씨식물(裸子植物)로 분류상 소나무·잣나무와 더 가까운 독특한 위치 — 활엽수처럼 보이지만 침엽수 쪽 계통(우리나라 식생 노트의 활엽/침엽 이분법에서 예외로 다룬 이유)</li>
+<li>암수딴그루, 열매 악취 문제는 "도심 조경의 역사" 노트에서 상세히 다룸</li>
+<li>중생대부터 존재해 "살아있는 화석"이라 불림 — 은행나무문(門) 전체에서 유일하게 멸종하지 않고 남은 종</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>단풍나무 vs 신나무 vs 당단풍 — 가을 단풍나무 3종</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>나무</th>
+<th>잎 갈래 수</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>단풍나무</td>
+<td>5~7갈래로 깊게 갈라짐</td>
+<td>가장 대표적인 단풍나무. 갈래가 뾰족하고 좁음</td>
+</tr>
+<tr>
+<td>당단풍나무</td>
+<td>9~11갈래</td>
+<td>단풍나무보다 갈래가 더 많고 잎이 더 동그란 느낌</td>
+</tr>
+<tr>
+<td>신나무</td>
+<td>3갈래(얕게)</td>
+<td>잎이 단풍나무류 중 가장 덜 갈라짐. 작은키나무</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>현장 한 줄</strong>: "손가락처럼 갈라진 잎을 보고, 갈래 수를 세어보면 대략 구분됩니다"</p>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>향나무 vs 측백나무 — 헷갈리는 상록 침엽수</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>향나무</th>
+<th>측백나무</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>잎 형태</td>
+<td>바늘잎(어릴 때)과 비늘잎이 한 나무에 섞여 있음</td>
+<td>비늘잎만 있고, 납작한 부채 모양으로 겹쳐짐</td>
+</tr>
+<tr>
+<td>향</td>
+<td>향이 강해 제사·분향 재료로 쓰임</td>
+<td>향이 약함</td>
+</tr>
+<tr>
+<td>흔히 보는 곳</td>
+<td>절·사당, 창덕궁(수령 약 700년 향나무 유명)</td>
+<td>묘지 주변, 생울타리(정원 경계용)</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>버드나무 — 물가의 나무</summary>
+          <div class="card-body">
+            <ul>
+<li>가지가 아래로 늘어지는 수양버들이 가장 흔히 알려진 이미지. 물가·습지에서 잘 자람</li>
+<li>봄에 솜털 씨앗(버들솜, 버들개지)이 날리는 것으로도 유명</li>
+<li>청계천·한강 등 도심 하천 산책로에 조경수로 흔히 심음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>오동나무 — 딸을 위해 심는 나무</summary>
+          <div class="card-body">
+            <ul>
+<li>목재가 가볍고 습기에 강해 예로부터 장롱·거문고·가야금 재료로 최고급 대접</li>
+<li>"딸을 낳으면 오동나무를 심어 시집갈 때 장롱을 짜준다"는 풍습이 전해짐(민간설화 수준)</li>
+<li>성장이 매우 빨라 20년 정도면 벌목 가능한 크기로 자람</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>목련 — &quot;목련&quot;이라 부르지만 대부분은 백목련</summary>
+          <div class="card-body">
+            <ul>
+<li>우리가 봄마다 보는 흰 목련은 대부분 <strong>백목련</strong>(중국 원산)입니다. 진짜 토종 "목련"(Magnolia kobus)은 제주도에서만 자생하는 희귀종이라, 서울 도심에서 보는 흰 목련은 사실상 다 백목련이라고 봐도 됩니다.</li>
+<li>백목련: 꽃잎 6장 + 꽃받침 3장(총 9장처럼 보임), 꽃에 힘이 있어 형태가 또렷함, 3월 말~4월 개화</li>
+<li>자목련: 꽃 안팎이 모두 자주색, 백목련보다 조금 늦게(4월) 핌</li>
+<li>자주목련: 백목련×자목련 교배종. 꽃 안쪽은 흰색, 바깥쪽은 자주색 — "안백밖자"로 기억하면 편함</li>
+<li>구분 포인트: 진짜 토종 목련은 꽃잎이 힘없이 늘어지고 꽃 밑에 작은 잎이 하나 붙어 있음(백목련엔 이게 없음)</li>
+</ul>
+<p><strong>해설 포인트</strong>: "우리가 아는 그 목련, 사실 한국 토종이 아니라 중국에서 온 백목련입니다"는 은근한 반전 포인트로 쓰기 좋습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>벽오동 — 오동나무와 헷갈리지만 다른 나무</summary>
+          <div class="card-body">
+            <ul>
+<li>오동나무(현삼과 계열)와 잎 모양이 비슷해 이름이 붙었지만, 벽오동은 <strong>벽오동과</strong>로 분류상 전혀 다른 나무</li>
+<li>가장 쉬운 구분법: <strong>줄기(수피)가 초록빛</strong>을 띠는 게 벽오동의 특징 — 나무 껍질이 푸르스름하면 벽오동</li>
+<li>상징: 중국 고사에서 "봉황은 벽오동나무가 아니면 앉지 않는다"고 하여, 귀한 인물(성군·군자)을 기다리는 마음으로 정원·서원에 심음. 화투 11월 패("오동 광")에 등장하는 새가 이 봉황</li>
+<li>내한성이 약해 서울 이북에서는 겨울나기가 어려워, 서울 이남 지역에서 주로 관상용으로 심음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>주목 — &quot;살아 천년, 죽어 천년&quot;</summary>
+          <div class="card-body">
+            <ul>
+<li>상록침엽수, 잎이 소나무보다 짧고 부드러우며 열매가 빨간 컵 모양(씨앗은 독성이 있어 주의, 과육만 무독)</li>
+<li>"살아 천년, 죽어 천년"이라는 말로 잘 알려져 있음(성장이 느리고 목재가 잘 썩지 않아 붙은 표현) — 다만 이는 관용적으로 널리 퍼진 표현이라 정확한 유래·문헌은 명확하지 않으므로 "흔히 이렇게들 말한다"는 톤으로 소개하는 게 안전</li>
+<li>궁궐·사찰·아파트 조경수로 매우 흔하게 쓰임 — 나이 들어도 관리하기 좋아 정원수로 인기</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>회양목 — 궁궐 화단의 초록 테두리</summary>
+          <div class="card-body">
+            <ul>
+<li>궁궐·전통정원·아파트 화단 경계에 낮게 다듬어 심는 상록 관목 — 잎이 작고 촘촘해 "울타리"로 만들기 좋음</li>
+<li>성장이 매우 느려 목재가 치밀하고 단단함 — 전통적으로 도장(인장) 재료로 최고급 취급받음("회양목 도장")</li>
+<li>현장에서 "이 초록 테두리 나무가 뭐예요?"라는 질문을 가장 많이 받는 나무 중 하나</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>대나무 — 나무가 아니라 풀</summary>
+          <div class="card-body">
+            <ul>
+<li>분류학적으로는 벼과(禾本科)에 속하는 <strong>풀</strong>입니다. "대나무"라는 이름 때문에 나무로 오해받지만 목질을 가진 여러해살이 풀에 가깝습니다.</li>
+<li>속이 빈 마디 구조 덕분에 가볍고 탄력이 강함 — 선비의 곧은 절개("세한삼우": 소나무·대나무·매화) 상징으로 자주 쓰임</li>
+<li>일부 종은 수십 년에 한 번 꽃을 피우고 나서 대규모로 말라 죽는 "개화 후 고사" 현상이 알려져 있음(정확한 개화 주기는 종·지역마다 차이가 커서 "몇 년마다"로 단정하기보다 "수십 년에 한 번, 드문 현상"으로 설명하는 게 안전)</li>
+<li>담양이 대표 산지로 유명하지만, 남부지방 사찰·전통가옥 정원에도 흔히 심음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>메타세쿼이아 — 잎 지는 침엽수라는 예외</summary>
+          <div class="card-body">
+            <ul>
+<li>침엽수인데도 가을에 단풍이 들고 낙엽이 지는 특이한 나무(낙우송과) — "침엽수=상록수"라는 일반적 통념의 예외 사례로 설명하기 좋음</li>
+<li>한때 화석으로만 알려져 멸종한 줄 알았다가 1940년대 중국에서 살아있는 개체가 발견되어 "살아있는 화석"이라 불림</li>
+<li>국내에는 1970년대 이후 도입되어 최근 20~30년 사이 가로수·수변 산책로에 급격히 늘어난 비교적 최근 유행 수종(담양 메타세쿼이아길이 대표적 명소)</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>전나무 vs 구상나무 — 크리스마스트리 원조 논쟁</summary>
+          <div class="card-body">
+            <ul>
+<li><strong>전나무</strong>: 사찰 진입로에 흔한 상록침엽수(광릉·오대산 월정사 전나무숲 등). 잎이 뻣뻣하고 끝이 뾰족함</li>
+<li><strong>구상나무</strong>: 놀랍게도 <strong>한국 특산종</strong>(한라산·지리산·덕유산 등 해발 1,000m 이상 고산에만 자생). 잎이 부드럽고 어릴 때 성장이 느려 작고 풍성하게 자람</li>
+<li><strong>반전 포인트</strong>: 전 세계에서 크리스마스트리로 가장 인기 있는 품종("코리안 퍼")이 바로 이 구상나무의 개량종입니다. 1907년 제주에서 서양 신부들이 채집해 표본이 해외로 나갔고, 1920년 영국 학자가 신종으로 학계에 발표하면서 서구에 알려졌습니다. 정작 원산지인 한국은 품종 특허 권리가 없고, 최근엔 기후변화로 국내 자생지가 멸종위기에 처해 있다는 아이러니가 있습니다.</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>밤나무 · 감나무 · 대추나무 — 전통 마을의 실용수</summary>
+          <div class="card-body">
+            <p>세 나무 모두 관상보다는 <strong>먹거리 생산</strong>을 위해 집·마을 주변에 심어온 나무입니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>나무</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>밤나무</td>
+<td>가시 달린 밤송이가 특징적. 제사상에 밤을 올리는 풍습과 연결해 설명하기 좋음</td>
+</tr>
+<tr>
+<td>감나무</td>
+<td>거의 모든 전통 가옥 마당에 한 그루씩 있다시피 함. 늦가을 잎 진 가지에 홍시만 남은 풍경("까치밥")이 상징적</td>
+</tr>
+<tr>
+<td>대추나무</td>
+<td>작은 가시가 있는 가지. 제사·폐백에 쓰여 다산·자손 번창의 상징으로 여겨짐</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>뽕나무 — 양잠 산업의 흔적</summary>
+          <div class="card-body">
+            <ul>
+<li>창덕궁에는 실제 뽕나무 노거수가 있으며, 왕비가 직접 누에를 치는 "친잠례(親蠶禮)" 의식이 열렸던 역사적 배경과 연결됨</li>
+<li>조선은 농본사회에서 양잠(누에치기 → 비단)을 국가적으로 중시해 궁궐 후원에까지 뽕나무를 심음</li>
+<li>열매(오디)는 여름에 검게 익어 식용 가능</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="trees">
+          <summary>자작나무 — 흰 줄기의 북방 나무</summary>
+          <div class="card-body">
+            <ul>
+<li>흰 수피(껍질)가 종잇장처럼 벗겨지는 게 가장 큰 특징 — 방수성이 있어 예로부터 필기·발화 재료로 쓰임(천마총 출토 "천마도"가 자작나무 껍질에 그려짐)</li>
+<li>한랭한 기후를 선호해 원래는 한반도 북부·고산지대에 많고, 중부 이남에서는 대부분 인위적으로 조림한 것 — 최근 개인·카페 조경수로도 인기가 많아짐</li>
+</ul>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="trees">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>참나무 6형제는 학계·현장 자료마다 세부 기준(털의 유무, 색깔 표현)이 조금씩 다르게 서술되는 경우가 있어, 확신이 없을 땐 "참나무류"로 뭉뚱그려 설명하는 편이 안전합니다.</li>
+<li>특정 고궁 나무의 수령(예: "700년 된 향나무")은 표지판·공식 자료 기준이며, 실제 나이는 추정치인 경우가 많습니다. 현장에서 "정확히 몇 년"이라고 단정하기보다 "추정 수령"이라고 표현하는 게 안전합니다.</li>
+<li>회화나무 관련 "사도세자를 지켜봐서 속이 썩었다"류의 이야기는 역사적 사실이 아니라 후대에 붙은 이야기(전승)이므로, 해설 시 출처를 "전해지는 이야기" 정도로 밝히는 걸 권장합니다.</li>
+<li>"주목=살아 천년 죽어 천년", "대나무 개화 주기 몇 년" 같은 관용적 표현·수치는 정확한 학술 출처가 불분명하거나 종·환경에 따라 편차가 큰 내용이라, 단정적으로 말하기보다 "흔히 이렇게 알려져 있다" 정도의 톤으로 소개하는 걸 권장합니다.</li>
+<li>목련·벽오동·주목·회양목·대나무·메타세쿼이아·전나무·구상나무·밤나무·감나무·대추나무·뽕나무·자작나무는 이번에 새로 추가한 항목입니다. 실제 특정 코스(경복궁·창덕궁 등)에 해당 나무가 있는지는 장소 DB 쪽에서 별도로 확인 후 반영하시길 권합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="landform" data-cat="landform" style="--accent: #1f6f6a;">
+      <div class="topic-head">
+        <span class="topic-icon">🏔️</span>
+        <h2>우리나라 자연지형 개관</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>우리나라 자연지형 개관 (산·강·바다·갯벌)</h1>
+<blockquote>
+<p>앞선 "우리나라 식생의 특징" 노트가 "무엇이 자라는가"를 다뤘다면, 이 노트는 "그 밑바탕이 되는 땅의 생김새"를 다룹니다. 지형을 알면 왜 이 지역엔 이런 식생·기후·문화가 생겼는지 설명이 한결 쉬워집니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="landform">
+          <summary>1. 한반도 지형의 큰 틀 — &quot;동고서저(東高西低)&quot;</summary>
+          <div class="card-body">
+            <h3>형성 원리</h3>
+<ul>
+<li>신생대(약 2,300만 년 전 이후) 이후, 한반도 동쪽에서 지각이 휘어 오르는 <strong>요곡융기(撓曲隆起)</strong>가 일어나며 동쪽은 높고 서쪽은 완만하게 낮아지는 지형이 만들어짐 — 이를 <strong>경동지형(傾動地形)</strong>이라 부름</li>
+<li>비유하자면 "책받침을 한쪽 끝만 살짝 들어 올린 모양" — 동쪽이 들린 끝, 서쪽이 낮게 남은 부분</li>
+<li>그 결과 높은 산들이 대부분 <strong>동해안 쪽에 몰려 있고</strong>(태백산맥이 한반도의 "등줄기"), 서쪽으로 갈수록 완만해지며 넓은 평야가 발달</li>
+</ul>
+<h3>이 원리로 설명되는 것들</h3>
+<ul>
+<li>우리나라 주요 하천(한강·금강·영산강·섬진강·낙동강)이 대부분 <strong>동쪽에서 서쪽·남쪽으로 흐르는 이유</strong> — 산이 동쪽에 몰려 있으니 물은 자연히 서쪽 낮은 곳으로 흐름</li>
+<li>동해안은 해안선이 단조롭고 수심이 급하게 깊어지는 반면, 서해안은 얕고 완만하게 이어지는 이유</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="landform">
+          <summary>2. 강 — 계절 편차가 큰 하천</summary>
+          <div class="card-body">
+            <h3>주요 5대 강</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>강</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한강</td>
+<td>수도권 관통, 유역 인구가 가장 많음</td>
+</tr>
+<tr>
+<td>낙동강</td>
+<td>남한에서 유로 길이가 가장 긴 강, 영남 지방을 관통</td>
+</tr>
+<tr>
+<td>금강</td>
+<td>충청 지방 관통</td>
+</tr>
+<tr>
+<td>영산강</td>
+<td>전남 서부</td>
+</tr>
+<tr>
+<td>섬진강</td>
+<td>전남·경남 경계, 모래가 많아 "모래가람"이라는 별칭</td>
+</tr>
+</tbody>
+</table></div>
+<h3>해설 포인트: 유량이 매우 불규칙한 하천</h3>
+<ul>
+<li>한반도 하천은 연 강수량의 60% 이상이 여름 장마·집중호우에 몰려 흐르는 <strong>여름철 홍수형</strong> 특징이 뚜렷함</li>
+<li>반대로 갈수기(겨울~봄)에는 하천 바닥이 그대로 드러나는 경우도 흔함 — 유럽·일부 대륙 하천처럼 사계절 유량이 고른 게 아니라 "여름에 몰아서 흐르는 강"이라는 점이 핵심</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="landform">
+          <summary>3. 삼면의 바다 — 동해·서해·남해는 서로 다른 해안</summary>
+          <div class="card-body">
+            <p>경동지형 때문에 세 바다의 성격이 뚜렷하게 갈립니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>해안선</th>
+<th>수심·조차</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>동해안</td>
+<td>단조로움(직선에 가까움)</td>
+<td>수심 깊음, 조수 간만의 차 작음(약 30cm 안팎)</td>
+<td>모래사장(해수욕장) 발달, 대륙붕이 좁음</td>
+</tr>
+<tr>
+<td>서해안</td>
+<td>복잡함(드나듦이 심함)</td>
+<td>수심 얕음, 조수 간만의 차 매우 큼(최대 9m 이상 지역도 있음)</td>
+<td>넓은 갯벌 발달, 섬이 많음</td>
+</tr>
+<tr>
+<td>남해안</td>
+<td>매우 복잡함(리아스식)</td>
+<td>수심·조차는 서해와 동해 중간</td>
+<td>다도해(수많은 섬), 양식업 발달</td>
+</tr>
+</tbody>
+</table></div>
+<h3>서해안 조차가 큰 이유 (자주 나오는 질문)</h3>
+<p>서해는 수심이 얕고 <strong>깔때기 모양(내륙으로 갈수록 좁아지는 지형)</strong>이라, 밀려오는 밀물이 좁아지는 통로에 몰리면서 물이 크게 불어나는 효과가 생깁니다. 동해는 수심이 깊고 대륙붕이 좁아 이런 증폭 효과가 거의 없습니다. (인천 앞바다의 조차가 세계적으로도 손꼽히게 큰 이유가 이것입니다.)</p>
+<h3>리아스식 해안이란</h3>
+<p>원래 하천이 흐르던 골짜기가 있던 땅이 바닷물에 잠기면서, 산줄기였던 부분은 반도(곶)로, 골짜기였던 부분은 만(灣)으로 남아 해안선이 톱니처럼 복잡해진 지형입니다. 서해안·남해안이 여기 해당하며, 섬이 많은 것도 같은 원리(산봉우리였던 부분이 물에 잠기지 않고 섬으로 남음)입니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="landform">
+          <summary>4. 갯벌 — 세계가 인정한 서해안의 자산</summary>
+          <div class="card-body">
+            <ul>
+<li>정의: 밀물 때 잠기고 썰물 때 드러나는 연안의 평탄한 퇴적지형</li>
+<li><strong>2021년 7월 26일</strong>, 서천갯벌(충남)·고창갯벌(전북)·신안갯벌(전남)·보성-순천갯벌(전남) 4곳이 <strong>"한국의 갯벌(Korean Tidal Flats)"</strong>이라는 이름으로 <strong>유네스코 세계자연유산</strong>에 등재됨(한국의 두 번째 세계자연유산 — 첫 번째는 2007년 제주 화산섬과 용암동굴)</li>
+<li>등재 사유: 멸종위기종 22종을 포함한 2,150종의 생물다양성, 철새 118종의 중간 기착지 역할 등 생태적 가치를 세계적으로 인정받음</li>
+<li>서해안 갯벌은 조차가 커서 <strong>진흙(펄) 갯벌</strong>이 넓게 발달, 남해안 갯벌은 리아스식 해안의 영향으로 규모는 작지만 모래·펄이 섞인 복잡한 형태</li>
+<li>최근에는 갯벌이 이산화탄소를 흡수·저장하는 <strong>"블루카본(Blue Carbon)"</strong> 생태계로도 주목받고 있음(기후위기 대응 자원)</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="landform">
+          <summary>5. 산 — &quot;산맥&quot; 체계 vs &quot;백두대간&quot; 체계</summary>
+          <div class="card-body">
+            <p>가이드 해설에서 흥미롭게 풀 수 있는 지점입니다.</p>
+<ul>
+<li>현재 교과서·지도에 쓰이는 <strong>산맥 체계</strong>(태백산맥·소백산맥 등)는 일제강점기 일본 지질학자가 땅속 지질구조선을 기준으로 그은 것</li>
+<li>반면 조선시대 문헌 『산경표(山經表)』에 기록된 <strong>백두대간 체계</strong>는 산이 물줄기를 가르는 실제 능선(분수계)을 기준으로 그린 것 — "산은 물을 가르지 않는다"는 전통 지리 인식이 담김</li>
+<li>두 체계가 일부 구간에서 서로 다른 산줄기를 그리기 때문에, "지금 배우는 산맥 지도가 실제 지형과 안 맞는 부분이 있다"는 논쟁이 계속되고 있음</li>
+<li>해설 포인트: "우리가 학교에서 배운 태백산맥이라는 이름, 사실 일제강점기에 그어진 선이라 조선시대 사람들이 인식하던 산줄기(백두대간)와는 다를 수 있습니다"라는 식으로 소개하면 흥미를 끌기 좋음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="landform">
+          <summary>6. 암석·지질 — 왜 이 산은 뾰족하고 저 산은 둥근가</summary>
+          <div class="card-body">
+            <p>같은 "산"이라도 생김새가 완전히 다른 이유는 그 산을 이루는 암석 종류 때문입니다.</p>
+<h3>화강암 — 뾰족하고 험준한 봉우리</h3>
+<ul>
+<li>중생대(쥐라기~백악기, 약 1억 년 전 이상) <strong>대보조산운동</strong>으로 형성된 암석으로, 전국에 가장 넓게 분포</li>
+<li>화강암에는 <strong>절리(균열)</strong>가 발달하는데, 절리가 잘 발달한 곳은 오히려 그 틈으로 풍화가 빨리 진행돼 깎여나가 <strong>낮은 분지</strong>(청주·춘천·원주 등)를 이루고, 절리가 덜 발달해 단단하게 남은 곳은 <strong>험준한 암봉</strong>을 이룸</li>
+<li>북한산·설악산·관악산·월악산이 대표적인 화강암 암봉 — 설악산 공룡능선, 금강산 만물상 같은 기암괴석도 화강암이 풍화되며 만들어진 지형</li>
+<li>서울 도심의 낙산-인왕산-북악산-북한산-도봉산-불암산은 사실 <strong>뿌리가 하나로 이어진 거대한 화강암 덩어리</strong>의 일부</li>
+</ul>
+<h3>편마암 — 부드러운 구릉</h3>
+<ul>
+<li>화강암보다 훨씬 오래된 <strong>선캄브리아기</strong>(지구 역사상 가장 오래된 시대) 암석</li>
+<li>화강암과 달리 풍화층이 5~7m로 두껍게 쌓여, 뾰족한 봉우리 대신 <strong>완만하고 부드러운 구릉지</strong>를 만듦(참나무류가 우점하는 산이 대체로 이런 편마암 지형)</li>
+</ul>
+<h3>해설 포인트 — 서울 동네 이름의 유래</h3>
+<p>성북구의 <strong>돈암동·안암동·종암동</strong>처럼 이름에 "암(巖, 바위)"이 붙은 동네는 실제로 그 일대에 <strong>화강암이 많이 노출되어 있어서</strong> 붙은 지명입니다. 조선시대에는 창신동~보문동~숭인동 일대(낙산)가 대표적인 화강암 채석장이었습니다 — "동네 이름에 왜 바위 암 자가 붙었을까"라는 질문에서 자연스럽게 지질 이야기로 이어갈 수 있는 좋은 소재입니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="landform">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>조수 간만의 차(서해 최대 9m 이상 등)는 지역·날짜(사리·조금)에 따라 변동 폭이 커서, 특정 지점의 정확한 수치는 국립해양조사원 자료로 별도 확인 후 사용하는 걸 권장합니다.</li>
+<li>산맥 체계 vs 백두대간 체계 논쟁은 학계에서도 정리가 완전히 끝난 사안이 아니라, "이런 논쟁이 있다" 수준으로 소개하는 게 안전합니다.</li>
+<li>이 노트는 입문 개관이라 특정 강·해안·산맥의 세부 역사(예: 특정 지역 갯벌 마을의 유래)는 다루지 않았습니다. 필요하면 해당 지역 코스 준비 시 별도로 정리하는 걸 권합니다.</li>
+<li>화강암·편마암 분포는 지역마다 정밀 지질도가 다르므로, 특정 동네·산의 암석 종류를 단정할 때는 지질자원연구원 지질도 등으로 재확인하는 게 안전합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="seoulgeo" data-cat="seoulgeo" style="--accent: #5a4a8a;">
+      <div class="topic-head">
+        <span class="topic-icon">🧭</span>
+        <h2>서울 지형·지리 개관</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>서울 지형·지리 개관 (백두대간·한강수계·서울분지)</h1>
+<blockquote>
+<p>"우리나라 자연지형 개관" 노트가 한반도 전체 틀(동고서저·산맥)을 다뤘다면, 이 노트는 그 틀이 <strong>서울이라는 구체적 공간에서 어떻게 나타나는지</strong>를 다룹니다. 도보투어 중 "이 도시는 왜 이런 모양이냐"는 질문에 바로 쓸 수 있는 내용입니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="seoulgeo">
+          <summary>1. 백두대간·정맥 — 산줄기의 위계 체계</summary>
+          <div class="card-body">
+            <h3>개념</h3>
+<ul>
+<li>조선 영조 때 학자 <strong>신경준</strong>이 쓴 『산경표(山經表)』에서 한반도 산줄기를 <strong>1대간(백두대간) · 1정간(장백정간) · 13정맥</strong>으로 구분</li>
+<li>원리는 "산자분수령(山自分水嶺)" — <strong>산은 물을 넘지 못하고, 물은 산을 건너지 않는다</strong>는 것. 즉 정맥은 실제 능선을 따라가며 큰 하천들의 분수계(물길이 갈라지는 경계)를 이루는 산줄기</li>
+<li>13정맥 중 9개는 남한, 4개는 북한에 있음</li>
+</ul>
+<h3>서울과 관련된 정맥</h3>
+<ul>
+<li><strong>한북정맥</strong>: 한강 북쪽 유역과 임진강 유역을 가르는 산줄기. 도봉산·북한산이 이 산줄기의 끝자락</li>
+<li><strong>한남정맥</strong>: 한강 남쪽 유역과 금강(안성천) 유역을 가르는 산줄기. 관악산·청계산이 이 산줄기의 끝자락</li>
+<li>이름 자체가 "한강(漢)의 북쪽/남쪽"이라는 뜻 — 서울의 강북·강남을 감싸는 산들이 각각 다른 정맥에 속한다는 게 핵심</li>
+</ul>
+<h3>해설 포인트</h3>
+<p>현재 학교에서 배우는 "산맥" 체계(태백산맥 등)는 일제강점기 일본 지질학자가 그은 것이고, 백두대간·정맥 체계는 그보다 150년 이상 앞선 조선시대 산경표 기록입니다. "북한산과 관악산이 이름은 달라도 사실 같은 계보(정맥)의 다른 갈래"라는 식으로 풀면 흥미를 끌기 좋습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="seoulgeo">
+          <summary>2. 한강 수계 — 두 개의 큰 줄기가 만나는 강</summary>
+          <div class="card-body">
+            <h3>본류 구성</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>발원지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>남한강(본류로 취급)</td>
+<td>강원 태백시 금대봉 자락의 <strong>검룡소</strong>에서 발원</td>
+</tr>
+<tr>
+<td>북한강</td>
+<td><strong>북한</strong> 강원도 금강군(금강산 부근)에서 발원</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>두 물줄기가 경기도 양평군 <strong>양수리(두물머리)</strong>에서 합류해 비로소 "한강"이 됨</li>
+<li>이후 서울을 관통해 김포 방향 황해로 흘러듦(하류에서 임진강과 다시 합류)</li>
+<li>남한강이 더 길어 공식적으로 한강의 본류로 취급되지만, 유역 규모(폭·유량)는 두 강이 비슷함</li>
+</ul>
+<h3>서울을 지나는 주요 지류</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>강북 쪽 지류</th>
+<th>강남 쪽 지류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>중랑천, 청계천, 홍제천, 불광천, 정릉천, 안암천</td>
+<td>탄천, 양재천, 도림천, 안양천</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>해설 포인트</strong>: 강북의 지류는 대부분 북한산·도봉산 자락에서 시작해 남쪽으로 흘러 한강에 합류하고, 강남의 지류는 관악산·청계산 자락에서 시작해 북쪽으로 흘러 한강에 합류합니다 — 방향이 정반대인 게 지형 구조를 그대로 보여줍니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="seoulgeo">
+          <summary>3. 서울 분지 — 산으로 겹겹이 둘러싸인 도시</summary>
+          <div class="card-body">
+            <h3>내사산(內四山) — 한양도성을 두른 안쪽 산</h3>
+<p>1392년 한양 천도 당시 도성(약 18km 성곽)을 두른 네 산입니다. 조선의 도읍 입지 자체가 이 분지 지형을 그대로 이용한 것입니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>방위</th>
+<th>산 이름</th>
+<th>풍수지리상 명칭</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>북</td>
+<td>백악산(북악산, 342m)</td>
+<td>현무</td>
+</tr>
+<tr>
+<td>남</td>
+<td>목멱산(남산, 262m)</td>
+<td>주작</td>
+</tr>
+<tr>
+<td>동</td>
+<td>낙타산(낙산, 111m)</td>
+<td>청룡</td>
+</tr>
+<tr>
+<td>서</td>
+<td>인왕산(338m)</td>
+<td>백호</td>
+</tr>
+</tbody>
+</table></div>
+<h3>외사산(外四山) — 도성을 더 크게 두른 바깥 산</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>방위</th>
+<th>산 이름</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>북</td>
+<td>삼각산(북한산, 837m)</td>
+</tr>
+<tr>
+<td>남</td>
+<td>관악산(629m)</td>
+</tr>
+<tr>
+<td>동</td>
+<td>용마봉(348m)</td>
+</tr>
+<tr>
+<td>서</td>
+<td>덕양산·효경산 계열(236m)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>물길과의 관계</h3>
+<ul>
+<li>내사산 안쪽 물(청계천)은 <strong>내명당수</strong>, 한강은 <strong>외명당수</strong>로 풍수상 자리매김</li>
+<li>실제로 서울 분지는 안쪽·바깥쪽 산줄기에서 흘러내린 작은 하천들이 모여 청계천을 이루고, 이 청계천이 중랑천과 만나 한강으로 흘러드는 구조</li>
+</ul>
+<p><strong>해설 포인트</strong>: "서울은 산 4개(내사산)를 성벽으로 삼고, 그 바깥을 다시 산 4개(외사산)가 감싼, 이중 분지 구조의 도시"라고 설명하면 지형을 한 번에 정리해줄 수 있습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="seoulgeo">
+          <summary>4. 강북 vs 강남 — 지형 차이의 유래</summary>
+          <div class="card-body">
+            <h3>지형 자체가 다르다</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>소속 정맥</th>
+<th>지형 특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>강북</td>
+<td>한북정맥(도봉산·북한산 자락)</td>
+<td><strong>북고남저</strong>(북쪽이 높고 남쪽이 낮음)</td>
+</tr>
+<tr>
+<td>강남</td>
+<td>한남정맥(관악산·청량산 자락)</td>
+<td><strong>남고북저</strong>(남쪽이 높고 북쪽이 낮음)</td>
+</tr>
+</tbody>
+</table></div>
+<p>즉 강북과 강남은 서로 다른 산줄기(정맥)의 끝자락에 자리 잡고 있고, 경사 방향도 정반대입니다.</p>
+<h3>왜 강남이 "늦게" 개발됐나 — 하중도 이야기</h3>
+<ul>
+<li>한강은 자유사행(自由蛇行, 자유롭게 구불거리며 흐름)하는 구간이 많아, 강물이 깎아내는 쪽(공격사면)과 모래가 쌓이는 쪽(퇴적사면)이 뚜렷하게 갈립니다</li>
+<li>퇴적사면 쪽에 넓은 범람원과 모래섬(하중도)이 발달했는데, 그 대표가 <strong>여의도·잠실·뚝섬·난지도</strong>입니다</li>
+<li>이 지역들은 <strong>1960년대까지도 그냥 모래땅</strong>이었고, <strong>1970년대에 들어서야 매립·개발을 거쳐 지금의 도심으로 바뀌었습니다</strong></li>
+<li>즉 "강남이 옛날엔 허허벌판이었다"는 통념은 지형적으로 근거가 있는 이야기입니다 — 조선시대부터 도읍으로 정비된 강북(내사산 분지)과 달리, 강남 일대 상당 부분은 원래 한강이 만든 저습지·모래벌판이었고 근대에 들어 인공적으로 개발된 땅입니다</li>
+</ul>
+<h3>도읍이 강북에 자리 잡은 이유</h3>
+<p>조선이 한양(강북)에 도읍을 정한 건 ①한강의 수운(뱃길) 조건이 좋고 ②내사산이 감싼 분지라는 풍수지리적 명당 조건, ③정치적 배경(고려 남경 터였던 점 등)이 함께 작용한 결과로 설명됩니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="seoulgeo">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>외사산의 서쪽 산(덕양산 또는 효경산으로 다르게 기록되는 경우가 있음)은 자료마다 표기가 조금씩 다릅니다. 확정적으로 말하기보다 "서쪽은 자료에 따라 덕양산·효경산 등으로 다르게 언급된다"는 정도로 설명하는 게 안전합니다.</li>
+<li>산 높이·정맥 세부 경로 등은 남북 분단 이후 자료 접근 제약으로 일부 수치에 편차가 있을 수 있습니다.</li>
+<li>"강남이 원래 허허벌판"이라는 설명은 여의도·잠실 등 <strong>한강변 저지대(하중도·범람원)</strong>에 한정된 이야기입니다. 강남구·서초구 일대 전체가 전부 그랬다는 뜻은 아니므로, 지역을 특정해 설명하는 게 정확합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="riverbridge" data-cat="riverbridge" style="--accent: #2f6f9e;">
+      <div class="topic-head">
+        <span class="topic-icon">🌉</span>
+        <h2>하천·다리 (청계천·한강다리)</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>하천·다리 (청계천 복원사·한강 다리)</h1>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="riverbridge">
+          <summary>1. 청계천 — 복개에서 복원까지</summary>
+          <div class="card-body">
+            <h3>연표</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>조선 태종(1394년 도읍 이후)</td>
+<td>원래 이름은 <strong>개천(開川)</strong> — 인왕산·백악 남쪽, 남산 북쪽 물이 모여 도성 안을 서→동으로 흐르는 인공 정비 하천. 도성 안을 남북(양반가/서민가)으로 가르는 상징적 경계이기도 했음</td>
+</tr>
+<tr>
+<td>1958년~1977·78년</td>
+<td><strong>복개(覆蓋) 공사</strong> — 위생·교통 문제 해결 명목으로 하천 위를 콘크리트로 덮어 도로화. 20년에 걸쳐 구간별로 진행(1차 완료 1961년, 전 구간 완료 1977~78년)</td>
+</tr>
+<tr>
+<td>1967~1976년</td>
+<td>복개 구조물 위에 <strong>청계고가도로(3.1고가/청계고가)</strong> 건설 — 총 5.8km, 근대화의 상징으로 여겨짐</td>
+</tr>
+<tr>
+<td>2003년 7월 1일</td>
+<td>이명박 서울시장 주도로 <strong>청계천 복원사업 착공</strong> — 청계고가 철거 시작</td>
+</tr>
+<tr>
+<td>2005년 10월 1일</td>
+<td><strong>복원 완공·개장</strong> — 광화문 인근~신답철교, 약 5.8km 구간. 공사비 약 3,800억 원</td>
+</tr>
+</tbody>
+</table></div>
+<h3>해설 포인트</h3>
+<ul>
+<li>복원된 청계천은 자연 하천이 아니라 <strong>한강물+지하수를 인공적으로 끌어올려 흘려보내는 인공 순환 하천</strong>입니다. 원래 청계천은 평소엔 마른 하천(건천)이었다가 장마철에만 물이 흐르던 특성이라, "옛 모습 그대로 복원"이라기보다는 "새로운 형태의 도심 친수공간을 조성"한 것에 가깝습니다.</li>
+<li>복원 구간은 3개 테마로 구성: 광화문~광장시장(역사·전통) → 청계광장~난계로(문화·현대) → 신답철교까지(자연·미래)</li>
+<li>조선시대 유적인 <strong>광통교·수표교</strong>도 복원 대상이었으나, 수표교는 1959년 복개 당시 장충단공원으로 옮겨진 채 아직 원위치 복귀가 안 된 상태(2050 장기계획에 포함)</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="riverbridge">
+          <summary>2. 한강 다리 — 건설 순서로 보는 서울 확장사</summary>
+          <div class="card-body">
+            <h3>건설 순서 (주요 다리, 준공 연도 기준)</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>다리</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1900</td>
+<td>한강철교</td>
+<td>한강 최초의 다리(철도 전용). 경인선 개통과 함께 건설</td>
+</tr>
+<tr>
+<td>1917</td>
+<td>한강대교(당시 한강인도교)</td>
+<td>최초의 도로·보행 다리("제1한강교")</td>
+</tr>
+<tr>
+<td>1936</td>
+<td>광진교</td>
+<td>두 번째 도로교</td>
+</tr>
+<tr>
+<td>—</td>
+<td><em>(1950년 6·25전쟁 때 한강인도교 폭파 → 1958년 복구)</em></td>
+<td></td>
+</tr>
+<tr>
+<td>1965</td>
+<td>양화대교(제2한강교)</td>
+<td><strong>국내 기술진이 세운 최초의 한강다리</strong> — 이전까지는 일제강점기 건설</td>
+</tr>
+<tr>
+<td>1969</td>
+<td>한남대교(제3한강교)</td>
+<td>경부고속도로와 연결되며 <strong>강남 개발의 시작점</strong>("말죽거리 신화")</td>
+</tr>
+<tr>
+<td>1970</td>
+<td>마포대교(당시 서울대교)</td>
+<td>여의도 개발과 연계</td>
+</tr>
+<tr>
+<td>1972</td>
+<td>잠실대교</td>
+<td></td>
+</tr>
+<tr>
+<td>1973</td>
+<td>영동대교</td>
+<td>영동(강남) 개발 지원</td>
+</tr>
+<tr>
+<td>1976</td>
+<td>천호대교</td>
+<td></td>
+</tr>
+<tr>
+<td>1979</td>
+<td>성수대교, 잠실철교</td>
+<td></td>
+</tr>
+<tr>
+<td>1980~84</td>
+<td>성산대교·원효대교·반포대교(잠수교 포함)·동작대교·동호대교</td>
+<td></td>
+</tr>
+<tr>
+<td>1990</td>
+<td>올림픽대교</td>
+<td><strong>국내 최초 콘크리트 사장교</strong>, 서울올림픽 기념으로 건설</td>
+</tr>
+<tr>
+<td>1999~2002</td>
+<td>서강대교·청담대교·가양대교 등</td>
+<td></td>
+</tr>
+<tr>
+<td>2021</td>
+<td>월드컵대교</td>
+<td>최근 준공된 사장교</td>
+</tr>
+</tbody>
+</table></div>
+<h3>시대별 스타일 차이</h3>
+<ul>
+<li><strong>1970년대 중반까지</strong>: "전쟁 피해를 고려해 폭격당해도 피해가 적고 복구가 빠른" 실용적 형식(단순 거더교·트러스교) 위주로 건설 — 경제성과 안보가 최우선</li>
+<li><strong>1970년대 중반 이후</strong>: "역사에 남을 아름다운 다리를 짓자"는 정부 방침 전환 — 형태가 다양해지고 미관을 고려한 설계 등장</li>
+<li><strong>1990년 올림픽대교</strong>: 국내 최초의 <strong>콘크리트 사장교</strong>(케이블로 상판을 지탱하는 현수 구조) — 이전 다리들과는 구조적으로 다른 세대의 시작</li>
+<li><strong>최근(2000년대 이후)</strong>: 사장교·복합 미관 설계가 늘고, 반포대교의 <strong>달빛무지개분수</strong>처럼 교량 자체가 야간 명소·랜드마크로 기획되는 경향</li>
+</ul>
+<h3>해설용 반전 포인트</h3>
+<ul>
+<li>반포대교는 사실 <strong>다리가 두 개 겹친 구조</strong>입니다 — 위쪽 반포대교(1982)와 그 아래 별도로 놓인 <strong>잠수교</strong>(더 오래된 다리, 홍수 때 물에 잠기도록 설계)가 함께 있습니다. 사람들이 "반포대교"라 부르며 걷는 산책로는 대개 잠수교 쪽입니다.</li>
+<li>한남대교는 이름 때문에 "한강 남쪽"으로 오해하기 쉽지만, 실제로는 <strong>한남동(강북)과 신사동(강남)을 잇는</strong> 다리입니다.</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="riverbridge">
+          <summary>3. 한강 결빙 — 겨울 투어에 쓸 수 있는 소재</summary>
+          <div class="card-body">
+            <p>지금까지 노트들은 겨울 분량이 가장 적었는데, 한강 결빙은 겨울 코스에 바로 쓸 수 있는 소재입니다.</p>
+<h3>관측 방식</h3>
+<ul>
+<li>관측 지점은 <strong>한강대교 두 번째~네 번째 교각 사이, 상류 100m 지점</strong>에 설정한 가상의 직사각형 구역</li>
+<li>이 구역이 <strong>완전히 얼음으로 덮여 강물이 전혀 보이지 않아야</strong> "결빙"으로 판단 — 강 전체가 얼 필요는 없고, 다른 구간에 얼음이 있어도 이 지점이 안 얼면 "결빙" 발표가 나가지 않음</li>
+<li>통상 서울 최저기온이 영하 10도 이하인 날이 4~5일 이상 이어져야 결빙에 이름</li>
+<li>공식 관측은 대한제국 시기인 <strong>1906년 노량진 인근에서 시작</strong>, 1917년 한강대교 개통 이후 지금의 지점으로 기준이 잡힘(광복 후 혼란기·6·25 한강대교 폭파 시기인 1947~1954년은 관측 공백)</li>
+</ul>
+<h3>역대 기록</h3>
+<ul>
+<li>가장 빨랐던 결빙: 1934년 12월 4일</li>
+<li>가장 늦었던 결빙: 1964년 2월 13일</li>
+<li>결빙이 한 번도 없었던 겨울("무결빙"): 1906년 관측 이래 총 9차례(1960·1971·1972·1978·1988·1991·2006·2019·2021년 겨울)</li>
+</ul>
+<h3>해설 포인트 — 기후변화 지표로서의 한강 결빙</h3>
+<ul>
+<li>20세기 초반(1906~1928년)에는 <strong>23년 연속 12월에 결빙</strong>이 관측될 만큼 지금보다 훨씬 이른 시기에 강이 얼었음</li>
+<li>최근에는 결빙이 되더라도 <strong>하루이틀 만에 녹아버리는 경우</strong>가 잦아지고 있음(예: 2016·2018년은 결빙이 단 하루만 관측, 2020년은 이틀 만에 해빙) — 100여 년간 평균 결빙 일수는 18일이었지만, 최근에는 이보다 훨씬 짧아진 것으로 나타남</li>
+<li>1970년대까지는 한강이 얼면 그 위에서 사람들이 걷거나 놀이를 즐길 정도로 두껍게 얼었다는 점도 지금과 대비되는 부분</li>
+</ul>
+<p><strong>해설 포인트</strong>: "한강이 언제 어는지를 100년 넘게 기록해온 게 있는데, 최근 데이터를 보면 얼긴 얼어도 예전만큼 단단하고 오래 얼지는 않는다"는 식으로 설명하면 기후변화를 체감시키는 좋은 소재가 됩니다(앞선 "사계절 자연해설" 노트의 벚꽃 개화시기 앞당김 내용과 짝을 이루는 겨울철 사례입니다).</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="riverbridge">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>청계천 복개 시작·완료 연도는 자료마다 1958/1961/1977/1978 등으로 약간씩 다르게 기록돼 있습니다. "1958년 시작, 1970년대 후반 완료"라는 큰 흐름으로 설명하는 게 안전합니다.</li>
+<li>청계고가도로 개통 연도도 자료에 따라 1971년(1차 구간)과 1976년(전 구간 완성)으로 나뉘어 있어, 구간별로 다르게 완공됐다는 점을 함께 언급하는 게 정확합니다.</li>
+<li>한강 다리는 현재도 계속 늘고 있어(2024~2025년에도 신규 교량 개통) 이 표는 이 노트 작성 시점 기준입니다. 최신 다리 목록이 필요하면 서울시 공식 자료로 재확인을 권합니다.</li>
+<li>한강 결빙 기록·통계는 매년 갱신됩니다. 이 노트의 최신 사례(무결빙 연도 목록 등)는 작성 시점 기준이므로, 최신 소식은 기상청 발표로 재확인하는 걸 권장합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="urbanfauna" data-cat="urbanfauna" style="--accent: #8a6d1f;">
+      <div class="topic-head">
+        <span class="topic-icon">🐦</span>
+        <h2>도심 동식물 생태</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>도심 동식물 생태 (까치·비둘기·길고양이·제비·반딧불이)</h1>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="urbanfauna">
+          <summary>1. 까치 — 왜 도시에서 흔히 보이나</summary>
+          <div class="card-body">
+            <ul>
+<li>잡식성에 적응력이 매우 강해 먹이 종류를 가리지 않고, 사람이 버린 음식물도 잘 먹음 — 도시 환경 자체가 까치에게 유리한 서식지</li>
+<li>텃새(철새가 아니라 한 지역에 계속 거주)라 사계절 내내 관찰 가능</li>
+<li>전통적으로 "반가운 손님을 알리는 길조"로 여겨졌으나, 최근에는 <strong>농작물 피해</strong>(과수원 피해)와 <strong>전신주 둥지로 인한 정전 사고</strong> 등의 문제로 일부 지역에서 유해조수로 지정되는 등 인식이 갈리는 상황</li>
+<li>참고로 최근 도심에서는 까치 외에 직박구리·물까치 등도 텃새로서 세력을 넓히고 있음</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>2. 비둘기 — &quot;닭둘기&quot;가 된 사연</summary>
+          <div class="card-body">
+            <ul>
+<li>원래 통신·경주·관상용으로 사람이 기르던 <strong>집비둘기(바위비둘기)</strong>가, 행사 때마다 대량으로 풀어놓고 날리는 관행 등으로 반(半)야생화되어 도심에 정착한 것</li>
+<li>귀소본능이 강해 가둬 기를 필요 없이 자유롭게 풀어놓고 키울 수 있었던 게 원래 사육 목적과 잘 맞았음 — 그런데 그 습성이 그대로 야생에서도 유지되며 도심에 눌러앉게 됨</li>
+<li>개체 수가 지나치게 늘어나 분변·털날림으로 인한 문화재·건물 훼손 문제가 생기면서 일부 지자체에서 <strong>유해조수(관리 대상)</strong>로 지정</li>
+<li>도시에서 흔히 보는 건 대부분 이 집비둘기이고, 멧비둘기·염주비둘기·흑비둘기 등 다른 종은 습성이 달라 소위 "닭둘기" 문제와는 무관함</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>3. 길고양이 — 도시가 오히려 살기 좋은 이유</summary>
+          <div class="card-body">
+            <ul>
+<li>언뜻 도시가 야생보다 열악해 보이지만, 실제로는 <strong>먹이 공급이 훨씬 안정적</strong>(사람이 주는 먹이, 음식물쓰레기, 비둘기 등 먹잇감)이라 야생 산지보다 도시에 훨씬 많은 개체가 삽니다</li>
+<li>국내에서 길고양이를 자연적으로 잡아먹는 천적(담비·수리부엉이 등)은 있지만 개체수를 조절할 정도로 위협적이지 않고, 고양이 특유의 높은 번식력 때문에 방치하면 금세 다시 늘어남</li>
+<li><strong>TNR(중성화 후 방사, Trap-Neuter-Return)</strong>: 포획→중성화 수술→원래 서식지에 재방사하는 개체 수 관리 방식. 2009년부터 정부가 정책적으로 도입해 현재까지 운영 중</li>
+<li>다만 효과를 둘러싼 논쟁이 계속되고 있음 — 정부 조사(2022년 기준 7대 광역시 추정 약 67만~69만 마리)로는 중성화 사업 이후 밀도가 다소 줄었다는 결과가 나온 반면, "먹이 주기 등 보호 활동이 오히려 번식력을 높여 정책 효과를 상쇄한다"는 지적도 있어 완전히 결론난 사안은 아님</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>4. 제비 — 서울시 보호종이 된 사라져가는 여름 철새</summary>
+          <div class="card-body">
+            <ul>
+<li>서울시가 1999년 <strong>보호종으로 지정</strong>할 만큼 도시에서 빠르게 사라지고 있는 대표적인 새</li>
+<li>감소 원인(복합적):</li>
+<li><strong>처마의 소멸</strong>: 제비는 나뭇가지가 아니라 진흙을 뭉쳐 수직벽에 둥지를 짓는 습성이 있어(자연에서는 절벽, 민가에서는 처마 밑을 이용) 초가·기와집 처마가 사라지고 아파트로 바뀌면서 둥지 지을 곳이 급감</li>
+<li><strong>진흙 구하기 어려움</strong>: 도심 하천·습지·농경지가 줄면서 둥지 재료(진흙)를 구할 곳이 마땅치 않음</li>
+<li><strong>먹이(곤충) 감소</strong>: 농약 사용 증가로 날벌레가 줄고, 살충 성분이 2차로 축적돼 알껍질이 약해지는 문제까지 발생</li>
+<li><strong>월동지 문제</strong>: 제비가 겨울을 나는 동남아시아 지역의 개발로 서식 환경 자체가 변화</li>
+<li>기후변화로 인한 산란 시기 변화 등도 원인으로 거론됨</li>
+<li>흥미로운 점: 최근 도심에 남은 제비들은 초등학교·전통시장·터미널처럼 <strong>처마와 비슷한 구조물이 남은 건물</strong>을 찾아 둥지를 트는 것으로 확인됨</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>5. 반딧불이 — 서식 조건이 매우 까다로운 지표종</summary>
+          <div class="card-body">
+            <ul>
+<li>주요 서식지는 하천 주변 — 유충의 먹이인 <strong>다슬기·달팽이류</strong>가 사는 곳과 겹침</li>
+<li>서식 조건이 매우 까다로워 오히려 환경 상태를 보여주는 "지표종"으로 취급됨: 깨끗한 수질, 안정적 유량, 낮은 빛공해가 함께 갖춰져야 함</li>
+<li>국내는 여름철 강수가 집중되는 기후 특성상 장마철 폭우로 유충·먹이생물이 유실되는 문제도 서식지 관리의 난점으로 꼽힘</li>
+<li>도심에서 반딧불이가 사라진 건 수질오염뿐 아니라 <strong>인공조명(빛공해)</strong>도 핵심 원인 — 반딧불이는 빛으로 짝을 찾는 곤충이라, 밤에도 밝은 도심 환경에서는 신호 교란이 일어나 번식이 어려움</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>6. 계절 곤충 — 나비·잠자리</summary>
+          <div class="card-body">
+            <ul>
+<li><strong>나비</strong>: 봄(호랑나비·배추흰나비 등)부터 늦가을(왕나비 등 일부 종)까지 계절별로 종류가 바뀌며 관찰됨. 애벌레 시기에 특정 식물(배추흰나비는 배추·무 같은 십자화과, 호랑나비는 산초나무·귤나무 등 운향과)만 먹는 경우가 많아, 그 나무·풀이 없으면 해당 나비도 보기 어려워짐</li>
+<li><strong>잠자리</strong>: 대표적으로 여름~가을에 걸쳐 관찰되며, 물가(연못·하천)에서 유충(수채) 시기를 보내다 우화해 날아오름 — 도심에서 잠자리가 많이 보이는 곳은 대개 근처에 하천·연못이 있다는 신호로 해석할 수 있음</li>
+<li>두 곤충 모두 살충제 사용, 서식지(풀밭·물가) 감소로 개체수가 줄고 있다는 게 일반적으로 알려진 경향</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="urbanfauna">
+          <summary>7. 꿀벌 실종 — 매년 반복되는 집단 폐사</summary>
+          <div class="card-body">
+            <ul>
+<li>2022년 1월 제주에서 시작된 꿀벌 집단 실종이 그해 3월까지 전남·경남·충북 등으로 확산되며 전국적 사건이 됨 — 국내에서 처음 보고된 대규모 사례</li>
+<li>학계에서는 이를 미국에서 2006년 처음 보고된 <strong>"군집붕괴현상(CCD)"</strong>과 같은 계열의 현상으로 봄(일벌들이 채집을 나간 뒤 돌아오지 않아 여왕벌·애벌레만 남아 집단 폐사)</li>
+<li>이후에도 매년 반복되고 있음 — 양봉협회 집계 기준 월동 후 실종 비율이 2022년 57.1%, 2023년 61.4%로 이어짐</li>
+<li>주요 원인으로 꼽히는 것들:</li>
+<li><strong>기후변화</strong>: 겨울철 이상고온과 이상저온이 반복되며 월동 중인 벌의 체력이 소진되고, 꽃이 이른 시기에 개화하면서 일벌의 채집 활동 기간이 늘어나 체력 소진이 가중됨</li>
+<li><strong>꿀벌응애</strong>: 꿀벌에 기생하는 진드기의 일종. 방제제 남용으로 내성을 가진 개체가 늘면서 꿀벌 면역력을 약화시킴</li>
+<li><strong>밀원식물(꿀벌이 꽃가루·꿀을 얻는 식물) 감소</strong>: 대표 밀원수인 아까시나무 등이 줄어들며 꿀벌이 구조적으로 굶주리는 상태</li>
+</ul>
+<p><strong>해설 포인트</strong>: 꿀벌은 속씨식물의 수분(가루받이)을 돕는 존재라, 꿀벌이 줄면 과수 농가의 열매 생산에도 바로 영향을 미칩니다 — "꿀벌이 사라지면 꿀이 없어지는 게 문제가 아니라, 애초에 열매가 안 열리는 게 더 큰 문제"라고 설명하면 체감이 쉽습니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="urbanfauna">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>유해조수 지정 여부(까치·비둘기 등)는 지자체·시기별로 기준이 달라질 수 있어, 특정 지역의 현재 지정 상태를 단정적으로 말하기보다 "관리 대상으로 지정되는 경우가 있다" 정도로 설명하는 게 안전합니다.</li>
+<li>길고양이 개체수 통계(67만~69만 마리 등)는 조사 연도·방식에 따라 편차가 있고, TNR 효과에 대한 학계·현장 의견도 갈려 있어 "논쟁 중"이라는 뉘앙스를 유지하는 게 정확합니다.</li>
+<li>제비 감소 원인은 여러 요인이 복합적으로 작용한 결과로 알려져 있어, 특정 원인 하나로 단정하기보다 위 5가지를 종합적으로 설명하는 게 정확합니다.</li>
+<li>꿀벌 실종 비율(연도별 %)은 양봉협회 집계 기준이며 매년 갱신되는 수치입니다. 정확한 원인 역시 학계에서도 "복합적 요인"이라는 선에서 정리되어 있을 뿐, 단일 원인으로 확정되지 않았습니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="solarterms" data-cat="solarterms" style="--accent: #b03a3a;">
+      <div class="topic-head">
+        <span class="topic-icon">📅</span>
+        <h2>24절기와 전통 계절문화</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>24절기와 전통 계절문화</h1>
+<blockquote>
+<p>앞선 "사계절 자연해설" 노트가 꽃·나무의 실제 개화시기를 다뤘다면, 이 노트는 그것을 옛사람들이 <strong>어떤 시간 단위로 구분해 인식했는지</strong>를 다룹니다. "오늘이 무슨 절기인지" 아는 것만으로도 계절 해설에 권위를 더할 수 있습니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="solarterms">
+          <summary>1. 24절기란 무엇인가</summary>
+          <div class="card-body">
+            <ul>
+<li>태양의 위치(황경)를 기준으로 1년을 <strong>15도 간격, 24등분</strong>한 것 — 음력이 아니라 <strong>양력 기준</strong>입니다. "24절기=음력"이라고 오해하는 경우가 많은데, 실제로는 태양의 움직임을 따르기 때문에 매년 양력 날짜가 거의 고정되어 있습니다(음력 명절인 설·추석과는 성격이 다름)</li>
+<li>기원은 중국 주나라(약 2,500년 전) 화북 지방(황하 유역)의 기후를 기준으로 만들어짐 — 그래서 이름과 실제 한반도 기후가 살짝 안 맞는 경우도 있음("소한 추위에 대한이 얼어 죽는다"는 속담이 그 방증)</li>
+<li>한반도 도입 시기는 명확한 정설은 없으나, 부여 관북리 유적에서 "입동(立冬)"이 적힌 목간이 출토돼 <strong>늦어도 삼국시대에는 사용</strong>된 것으로 추정됨. 조선 세종 때는 한반도 실정에 안 맞는 부분을 보완하기 위해 『농사직설』 등을 별도로 편찬하기도 함</li>
+<li>홀수 번째(입춘·경칩 등)는 <strong>절(節)</strong>, 짝수 번째(우수·춘분 등)는 <strong>중(中)</strong>이라 구분하며, <strong>입춘·입하·입추·입동("4립")</strong>이 각 계절의 시작점</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="solarterms">
+          <summary>2. 24절기 목록</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>계절</th>
+<th>절기</th>
+<th>대략 양력 날짜</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>봄</td>
+<td>입춘(立春)</td>
+<td>2월 4일경</td>
+<td>봄의 시작</td>
+</tr>
+<tr>
+<td>봄</td>
+<td>우수(雨水)</td>
+<td>2월 19일경</td>
+<td>눈이 녹아 비가 됨</td>
+</tr>
+<tr>
+<td>봄</td>
+<td>경칩(驚蟄)</td>
+<td>3월 5일경</td>
+<td>겨울잠 자던 벌레가 깨어남</td>
+</tr>
+<tr>
+<td>봄</td>
+<td>춘분(春分)</td>
+<td>3월 20일경</td>
+<td>낮과 밤의 길이가 같아짐</td>
+</tr>
+<tr>
+<td>봄</td>
+<td>청명(淸明)</td>
+<td>4월 4일경</td>
+<td>봄 농사 준비, 날씨가 맑아짐</td>
+</tr>
+<tr>
+<td>봄</td>
+<td>곡우(穀雨)</td>
+<td>4월 20일경</td>
+<td>봄비가 내려 곡식 싹이 틈</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>입하(立夏)</td>
+<td>5월 5일경</td>
+<td>여름의 시작</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>소만(小滿)</td>
+<td>5월 21일경</td>
+<td>만물이 점차 자라 가득 참, 모내기 시작</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>망종(芒種)</td>
+<td>6월 6일경</td>
+<td>보리·벼 등 씨 뿌리는 시기</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>하지(夏至)</td>
+<td>6월 21일경</td>
+<td>낮이 1년 중 가장 긴 날</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>소서(小暑)</td>
+<td>7월 7일경</td>
+<td>더위가 본격적으로 시작</td>
+</tr>
+<tr>
+<td>여름</td>
+<td>대서(大暑)</td>
+<td>7월 23일경</td>
+<td>더위가 절정, 장마와 겹침</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>입추(立秋)</td>
+<td>8월 7일경</td>
+<td>가을의 시작</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>처서(處暑)</td>
+<td>8월 23일경</td>
+<td>더위가 한풀 꺾임("처서가 지나면 모기 입이 삐뚤어진다")</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>백로(白露)</td>
+<td>9월 8일경</td>
+<td>이슬이 맺히기 시작</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>추분(秋分)</td>
+<td>9월 23일경</td>
+<td>낮과 밤의 길이가 같아짐(봄의 춘분과 대칭)</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>한로(寒露)</td>
+<td>10월 8일경</td>
+<td>찬 이슬이 맺힘</td>
+</tr>
+<tr>
+<td>가을</td>
+<td>상강(霜降)</td>
+<td>10월 23일경</td>
+<td>서리가 내리기 시작</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>입동(立冬)</td>
+<td>11월 7일경</td>
+<td>겨울의 시작</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>소설(小雪)</td>
+<td>11월 22일경</td>
+<td>첫눈이 내릴 무렵</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>대설(大雪)</td>
+<td>12월 7일경</td>
+<td>눈이 많이 내리는 시기</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>동지(冬至)</td>
+<td>12월 22일경</td>
+<td>밤이 1년 중 가장 긴 날, "작은설"이라 부르며 팥죽을 먹음</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>소한(小寒)</td>
+<td>1월 6일경</td>
+<td>작은 추위(실제로는 한반도에서 1년 중 가장 추운 시기인 경우가 많음)</td>
+</tr>
+<tr>
+<td>겨울</td>
+<td>대한(大寒)</td>
+<td>1월 20일경</td>
+<td>큰 추위</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+        </details>
+        <details class="card" data-cat="solarterms">
+          <summary>3. 자주 헷갈리는 부분: 24절기 ≠ 한식·단오·삼복·추석</summary>
+          <div class="card-body">
+            <p>가이드 현장에서 가장 흔히 혼동되는 지점입니다.</p>
+<ul>
+<li><strong>24절기</strong>: 위 표의 24개 — 태양 움직임 기준, 농사 절기</li>
+<li><strong>한식·단오·삼복(초복·중복·말복)·추석·설</strong> 등은 24절기가 아니라 <strong>별도의 명절·잡절</strong>입니다. 이 중 설·단오·추석은 음력 기준이고, 한식은 동지로부터 105일째 되는 날을 세는 방식, 삼복은 하지 이후 경일(庚日)을 헤아려 정하는 등 <strong>계산 방식 자체가 24절기와 다릅니다</strong></li>
+<li>즉 "24절기+명절(잡절)"이 합쳐져 전통 세시풍속 전체를 이루는 것이지, 명절도 24절기의 일부라고 설명하면 부정확합니다</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="solarterms">
+          <summary>4. 절기와 연결된 세시풍속·음식 (해설용)</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>절기</th>
+<th>풍습</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>입춘</td>
+<td>대문에 "입춘대길(立春大吉)" 같은 입춘첩을 붙임. 다섯 가지 매운 나물(오신반)을 먹어 겨우내 부족했던 기운을 보충</td>
+</tr>
+<tr>
+<td>곡우</td>
+<td>봄비가 내려 곡식이 자란다는 뜻대로, 이 무렵 나무에서 나오는 수액(고로쇠물 등)을 받아 마시는 풍습이 지역별로 전해짐</td>
+</tr>
+<tr>
+<td>동지</td>
+<td>팥의 붉은색이 잡귀를 쫓는다 하여 팥죽을 쑤어 먹음. 예로부터 설 다음가는 명절로 대접해 "작은설"이라 부름</td>
+</tr>
+<tr>
+<td>삼복(잡절)</td>
+<td>더위를 이기기 위해 삼계탕·보신탕 등 몸보신 음식을 먹는 풍습(단, 삼복은 24절기가 아니라는 점 위 3번 참고)</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="solarterms">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>절기별 정확한 날짜는 해마다 1~2일 정도 앞뒤로 바뀔 수 있습니다(윤년·천문 계산 오차 때문). 위 표는 "대략적인 기준일"로 안내하는 게 안전합니다.</li>
+<li>한반도 도입 시기(삼국시대 추정)는 고고학적 증거(목간)에 근거한 추정이며, 학계에서 100% 확정된 사실은 아닙니다. "이르면 삼국시대"라는 정도로 소개하는 게 정확합니다.</li>
+<li>절기별 풍습·음식은 지역에 따라 편차가 있어, 위 내용은 "널리 알려진 대표적 사례"로 소개하는 게 안전합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="palacegarden" data-cat="palacegarden" style="--accent: #6a4423;">
+      <div class="topic-head">
+        <span class="topic-icon">⛩️</span>
+        <h2>궁궐 전통 조경 철학</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>궁궐 전통 조경 철학 (후원·연못 조성 원리)</h1>
+<blockquote>
+<p>"나무 개별 카드" 노트가 궁궐에 심어진 개별 나무를 다뤘다면, 이 노트는 궁궐 정원(후원)을 <strong>왜 그런 모양으로 만들었는지</strong> — 그 사상적 배경을 다룹니다. 경복궁 향원정, 창덕궁 부용지 같은 곳에서 바로 쓸 수 있는 내용입니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="palacegarden">
+          <summary>1. 궁궐 공간의 큰 구조 — 후원은 가장 안쪽·가장 깊은 곳</summary>
+          <div class="card-body">
+            <p>궁궐은 기능에 따라 몇 개의 구역으로 나뉘고, 후원은 그중 가장 안쪽에 자리합니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구역</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>외전(外殿)</td>
+<td>왕이 신하·사신을 공식적으로 만나는 공간(즉위식, 조회, 국가 의식) — 정전이 핵심</td>
+</tr>
+<tr>
+<td>편전(便殿)</td>
+<td>왕의 공식 집무실(업무·공부·신하와의 회의)</td>
+</tr>
+<tr>
+<td>궐내각사</td>
+<td>궁궐 안에서 정치·행정·경비 업무를 보던 관청 구역</td>
+</tr>
+<tr>
+<td><strong>후원(後苑)</strong></td>
+<td>궁궐 북쪽 산자락에 위치한 휴식 공간 — 연못·정자·산책로 중심</td>
+</tr>
+</tbody>
+</table></div>
+<p>후원은 단순한 "왕의 개인 정원"에 그치지 않고, 과거시험 시행·군사훈련·종친 모임 같은 공식 행사도 열리던 다목적 공간이었습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="palacegarden">
+          <summary>2. 방지원도(方池圓島) — 한국 정원의 상징적 형태</summary>
+          <div class="card-body">
+            <h3>형태와 의미</h3>
+<ul>
+<li>궁궐 연못의 가장 전형적인 형태는 <strong>네모난 연못 가운데 둥근 섬</strong>을 띄운 모습 — 이를 <strong>방지원도(方池圓島)</strong>라 부름</li>
+<li>여기 담긴 사상이 <strong>천원지방(天圓地方)</strong>: "하늘은 둥글고 땅은 네모나다"는 동아시아 전통 우주관 — 네모난 연못(땅)과 둥근 섬(하늘)을 함께 배치해, 작은 연못 하나에 우주의 구조를 압축해 담은 것</li>
+<li>이 형태는 <strong>음양오행 사상</strong>에서 비롯된 것으로 해석되며, 왕의 정원이 곧 하나의 작은 우주(소우주)라는 관념을 반영</li>
+</ul>
+<h3>대표 사례</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>장소</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>창덕궁 후원 부용지</td>
+<td>방지원도형의 가장 대표적인 예. 정자 부용정과 2층 누각 주합루가 함께 어우러짐</td>
+</tr>
+<tr>
+<td>경복궁 향원지(향원정이 있는 연못)</td>
+<td>방지원도 형태를 응용, 다만 섬 위에 정자(향원정)를 세운 점이 특징적</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>해설 포인트</strong>: "이 연못이 네모나고 가운데 섬이 둥근 건 우연이 아니라, 하늘은 둥글고 땅은 네모나다는 옛사람들의 우주관을 옮겨 놓은 것"이라고 설명하면 단순한 조경 요소가 사상적 의미를 갖게 됩니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="palacegarden">
+          <summary>3. 왕과 신하를 물고기·물에 비유한 상징 — 창덕궁 어수문</summary>
+          <div class="card-body">
+            <ul>
+<li>창덕궁 후원 주합루(규장각이 있던 2층 누각)로 들어가는 정문 이름이 <strong>어수문(魚水門)</strong></li>
+<li>"왕은 물이고 신하는 물고기"라는 비유 — 물고기가 물을 떠나 살 수 없듯, 신하도 왕을 떠나서는 존재할 수 없다는 유교적 군신관계를 건축·조경에 새겨 넣은 사례</li>
+<li>이런 상징 배치는 후원이 단순한 놀이 공간이 아니라 <strong>정치적 은유와 사색을 위한 공간</strong>이었음을 보여줌</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="palacegarden">
+          <summary>4. 자연을 거스르지 않는 배치 원칙</summary>
+          <div class="card-body">
+            <ul>
+<li>한국 전통 정원(궁궐 후원 포함)은 중국·일본 정원과 달리 <strong>인공적으로 산을 깎거나 큰 구조물을 앞세우기보다, 원래 있던 지형(산자락·계곡)을 최대한 그대로 살려 건물과 연못을 배치</strong>하는 경향이 강하다고 설명됨</li>
+<li>창덕궁 후원이 대표적 — 산줄기와 계곡의 굴곡을 따라 정자·연못이 자연스럽게 이어지는 구조로 조성됨(인위적으로 평탄화하지 않음)</li>
+<li>이 때문에 창덕궁 후원은 "비원(祕苑, 비밀의 정원)"이라는 이름으로 더 유명하지만, 이는 일제강점기 이후에 붙은 명칭이고 조선시대 정식 명칭은 <strong>후원(後苑)</strong>입니다 — "비원"이라는 이름 자체가 왜곡된 표현이라는 지적이 있어, 정식 해설에서는 "후원"으로 부르는 게 정확합니다</li>
+</ul>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="palacegarden">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>방지원도·천원지방 사상은 학계에서 널리 통용되는 해석이지만, 특정 연못 하나하나가 "반드시 이 의도로 설계되었다"는 1차 사료 기반의 확정적 증거까지는 이 노트에서 확인하지 못했습니다. "이렇게 해석된다"는 톤으로 소개하는 게 안전합니다.</li>
+<li>"비원"이라는 명칭의 유래(일제강점기 표현이라는 설)는 여러 자료에서 지적되고 있으나, 정확한 최초 사용 시점·주체까지는 확정적으로 밝혀지지 않았습니다.</li>
+<li>이 노트는 창덕궁·경복궁 후원 중심으로 정리했습니다. 창경궁·경희궁 등 다른 궁궐 후원의 개별 특징은 포함하지 않았으니, 필요하면 별도로 추가하는 걸 권합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="monument" data-cat="monument" style="--accent: #3a6a4a;">
+      <div class="topic-head">
+        <span class="topic-icon">🛡️</span>
+        <h2>천연기념물 제도</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>천연기념물 제도</h1>
+<blockquote>
+<p>여러 노트에서 "이 나무는 천연기념물입니다"라는 표현이 반복해 나왔습니다. 정작 천연기념물이 정확히 무엇이고 누가 지정하는지는 다룬 적이 없어 별도로 정리합니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="monument">
+          <summary>1. 정의와 소관 부처</summary>
+          <div class="card-body">
+            <ul>
+<li>천연기념물은 학술적·경관적 가치가 높은 자연물을 국가가 지정해 보호하는 <strong>자연유산</strong>입니다</li>
+<li>소관 부처는 <strong>국가유산청</strong>(옛 문화재청)입니다 — <strong>환경부가 아닙니다.</strong> 이 구분이 중요한 이유는, 비슷해 보이는 "멸종위기 야생생물" 지정은 환경부 소관으로 서로 다른 제도이기 때문입니다</li>
+<li>두 제도는 취지가 달라 완전히 일치하지 않습니다 — 천연기념물이라고 해서 반드시 멸종위기종인 것은 아니고, 반대로 멸종위기종이라고 다 천연기념물인 것도 아닙니다(다만 겹치는 경우도 많아, 산양·따오기처럼 환경부·국가유산청이 공동 관리하는 사례도 있음)</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="monument">
+          <summary>2. 제도의 역사</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1916년</td>
+<td>조선총독부 「고적및유물보존규칙」 제정(천연기념물 개념의 시초)</td>
+</tr>
+<tr>
+<td>1933년</td>
+<td>「조선보물고적명승천연기념물보존령」 공포 — <strong>일제강점기에 시작된 제도</strong></td>
+</tr>
+<tr>
+<td>1962년</td>
+<td>광복 후 대한민국 정부가 「문화재보호법」 제정, 일제강점기 지정 목록을 재조사·재정비(이 과정에서 다수 해제)</td>
+</tr>
+<tr>
+<td>1962년</td>
+<td>대한민국 정부 기준 <strong>최초로 지정된 천연기념물</strong>은 대구광역시 동구 도동의 <strong>측백나무 숲</strong></td>
+</tr>
+<tr>
+<td>2021년</td>
+<td>국보·보물 등과 함께 지정번호 제도 폐지(더 이상 "천연기념물 제ㅇㅇ호" 식으로 부르지 않음)</td>
+</tr>
+<tr>
+<td>2024년</td>
+<td>「자연유산의 보존 및 활용에 관한 법률」 시행 — 기존 문화재보호법에서 자연유산 분야를 별도 법으로 분리</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>2024년 2월 기준 전국 지정 건수는 총 480점</li>
+</ul>
+          </div>
+        </details>
+        <details class="card" data-cat="monument">
+          <summary>3. 무엇이 지정 대상인가 — 3대 분류</summary>
+          <div class="card-body">
+            <div class="table-scroll"><table>
+<thead>
+<tr>
+<th>분류</th>
+<th>지정 대상 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>식물</strong></td>
+<td>노거수(수령이 오래된 나무), 희귀 식물, 자생지, 마을 숲, 분포 한계지 등</td>
+</tr>
+<tr>
+<td><strong>동물</strong></td>
+<td>희귀 동물, 서식지·번식지·철새 도래지, 특이한 관상동물 등</td>
+</tr>
+<tr>
+<td><strong>지질·지형</strong></td>
+<td>학술 가치가 큰 암석·화석 산지, 특이한 지형, 동굴 등</td>
+</tr>
+<tr>
+<td><strong>천연보호구역</strong></td>
+<td>위 요소가 밀집된 넓은 구역 전체를 지정(설악산·한라산·홍도 등)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>참고</strong>: 진돗개·제주마·제주흑우·삽살개 같은 가축(축양동물)도 천연기념물로 지정된 사례가 있습니다 — 순수 야생종만 대상이 아니라는 점이 특이합니다.</p>
+          </div>
+        </details>
+        <details class="card" data-cat="monument">
+          <summary>4. 해설 포인트 — 노거수 천연기념물이 자주 사라지는 이유</summary>
+          <div class="card-body">
+            <ul>
+<li>국보·보물 같은 다른 국가유산은 손상돼도 복구·보수가 가능하지만, 나무는 <strong>살아있는 생물</strong>이라 한번 죽거나 쓰러지면 원상 복구가 불가능합니다</li>
+<li>게다가 노거수 천연기념물은 대부분 이미 수종 평균 수명을 훌쩍 넘긴 나이든 나무들이라, 태풍·병충해·노쇠로 언제든 지정 해제(고사)될 수 있는 상태입니다</li>
+<li>즉 "이 나무는 천연기념물입니다"라고 소개할 때, 그 나무가 살아있는 유산이라 다른 문화재보다 훨씬 더 취약하다는 점을 함께 설명하면 의미가 깊어집니다</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="monument">
+          <summary>5. 멸종위기종 복원 사례 — 사라진 야생동물을 되돌리는 사업들</summary>
+          <div class="card-body">
+            <p>앞서 구분했듯 이 사업들은 <strong>환경부 소관</strong>(천연기념물과는 별개 제도)이지만, 천연기념물 노거수처럼 "한번 사라지면 되돌리기 힘든 자연유산"이라는 점에서 함께 알아두면 좋은 사례들입니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>종</th>
+<th>복원 지역</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>반달가슴곰</td>
+<td>지리산</td>
+<td>국내 멸종위기종 복원사업의 시초 격 — 가장 오래되고 널리 알려진 사례</td>
+</tr>
+<tr>
+<td>산양</td>
+<td>월악산</td>
+<td>반달가슴곰 사업이 성과를 보이자 이어서 시작. 다만 산양은 원래 소규모 개체군이 남아있어, 목표는 "개체수 늘리기"가 아니라 <strong>서로 떨어진 개체군을 이어줘 근친교배를 막는 것</strong></td>
+</tr>
+<tr>
+<td>여우</td>
+<td>소백산</td>
+<td>국내 토착 여우가 인근 동북아 지역 여우와 유전적으로 뚜렷이 구분되지 않는다는 분석에 따라, 같은 유전자 그룹인 <strong>붉은여우</strong>로 복원을 진행</td>
+</tr>
+<tr>
+<td>따오기</td>
+<td>창녕(우포늪)</td>
+<td>한때 국내에서 완전히 자취를 감췄던 새</td>
+</tr>
+<tr>
+<td>황새</td>
+<td>예산</td>
+<td>따오기와 마찬가지로 국내 절멸 후 복원 중</td>
+</tr>
+<tr>
+<td>저어새</td>
+<td>서울대공원(인공부화) + 영종도(인공섬 서식지)</td>
+<td>인공부화 성공 후 서식지까지 별도로 조성한 사례</td>
+</tr>
+</tbody>
+</table></div>
+<h3>해설 포인트</h3>
+<ul>
+<li>반달가슴곰·산양처럼 몸집이 큰 동물뿐 아니라, 구렁이(치악산)·남생이(월출산)·꼬치동자개(경북 하천) 같은 파충류·어류도 복원 대상이라는 점이 의외로 잘 알려지지 않은 사실입니다</li>
+<li>"멸종위기 야생생물 I급"과 "천연기념물"은 겹치는 경우가 많아, 두 종의 동물을 훼손하면 문화재보호법(자연유산법)과 야생생물법 양쪽에 저촉될 수 있습니다 — 다만 실제로는 처벌 수위가 더 센 문화재 관련 법으로 처벌되는 경우가 많다고 알려져 있음</li>
+</ul>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="monument">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>개별 나무·장소의 천연기념물 지정 여부·지정 연도는 시간이 지나며 바뀔 수 있어(신규 지정·해제), 특정 코스에 적용할 때는 국가유산청 국가유산포털에서 최신 지정 현황을 확인하는 걸 권장합니다.</li>
+<li>지정번호 폐지(2021년) 이후로는 "천연기념물 제ㅇㅇ호"라는 표현이 공식적으로 쓰이지 않으므로, 이전 자료를 인용할 때는 이 점을 참고하시기 바랍니다.</li>
+<li>멸종위기종 복원사업은 진행 상황이 매년 달라집니다(개체수 증가, 신규 방사 지역 추가 등). 이 노트의 내용은 작성 시점 기준이므로, 최신 현황은 환경부·국립생태원 자료로 재확인하는 걸 권장합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="urbansupp" data-cat="urbansupp" style="--accent: #5a7d8a;">
+      <div class="topic-head">
+        <span class="topic-icon">➕</span>
+        <h2>도심 자연 보충노트</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>도심 자연 보충노트 (야생동물 출몰·한강 어류·갯벌 생물·미세먼지)</h1>
+<blockquote>
+<p>앞서 만든 노트들 사이에서 빠졌던 작은 주제들을 모았습니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="urbansupp">
+          <summary>1. 도심 출몰 야생동물 — 고라니·너구리·멧돼지</summary>
+          <div class="card-body">
+            <h3>왜 늘어나고 있나</h3>
+<ul>
+<li>서울시에 접수된 <strong>멧돼지 신고 건수</strong>: 2022년 205마리 → 2023년 427마리 → 2024년 486마리로 매년 급증(2024년 기준 은평구가 158마리로 가장 많고, 도봉구·성북구 순)</li>
+<li>전문가들은 이를 "야생동물이 도심을 침범했다"기보다는, <strong>원래 그들의 서식지였던 산자락에 도시가 확장되며 생긴 현상</strong>으로 설명합니다(공존 문제로 접근)</li>
+<li>최근 국립생물자원관이 무인기·AI 분석으로 확인한 바에 따르면:</li>
+<li><strong>멧돼지</strong>: 남향에 경사가 가파르고 관목이 우거진 곳을 쉼터로, 텃밭·사찰 주변을 먹이터로 선호</li>
+<li><strong>너구리</strong>: 하천과 그에 인접한 도시공원·녹지를 주요 활동 무대로 삼음 — 산책·여가객과 마주칠 일이 잦은 이유</li>
+</ul>
+<h3>해설 포인트</h3>
+<ul>
+<li>봄철에는 독립을 위해 이동하는 어린 멧돼지 개체가 서투르게 도심까지 들어오는 경우가 많다는 분석도 있습니다</li>
+<li>상위 포식자(호랑이·표범 등)가 남한에서 사실상 절멸한 상태라, 멧돼지가 위협을 느끼고 피할 대상 자체가 없어진 것도 개체수 증가·대담한 행동의 배경으로 거론됩니다</li>
+</ul>
+<h3>전국 단위로 보면 — 농작물 피해와 포획 정책</h3>
+<ul>
+<li>도심 출몰 이전에 더 큰 문제는 <strong>농촌의 농작물 피해</strong>입니다. 여름철 열매가 맺히는 시기 이후 벼·고구마·과일 등을 훼손하는 사례가 매년 반복됨</li>
+<li>인명 피해도 실제로 발생합니다 — 2018년 1월 경북 예천군에서 멧돼지에 물려 60대 남성이 사망한 사례가 있음</li>
+<li>소방청 집계로 2016~2018년 멧돼지 관련 소방 출동이 연평균 3,338건에 달함</li>
+<li><strong>아프리카돼지열병(ASF)</strong> 방역을 위해 2019년 10월~2022년 10월 사이 전국에서 야생 멧돼지 약 26만 9천여 마리가 사살·포획됨 — 이 여파로 개체수가 급감하자, 2020년 11월부터는 오히려 <strong>멧돼지 포획·채취가 원칙적으로 금지</strong>되는 쪽으로 정책이 바뀜(과도한 포획으로 인한 개체수 붕괴 우려)</li>
+<li>지자체는 매년 겨울 특정 지역에 한해 "수렵장"을 운영해 포수(엽사)들이 정해진 마릿수만큼 포획하도록 허가하는 방식으로 개체수를 조절</li>
+</ul>
+<h3>해설 포인트</h3>
+<p>"도심에 멧돼지가 나타났다"는 뉴스와 "농촌에서 멧돼지 포획을 원칙적으로 금지했다"는 뉴스가 같은 시기에 나오는 게 모순처럼 보이지만, 실제로는 "무분별한 남획으로 개체수가 너무 줄어든 것"과 "도심 근접 지역에서는 여전히 자주 출몰하는 것"이 동시에 벌어지는 복잡한 상황이라는 점을 짚어주면 이해가 쉽습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="urbansupp">
+          <summary>2. 한강의 물고기 — 토종 vs 외래 교란종</summary>
+          <div class="card-body">
+            <ul>
+<li>한강·팔당호 등지에서 흔히 잡히는 <strong>배스(큰입배스)·블루길</strong>은 원래 <strong>식용 목적으로 도입</strong>된 외래종이지만, 현재는 생태계교란종으로 지정될 만큼 토종 어종을 위협하고 있습니다</li>
+<li>토종 상위 포식자인 <strong>가물치</strong>가 이론상 배스·블루길과 경쟁 관계이긴 하나, 실제로는 이들을 주 먹이로 삼지도 않고 개체수 조절에 유의미한 영향을 주지도 못해 <strong>자연적인 견제가 거의 작동하지 않는 상태</strong>입니다</li>
+<li>지자체가 매년 수 톤 단위로 포획·퇴치 사업을 벌이고 있지만, 서식지 자체가 안정적으로 유지되고 있어 개체수가 눈에 띄게 줄지는 않고 있다는 게 최근(2026년) 전문가 평가입니다</li>
+<li>식용화(메기·쏘가리처럼 상업적 민물고기로 자리잡기)도 시도됐으나 대중화에는 실패한 상태</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="urbansupp">
+          <summary>3. 갯벌 생물 — 지형만큼 다양한 생물다양성</summary>
+          <div class="card-body">
+            <ul>
+<li>앞선 "자연지형 개관" 노트에서 다룬 서해안 갯벌은 <strong>국내 멸종위기종 22종을 포함해 2,150종에 이르는 생물</strong>이 서식하는 것으로 조사돼 유네스코 세계자연유산 등재 사유가 됨</li>
+<li>대표적으로 눈에 띄는 생물로는 짱뚱어(진흙 위를 뛰어다니는 물고기), 칠게·농게 같은 게류, 백합·동죽 같은 조개류 등이 있으며, 이들은 갯벌 진흙 속 유기물을 걸러 먹는 역할을 함</li>
+<li>매년 이동하는 도요물떼새 등 철새 118종에게 갯벌은 장거리 이동 중 에너지를 보충하는 <strong>중간 기착지</strong> 역할을 함 — 갯벌이 사라지면 이 철새들의 이동 경로 자체가 끊길 수 있다는 게 국제적으로 갯벌 보전이 강조되는 이유 중 하나</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="urbansupp">
+          <summary>4. 미세먼지 vs 황사 — 다른 현상</summary>
+          <div class="card-body">
+            <p>봄철 가이드 업무 중 자주 나오는 질문이라 명확히 구분해둘 필요가 있습니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>황사</th>
+<th>미세먼지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>발생 원인</td>
+<td>중국·몽골의 고비사막·황토고원 등 건조지대의 흙먼지가 바람(편서풍)을 타고 날아옴 — <strong>자연현상</strong></td>
+<td>공장·자동차·화석연료 연소 등에서 나온 오염물질이 반응해 생성 — <strong>주로 인위적 현상</strong></td>
+</tr>
+<tr>
+<td>계절성</td>
+<td>주로 봄철(건조한 겨울을 지나 강한 바람이 부는 시기)에 집중</td>
+<td>계절과 무관하게 발생하지만 대기가 정체되는 겨울철에 특히 심한 경향</td>
+</tr>
+<tr>
+<td>입자 크기</td>
+<td>대부분 PM10(지름 10㎛ 이하) 범주에 해당</td>
+<td>PM10과 PM2.5(초미세먼지, 지름 2.5㎛ 이하) 모두 포함, 이 중 인위적 오염은 특히 PM2.5 비중이 높음</td>
+</tr>
+<tr>
+<td>인체 위험도</td>
+<td>상대적으로 덜 위험(호흡기 자극 정도, 마스크로 어느 정도 차단 가능)</td>
+<td>초미세먼지는 폐 깊숙이 침투해 심혈관·호흡기 질환 위험을 높임 — WHO가 1군 발암물질로 지정</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>해설 포인트</strong>: "황사는 자연 현상이고, 미세먼지는 인간이 만든 오염"이라는 한 줄로 구분해 설명하면 이해가 빠릅니다. 다만 실제로는 봄철에 두 현상이 겹쳐서 나타나는 경우가 많아("황사 섞인 미세먼지") 현장에서 완전히 분리해서 체감하기는 어렵다는 점도 함께 안내하면 좋습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="urbansupp">
+          <summary>5. 도시열섬현상 — 왜 이 구간이 유독 더운가</summary>
+          <div class="card-body">
+            <p>여름 도보투어에서 "왜 여기가 이렇게 덥냐"는 질문에 바로 쓸 수 있는 내용입니다.</p>
+<h3>원인 (복합적)</h3>
+<ul>
+<li><strong>인공 표면</strong>: 아스팔트·콘크리트가 낮 동안 열을 흡수했다가 밤에도 천천히 방출 — 도심이 밤에도 잘 식지 않는 이유</li>
+<li><strong>녹지 부족</strong>: 나무·풀이 없으면 증산작용(식물이 수분을 내뿜으며 주변을 식히는 효과)과 그늘 효과가 사라짐</li>
+<li><strong>인공열 배출</strong>: 자동차 배기가스, 에어컨 실외기 등에서 나오는 열이 누적</li>
+<li><strong>바람 순환 방해</strong>: 고층 빌딩이 밀집하면 바람이 통과하지 못해 뜨거운 공기가 고인 채로 갇힘("계곡 효과")</li>
+</ul>
+<h3>서울에서 실제로 드러나는 차이</h3>
+<ul>
+<li>서울연구원 조사(2022)에 따르면 <strong>가로수 그늘이 주변 온도를 15.4도까지 낮춰주는 효과</strong>가 있음(다만 봄철 무분별한 가지치기로 여름에 그늘을 못 만드는 가로수도 많다는 게 문제로 지적됨)</li>
+<li>실제로 <strong>창덕궁·창경궁 일대는 여름철 상대적으로 기온이 낮은 지역</strong>으로 꼽힘 — 궁궐의 넓은 녹지·수목이 그대로 열섬 완화 효과를 내는 사례</li>
+<li>반대로 서울에서 열섬이 고착되는 지역으로는 동북부(강북·성북·중랑구 등)와 서남부(양천·영등포·금천·송파구 등)가 꼽힘(서울연구원, 2021)</li>
+<li>대응책으로 최근 거론되는 개념이 <strong>"바람길"</strong> — 도심 외곽 산지에서 만들어진 찬 공기가 도심으로 자연스럽게 흘러들도록 통로를 확보하는 도시설계 방식</li>
+</ul>
+<h3>해설 포인트</h3>
+<p>"이 코스에서 궁궐 안이 바깥 도로보다 시원하게 느껴진다면, 그건 단순히 그늘 때문만이 아니라 도시열섬현상과 정반대되는 효과가 나타나는 것"이라고 설명하면 앞서 다룬 궁궐 조경·가로수 노트와 자연스럽게 연결됩니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="urbansupp">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>멧돼지·너구리 출몰 통계(서울시 신고 건수 등)는 매년 갱신되는 수치입니다. 이 노트의 수치는 작성 시점 기준이므로, 최신 통계가 필요하면 서울시·국립생물자원관 자료로 재확인하는 걸 권장합니다.</li>
+<li>배스·블루길 개체수·퇴치 효과에 대한 평가는 전문가 사이에서도 "줄지 않고 있다"는 쪽으로 의견이 모이고 있지만, 지역별 편차가 있을 수 있습니다.</li>
+<li>갯벌 서식 생물 종수(2,150종)는 유네스코 등재 당시 조사 기준이며, 이후 변동 가능성이 있습니다.</li>
+<li>가로수 그늘의 온도 저감 효과(15.4도)는 2022년 서울연구원 조사 기준 수치이며, 측정 위치·계절·시간대에 따라 편차가 있을 수 있습니다.</li>
+<li>멧돼지 포획·ASF 관련 수치(26만 9천여 마리 등)와 정책(포획 금지·수렵장 운영 등)은 시기별로 계속 바뀌고 있어, 최신 규정은 환경부·지자체 공고로 재확인하는 걸 권장합니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="topic" id="skyweather" data-cat="skyweather" style="--accent: #4472b0;">
+      <div class="topic-head">
+        <span class="topic-icon">☁️</span>
+        <h2>하늘·날씨 현상</h2>
+      </div>
+      <div class="topic-intro">
+        <h1>하늘·날씨 현상 (구름·노을·무지개·별)</h1>
+<blockquote>
+<p>지금까지의 노트가 땅 위의 식물·지형·동물을 다뤘다면, 이 노트는 고개를 들었을 때 보이는 것들 — 구름·노을·무지개·밤하늘을 다룹니다. 날씨는 코스·계절·지역을 가리지 않고 매번 마주치는 소재라는 게 가장 큰 장점입니다.</p>
+</blockquote>
+<hr />
+      </div>
+      <div class="card-list">
+        
+        <details class="card" data-cat="skyweather">
+          <summary>1. 구름 — 모양으로 날씨를 읽는 법</summary>
+          <div class="card-body">
+            <h3>이름의 원리</h3>
+<p>구름 이름은 4가지 한자 요소의 조합으로 만들어집니다.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>한자</th>
+<th>뜻</th>
+<th>모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>권(卷)</td>
+<td>높은 하늘(5km 이상)의 얼음 알갱이</td>
+<td>가늘고 흰 실 모양(새털구름)</td>
+</tr>
+<tr>
+<td>층(層)</td>
+<td>특별한 형태 없이 넓게 퍼짐</td>
+<td>하늘 전체를 고르게 덮음</td>
+</tr>
+<tr>
+<td>적(積)</td>
+<td>위아래로 쌓임(대류)</td>
+<td>뭉게뭉게 솟은 덩어리 모양</td>
+</tr>
+<tr>
+<td>란(亂)</td>
+<td>대류가 극심함</td>
+<td>비·눈·폭풍을 동반하는 궂은 날씨</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 요소들이 조합돼 <strong>10가지 기본 운형</strong>을 이룹니다(예: 권운·권층운·권적운·고적운·고층운·층적운·층운·난층운·적운·적란운).</p>
+<h3>현장에서 바로 쓸 수 있는 3가지</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>구름</th>
+<th>통칭</th>
+<th>신호</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적운</td>
+<td>뭉게구름</td>
+<td>맑은 날씨. 여름 낮 지면이 달궈질 때 잘 생기며, 저녁이면 사라짐 — 다만 이게 계속 위로 솟아 <strong>적란운</strong>으로 발달하면 소나기·천둥·번개로 돌변</td>
+</tr>
+<tr>
+<td>권운</td>
+<td>새털구름</td>
+<td>맑은 하늘에 이 구름이 나타나기 시작하면 앞으로 1~2일 안에 날씨가 바뀔 조짐(전선이 다가오고 있다는 신호)</td>
+</tr>
+<tr>
+<td>난층운</td>
+<td>비구름</td>
+<td>하늘 전체를 두껍게 덮는 짙은 회색 구름 — 소나기처럼 갑자기 오는 게 아니라 지속적으로 추적추적 내리는 비를 몰고 옴(봄비·가을비가 대개 이런 형태)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>해설 포인트</h3>
+<p>"뭉게구름이 하늘 위로 계속 솟아오르면 곧 소나기가 온다는 신호"라거나 "맑던 하늘에 새털구름이 퍼지기 시작하면 하루 이틀 뒤 날씨가 바뀐다"는 식으로 설명하면, 사람들이 직접 하늘을 보며 확인할 수 있는 살아있는 해설이 됩니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>2. 하늘은 왜 파랗고, 노을은 왜 붉은가 — 레일리 산란</summary>
+          <div class="card-body">
+            <ul>
+<li>태양빛은 사실 여러 색(빨강~보라)이 섞인 백색광입니다</li>
+<li>공기 분자는 파란빛처럼 파장이 짧은 빛을 훨씬 더 강하게 사방으로 흩뜨립니다(이를 <strong>레일리 산란</strong>이라 함) — 그래서 낮에는 사방으로 흩어진 파란빛이 하늘 전체를 채워 파랗게 보임</li>
+<li>해 질 무렵에는 태양빛이 대기를 통과하는 거리가 낮보다 훨씬 길어집니다. 그 과정에서 파란빛은 일찌감치 다 흩어져 사라지고, 끝까지 남아 우리 눈에 도달하는 건 파장이 긴 빨강·주황빛뿐 — 이것이 노을이 붉은 이유입니다</li>
+<li>즉 "하늘이 파란 것"과 "노을이 붉은 것"은 서로 다른 현상이 아니라 <strong>같은 원리(레일리 산란)가 빛의 이동 거리에 따라 다르게 나타난 결과</strong>입니다</li>
+</ul>
+<p><strong>해설 포인트</strong>: "낮의 파란 하늘과 저녁의 붉은 노을은 사실 같은 물리 현상의 양면"이라고 설명하면 하나의 원리로 두 가지 현상을 동시에 풀어줄 수 있습니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>3. 무지개 — 왜 항상 해를 등지고 봐야 하나</summary>
+          <div class="card-body">
+            <ul>
+<li>무지개는 공기 중 물방울(빗방울) 하나하나가 <strong>작은 프리즘</strong> 역할을 하면서 생깁니다 — 햇빛이 물방울 안으로 굴절되어 들어갔다가, 물방울 안쪽 면에서 한 번 반사된 뒤, 다시 굴절되어 나오면서 색깔별로 갈라지는 원리</li>
+<li>색마다 꺾이는 각도가 미세하게 달라(파장이 짧을수록 더 많이 꺾임) 빨강부터 보라까지 순서대로 펼쳐져 보이는 것</li>
+<li>이 반사·굴절이 일어나려면 <strong>태양이 관찰자 뒤쪽에 있고, 물방울이 관찰자 앞쪽에 떠 있어야</strong> 함 — 그래서 무지개를 보려면 항상 해를 등지고 봐야 하고, 반대로 해를 마주보는 방향에서는 무지개가 보이지 않음</li>
+<li>쌍무지개(이중무지개)는 물방울 안에서 빛이 <strong>두 번 반사</strong>되며 생기는데, 이 경우 바깥쪽 무지개는 색 순서가 안쪽과 반대로 나타남</li>
+</ul>
+<p><strong>해설 포인트</strong>: "무지개를 보고 싶으면 해를 등지고 서서, 비가 그친 반대쪽 하늘을 보라"고 알려주면 즉시 실천 가능한 꿀팁이 됩니다.</p>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>4. 도심에서 별이 잘 안 보이는 이유 — 광공해</summary>
+          <div class="card-body">
+            <ul>
+<li>도시의 가로등·간판·건물 조명이 밤하늘로 새어 나가며 대기 중에 흩어져, 별빛처럼 미약한 빛이 상대적으로 묻혀버리는 현상을 <strong>광공해(빛공해)</strong>라 함</li>
+<li>앞서 "도심 동식물 생태" 노트에서 다룬 반딧불이 감소 원인과 같은 맥락 — 반딧불이도 짝짓기 신호를 빛으로 주고받는데, 도심의 인공조명이 그 신호를 교란시킴</li>
+<li>그래서 도심에서는 밝은 별(1등성 정도) 몇 개만 겨우 보이고, 은하수처럼 희미한 것은 사실상 관측이 불가능함</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>5. 일교차와 일출·일몰 — 계절에 따라 달라지는 이유</summary>
+          <div class="card-body">
+            <ul>
+<li>지구 자전축이 약 23.5도 기울어진 채 태양 주위를 돌기 때문에, 계절에 따라 낮의 길이(일출~일몰 시간)가 달라짐 — 여름엔 낮이 길고 겨울엔 밤이 긺(앞선 "24절기" 노트의 하지·동지가 바로 이 낮/밤 길이의 극단점)</li>
+<li>일교차(하루 중 최고·최저기온 차)는 습도가 낮고 맑은 날일수록 커짐 — 구름이 없으면 낮엔 햇빛이 그대로 지면을 데우고, 밤엔 열이 그대로 빠져나가기 때문. 반대로 흐리거나 습한 날은 구름이 이불처럼 열을 가둬 일교차가 작아짐</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>6. 안개 vs 뿌연 미세먼지 — 구분하는 법</summary>
+          <div class="card-body">
+            <ul>
+<li><strong>안개</strong>는 공기 중 수증기가 응결해 생기는 작은 물방울 집합체로, <strong>습도가 매우 높을 때(대개 90% 이상)</strong> 발생 — 층운(낮게 깔린 구름)이 지면까지 내려온 것과 사실상 같은 현상</li>
+<li>미세먼지가 뿌옇게 낀 날은 습도와 무관하게 대기 중 오염물질 농도가 높은 상태</li>
+<li>간단한 구분법: 아침에 강가·저지대에서 뿌옇게 낀 채로 있다가 해가 뜨고 기온이 오르면서 짧은 시간 안에 걷히면 안개, 하루 종일 뿌옇고 습도가 낮으면 미세먼지일 가능성이 높음</li>
+</ul>
+</div>
+        </details>
+        <details class="card" data-cat="skyweather">
+          <summary>7. 전통 별자리 — 북두칠성과 칠석</summary>
+          <div class="card-body">
+            <h3>북두칠성 = 큰곰자리의 일부</h3>
+<ul>
+<li>흔히 "별자리"라 부르지만 엄밀히는 정식 별자리(88개 공인 별자리 중 하나)가 아니라, <strong>큰곰자리 꼬리 부분에 있는 7개 별로 이루어진 성군(星群)</strong></li>
+<li>국자 모양 손잡이 끝에서 북극성 방향으로 그 길이의 5배를 가면 북극성을 찾을 수 있어, 예로부터 방향을 찾는 표지로 쓰임</li>
+<li>국자 손잡이 부분의 별 하나는 사실 두 개의 별(미자르+알코르)이 겹쳐 보이는 것 — 옛사람들은 이 알코르를 구별해서 보는지 여부로 시력을 테스트했다는 이야기도 전해짐</li>
+</ul>
+<h3>칠성신앙 — 별을 신으로 모신 민간신앙</h3>
+<ul>
+<li>한국 민간신앙에서 별 자체를 신앙 대상으로 삼는 경우는 드문데, <strong>북두칠성만은 예외적으로 널리 신앙됨</strong>(무속의 칠성신, 불교 사찰의 칠성각)</li>
+<li>인간의 수명과 죽음을 관장한다고 믿어져, 장례 때 시신 밑에 까는 널빤지에 북두칠성 모양으로 구멍 7개를 뚫은 <strong>칠성판</strong>을 사용하는 풍습이 있었음("칠성판을 진다"는 표현이 죽음을 뜻하는 관용구가 된 유래)</li>
+<li>반대로 아이가 태어날 때는 출산을 담당하는 삼신할미가, 죽을 때는 북두칠성이 관장한다고 믿어 삶과 죽음의 시작과 끝을 각각 다른 신에게 배정한 셈</li>
+</ul>
+<h3>칠석(음력 7월 7일) — 견우직녀와 별자리</h3>
+<ul>
+<li>칠석날 저녁 동쪽 하늘에 떠오르는 <strong>견우성(독수리자리)과 직녀성(거문고자리)</strong>이 설화의 주인공</li>
+<li>두 별은 실제로는 태양 황도상 운행 중 칠석 무렵에만 하늘 높이(천장 부근)서 함께 보이기 때문에, "일 년에 한 번 만난다"는 이야기가 자연스럽게 붙여진 것으로 해석됨</li>
+<li>옛사람들은 칠석날 이 별들을 직접 보면 일 년 내내 근심이 떠나지 않는다고 여겨, 대신 그릇에 물을 받아 그 물에 비친 별을 보는 풍습도 있었음</li>
+</ul>
+<p><strong>해설 포인트</strong>: "우리 조상들은 밤하늘의 별을 그냥 구경거리가 아니라 삶과 죽음, 사랑 이야기를 투영하는 대상으로 여겼다"는 식으로 하늘 노트 전체를 마무리하는 소재로 쓰기 좋습니다.</p>
+</div>
+        </details>
+        <details class="card caution-block" data-cat="skyweather">
+          <summary>⚠️ 사용 시 주의</summary>
+          <div class="card-body">
+            <ul>
+<li>구름을 이용한 날씨 예측(권운 → 날씨 변화 등)은 일반적 경향이지 절대적 법칙은 아닙니다. 실제 강수 여부는 기상청 예보로 확인하는 게 정확합니다.</li>
+<li>무지개의 정확한 각도(태양 반대편 약 42도 부근)나 이중무지개의 세부 원리는 상황에 따라 변수가 많아, 이 노트에서는 개념 수준으로만 설명했습니다.</li>
+<li>안개·미세먼지 구분법은 현장에서 참고할 수 있는 경험적 방법이며, 정확한 판단은 기상청·에어코리아 등 공식 수치로 확인하는 게 안전합니다.</li>
+<li>칠성신앙·칠석 설화 관련 세부 내용은 지역별로 조금씩 다르게 전승되고 있어, 이 노트는 가장 널리 알려진 형태를 기준으로 정리했습니다.</li>
+</ul>
+          </div>
+        </details>
+      </div>
+    </section>
+</main>
+
+<footer>
+  사계절 자연해설 · 우리나라 식생의 특징 · 도심 조경의 역사 · 나무 개별 카드 — 4편 통합
+</footer>
+
+<script>
+(function () {
+  const searchInput = document.getElementById('searchInput');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  const cards = document.querySelectorAll('.card');
+  let currentCat = 'all';
+
+  function clearHighlights(root) {
+    root.querySelectorAll('mark').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  function highlightText(root, term) {
+    if (!term) return false;
+    let found = false;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    const lowerTerm = term.toLowerCase();
+    nodes.forEach(node => {
+      const text = node.nodeValue;
+      const lower = text.toLowerCase();
+      const idx = lower.indexOf(lowerTerm);
+      if (idx === -1) return;
+      found = true;
+      const frag = document.createDocumentFragment();
+      let cursor = 0;
+      let i = idx;
+      while (i !== -1) {
+        frag.appendChild(document.createTextNode(text.slice(cursor, i)));
+        const mark = document.createElement('mark');
+        mark.textContent = text.slice(i, i + term.length);
+        frag.appendChild(mark);
+        cursor = i + term.length;
+        i = lower.indexOf(lowerTerm, cursor);
+      }
+      frag.appendChild(document.createTextNode(text.slice(cursor)));
+      node.parentNode.replaceChild(frag, node);
+    });
+    return found;
+  }
+
+  function applyFilters() {
+    const term = searchInput.value.trim();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      const cat = topic.dataset.cat;
+      const catMatch = (currentCat === 'all' || currentCat === cat);
+      let topicHasVisibleCard = false;
+
+      topic.querySelectorAll('.card').forEach(card => {
+        clearHighlights(card);
+        let show = catMatch;
+        if (show && term) {
+          const textMatch = card.textContent.toLowerCase().includes(term.toLowerCase());
+          show = textMatch;
+          if (textMatch) {
+            highlightText(card.querySelector('summary'), term);
+            highlightText(card.querySelector('.card-body'), term);
+            card.open = true;
+          }
+        } else if (show && !term) {
+          // 검색어 없을 때는 기본적으로 접어둠 (이미 열려있던 것 유지 안 함)
+        }
+        card.classList.toggle('hidden-by-filter', !show);
+        card.style.display = show ? '' : 'none';
+        if (show) { topicHasVisibleCard = true; visibleCount++; }
+      });
+
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term
+      ? `검색결과: ${visibleCount}개 항목`
+      : (currentCat === 'all' ? '' : '');
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all') {
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

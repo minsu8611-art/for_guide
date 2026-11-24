@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 온천·스파</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#2b2620; --sub:#7a7268; --line:#e8e2d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    line-height:1.6;}
+  header{background:linear-gradient(135deg,#7a3418,#c25b1e);color:#fff;padding:28px 18px 22px;text-align:center;}
+  header h1{font-size:21px;margin:0 0 6px;letter-spacing:-0.3px;}
+  header p{font-size:13px;opacity:0.88;margin:0;}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px;}
+
+  .search-box{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  #search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fff;color:var(--ink);}
+  .search-count{font-size:12px;color:var(--sub);margin-top:4px;min-height:16px;}
+
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+  .nav-btn{border:1.5px solid var(--cat-color,#999);background:#fff;color:var(--cat-color,#333);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+  .nav-btn.active, .nav-btn:hover{background:var(--cat-color,#999);color:#fff;}
+  .nav-btn[data-cat="all"]{border-color:#333;color:#333;}
+  .nav-btn[data-cat="all"].active{background:#333;color:#fff;}
+
+  .topic h2{font-size:17px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid currentColor;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .card summary{padding:12px 14px;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;}
+  .card summary::-webkit-details-marker{display:none;}
+  .card summary::after{content:"+";margin-left:auto;color:var(--sub);font-weight:400;}
+  .card[open] summary::after{content:"−";}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .card-body{padding:2px 14px 14px 32px;font-size:13.8px;color:#3a352c;}
+  .card-body p{margin:6px 0;}
+  .card-body ul{margin:6px 0;padding-left:18px;}
+  .card-body li{margin:4px 0;}
+
+  .table-scroll{overflow-x:auto;margin:10px 0;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:#f0ede6;font-weight:700;white-space:nowrap;}
+
+  .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:2px;}
+  .tag-fact{background:#dcfce7;color:#166534;}
+  .tag-lore{background:#fef3c7;color:#92400e;}
+  .warn-tag{color:#b45309;}
+
+  .warn-block{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;
+    margin:10px 0 4px;font-size:12.8px;color:#7c2d12;}
+  .warn-block b{display:block;margin-bottom:4px;color:#b45309;}
+  .warn-block p{margin:4px 0;}
+
+  .hidden-by-filter{display:none;}
+
+  @media (max-width:480px){
+    header h1{font-size:19px;}
+    .nav-btn{font-size:11.5px;padding:5px 10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>♨️ 가이드를 위한 온천·스파</h1>
+  <p>어디서든 써먹는 온천·스파 상식 — 시설·수질·운영이면·실전팁·스토리텔링·국내비교·세계기록</p>
+</header>
+<div class="wrap">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="키워드로 검색 (예: 온양, 유황천, 문신)">
+    <div class="search-count" id="searchCount"></div>
+  </div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="history" style="--cat-color:#6b4f3b">🏛️ 시설·역사</button>
+<button class="nav-btn" data-cat="quality" style="--cat-color:#166534">💧 수질·효능</button>
+<button class="nav-btn" data-cat="backstage" style="--cat-color:#7c3aed">⚙️ 운영 이면</button>
+<button class="nav-btn" data-cat="tips" style="--cat-color:#0f766e">🧭 입욕 실전 팁</button>
+<button class="nav-btn" data-cat="story" style="--cat-color:#b45309">💬 교육·스토리텔링</button>
+<button class="nav-btn" data-cat="compare" style="--cat-color:#0369a1">🗺️ 국내 비교</button>
+<button class="nav-btn" data-cat="world" style="--cat-color:#9d174d">🌍 세계 기록·특이사례</button>
+  </div>
+  
+<section class="topic" id="history">
+  <h2 style="color:#6b4f3b">🏛️ 시설·역사</h2>
+  
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>1. &#x27;스파&#x27;라는 말의 진짜 어원 — 흔한 오해 바로잡기</summary>
+  <div class="card-body"><ul>
+<li>'스파(SPA)'가 라틴어 '살루스 페르 아쿠암(salus per aquam, 물을 통한 건강)'의 약자라는 설이 널리 퍼져 있으나, 이는 사실이 아닌 것으로 밝혀진 후행 약어(백로니엄) — 고대 로마인들이 실제로 이런 약어 구문을 썼다는 근거가 없고, 애초에 약어라는 개념 자체가 고대에는 드물었던 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>보다 신빙성 있는 어원은 벨기에 리에주주의 온천 도시 '스파(Spa)' — 중세부터 미네랄 온천으로 유명했고, 16세기 이후 유럽 귀족들이 이곳을 요양지로 찾으며 '스파'라는 지명이 곧 '온천 휴양지'를 뜻하는 일반명사처럼 쓰이게 된 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>벨기에 '스파'라는 지명 자체의 어원도 "물을 흩뿌리다"라는 뜻의 라틴어 'spargere' 또는 왈롱어 'spâ'(공터라는 뜻)에서 왔다는 설이 유력함 <span class="tag tag-fact">정사</span></li>
+<li>실전 팁: "스파는 원래 벨기에의 한 마을 이름에서 왔다"는 설명은 흔히 알려진 라틴어 약어설보다 훨씬 정확하면서도 흥미로운 도입부가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>2. 세계 목욕 문화의 기원 — 그리스에서 로마로</summary>
+  <div class="card-body"><ul>
+<li>온천·목욕을 통한 건강관리 문화는 고대 그리스에서 먼저 유행했으며, 기원전 4세기경 그리스 최초의 공영 공중목욕탕이 등장한 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>강이나 바다에서 몸을 씻던 고대 로마인들이 그리스식 목욕 문화에 매료되어 이를 로마 전역으로 확산시켰고, 이후 로마는 대형 공공 목욕탕(테르마이) 문화를 꽃피움 — 온탕(칼다리움)·미온탕(테피다리움)·냉탕(프리지다리움)을 갖춘 정교한 구조가 특징 <span class="tag tag-fact">정사</span></li>
+<li>영국 바스(Bath)의 로만 바스(Aquae Sulis)는 서기 60~70년경 로마인들이 건설한 온천 시설로, 유럽에서 가장 온전하게 보존된 고대 로마 온천 유적으로 꼽히며 1987년 세계문화유산으로 지정됨 <span class="tag tag-fact">정사</span> — 하루 약 120만 리터의 46℃ 이상 온천수가 솟아나는 것으로 소개됨</li>
+<li>로마 목욕 문화는 단순 위생을 넘어 사교·정치의 장 역할도 했던 것으로 알려짐 — "목욕탕이 곧 사교클럽이었다"는 설명은 흥미로운 배경 지식이 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>3. 국내 온천 도입사 — 온양온천에서 부곡하와이까지</summary>
+  <div class="card-body"><ul>
+<li>문헌상 가장 오래된 국내 온천은 충남 아산의 온양온천 — 백제 온조왕 36년(서기 18년) "탕정성(湯井城)을 쌓았다"는 기록이 남아있어, 이미 삼국시대 초기부터 온천으로 이용된 것으로 추정됨 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+<li>조선시대에는 세종·세조·정조 등 여러 임금이 온양에 온궁(溫宮)을 짓고 요양·치료 목적으로 방문한 기록이 있어, '왕실의 온천'이라는 수식어가 따라붙음 <span class="tag tag-fact">정사</span></li>
+<li>근대 이후에는 도고온천이 1921년 일제강점기 일본인 사금업자에 의해 개발되었고, 1970~80년대 온양·도고 온천 일대가 국내 대표적인 신혼여행지로 각광받았던 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>경남 창녕의 부곡온천은 1973년 개발자가 눈이 녹아내린 지점을 발견하며 시작되었고, 1979년에는 대한민국 최초의 워터파크로 알려진 '부곡하와이'가 개장함 <span class="tag tag-fact">정사</span> — 즉 국내 워터파크 산업의 뿌리도 온천 문화에서 출발했다는 점이 흥미로운 연결고리</li>
+<li>2023년에는 창녕(부곡), 충주(수안보), 아산(온양·도고)이 행정안전부에 의해 '온천도시'로 지정되는 등, 최근에도 온천이 지역 브랜딩 자산으로 재조명되는 흐름이 있음 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>4. 온천의 법적 정의 — 한국 vs 일본</summary>
+  <div class="card-body"><ul>
+<li>한국 온천법은 온천을 '지하로부터 솟아나는 섭씨 25도 이상의 온수로서, 유해성분(질산성질소·테트라클로로에틸렌·트리클로로에틸렌 등)이 기준치 이하인 것'으로 정의함 <span class="tag tag-fact">정사</span></li>
+<li>일본 온천법도 25도 이상을 기본 기준으로 삼되, 온도와 무관하게 유황·리튬 등 특정 유효성분을 일정량 이상 포함하면 저온이라도 '온천'으로 인정하는 추가 기준을 두고 있음 — 한국 온천법은 일본 온천법의 영향을 받아 제정된 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>참고로 독일·체코는 20도 이상, 헝가리는 30도 이상을 기준으로 삼는 등 국가마다 온천의 법적 기준 온도가 다름 <span class="tag tag-fact">정사</span></li>
+<li>실전 팁: 일본 온천여행 상품을 안내할 때 "일본은 온도가 낮아도 특정 성분이 있으면 온천으로 인정한다"는 점을 짚어주면, 손님이 현지에서 미지근한 온천을 만났을 때 생기는 오해를 미리 줄일 수 있음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>온천 관련 전설(학이 다리를 고쳤다는 등)은 야사·설로 소개하고, 법적 정의·역사적 기록과 명확히 구분해서 전달하는 것이 정확합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="quality">
+  <h2 style="color:#166534">💧 수질·효능</h2>
+  
+<details class="card" data-cat="quality">
+  <summary><span class="dot" style="background:#166534"></span>1. 온천 수질 분류 — 손님에게 설명할 때 핵심 뼈대</summary>
+  <div class="card-body"><ul>
+<li><b>유황천</b>: 계란 썩는 듯한 특유의 냄새가 나는 온천 — 도고온천·부곡온천 등이 대표적. 피부질환·관절통에 전통적으로 효험이 있다고 알려져 왔으나, 이는 전통적 인식이며 과학적으로 확립된 의학적 효능으로 단정하는 것은 안전하지 않음 <span class="warn-tag">⚠️</span></li>
+<li><b>라돈(라듐)천</b>: 미량의 방사성 물질을 포함한 온천 — 국내에서는 유성온천·백암온천·온양온천 등이 해당하는 것으로 알려짐. 함유량이 극히 미량이라 일반적인 이용에서 피폭 위험은 거의 없는 것으로 설명되지만, 이 또한 신경통·류머티즘에 효험이 있다는 전통적 인식일 뿐 과학적으로 유의미하게 검증된 것은 아님 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span></li>
+<li><b>철천</b>: 물 1리터당 철분이 20mg 이상 함유되어 물이 붉은빛(적갈색)을 띠는 온천</li>
+<li><b>탄산천·염천 등</b>: 지역·성분에 따라 다양하게 분류되며, 국내 대다수 온천은 알칼리성 단순천~약염천 계열이 많은 것으로 알려짐</li>
+</ul></div>
+</details>
+<details class="card" data-cat="quality">
+  <summary><span class="dot" style="background:#166534"></span>2. 효능 설명 시 주의할 화법</summary>
+  <div class="card-body"><ul>
+<li>온천의 건강 효능은 오랜 전통적 경험에서 비롯된 것이지, 현대 의학이 질병 치료 효과를 공식적으로 입증한 것은 아닌 경우가 대부분 — "전통적으로 ~에 좋다고 알려져 왔다"는 화법으로 소개하는 것이 정확하고 안전함</li>
+<li>특정 질환(관절염·피부질환 등)에 대한 치료 효과를 단정적으로 말하는 것은 의학적 근거가 부족할 수 있어 피하는 것이 안전</li>
+</ul></div>
+</details>
+<details class="card" data-cat="quality">
+  <summary><span class="dot" style="background:#166534"></span>3. 온천욕의 일반적 원리</summary>
+  <div class="card-body"><ul>
+<li>따뜻한 물에 몸을 담그면 혈관이 확장되어 혈액순환이 촉진되는 것은 일반적인 온열요법의 원리로 잘 알려져 있음 — 이는 온천수의 특수 성분과 무관하게 '따뜻한 물' 자체가 갖는 보편적 효과</li>
+<li>온천 특유의 미네랄 성분이 이 온열 효과에 더해 피부 보습·진정 등에 도움을 줄 수 있다는 것이 업계의 일반적 설명</li>
+</ul></div>
+</details>
+<details class="card" data-cat="quality">
+  <summary><span class="dot" style="background:#166534"></span>4. 노천탕 vs 실내탕</summary>
+  <div class="card-body"><ul>
+<li>노천탕(露天湯)은 야외에서 자연 경관을 보며 즐기는 온천 형태로, 계절감(단풍·설경 등)과 결합해 관광 콘텐츠로서 매력이 큼</li>
+<li>실내탕은 날씨에 구애받지 않는다는 장점이 있어, 우천·혹한 시즌 대체 코스로 활용하기 좋음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="quality">
+  <summary><span class="dot" style="background:#166534"></span>5. 온천 지역별 특성 소개 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>같은 '온천'이라는 이름이 붙어도 실제 성분·온도는 지역마다 크게 다름 — 손님에게 지역별 온천을 소개할 때는 "이 지역은 유황천이라 냄새가 강하다" "이 지역은 무색무취라 순한 편이다" 등 구체적 차이를 짚어주는 것이 만족도에 도움이 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>온천 성분의 건강 효능은 전통적 인식으로 소개하고, 의학적으로 검증된 치료 효과처럼 단정적으로 설명하지 않는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="backstage">
+  <h2 style="color:#7c3aed">⚙️ 운영 이면</h2>
+  
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>1. 온천공 개발과 고갈 관리</summary>
+  <div class="card-body"><ul>
+<li>온천은 시추(굴착)를 통해 지하 온천수를 끌어올리는 '온천공'을 개발해 운영하는 구조 — 국내 온천법은 온천공보호구역·온천원보호지구를 지정해 무분별한 개발로 인한 온천 고갈을 관리하도록 규정하고 있음 <span class="tag tag-fact">정사</span></li>
+<li>온천전문검사기관이 주기적으로 수질·용출량을 검사해, 고갈 가능성이 있는 경우 이용허가가 제한될 수 있는 구조 <span class="tag tag-fact">정사</span></li>
+<li>이 때문에 오래된 온천 관광지가 성분이 예전보다 약해지거나(도고온천의 유황 성분 약화 사례 등), 온천수를 가열해서 사용하는 경우도 있다는 점을 알아두면 좋음 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>2. 온천 관광지의 흥망성쇠</summary>
+  <div class="card-body"><ul>
+<li>1970~80년대 국내 온천 관광지(온양·도고·부곡 등)는 신혼여행 성지로 전성기를 누렸으나, 이후 해외여행 자유화·해외 신혼여행 트렌드 확산으로 상대적으로 쇠퇴한 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>부곡온천처럼 대표 시설(부곡하와이)이 폐업했다고 해서 지역 온천 자체가 사라진 것은 아닌 경우가 많음 — 여러 개별 온천 호텔들은 계속 영업 중인 경우가 흔해, "그 온천 이미 없어진 거 아니냐"는 손님의 오해를 바로잡아줄 필요가 있는 지점 <span class="tag tag-fact">정사</span></li>
+<li>코로나19 이후 대중탕 대신 가족탕(프라이빗 온천) 수요가 늘며, 일부 쇠퇴했던 온천 관광지가 다시 활기를 찾은 사례도 보고된 바 있음 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>구체 회복 정도는 지역별로 편차가 있어 재확인 권장</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>3. 온천도시 지정 제도</summary>
+  <div class="card-body"><ul>
+<li>행정안전부는 지역 온천 자원을 활용한 관광 활성화를 위해 '온천도시'를 지정하는 제도를 운영 — 2023년 충주(수안보)·아산(온양·도고)·창녕(부곡)이 지정된 것으로 알려짐 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>이후 추가 지정 여부는 최신 확인 필요</li>
+<li>이런 지정은 지자체 입장에서 관광 인프라 투자 유치의 명분이 되는 것으로 보이며, 케이블카의 '국가정원' 지정과 유사한 정책적 맥락으로 이해할 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>4. 한일 온천 문화의 운영 차이</summary>
+  <div class="card-body"><ul>
+<li>일본은 온천 전문가·온천 지도원의 시설 배치를 법으로 의무화하는 반면, 한국은 연간 4시간 교육을 받은 종사자 배치를 권고하는 수준에 그치는 것으로 알려짐 <span class="tag tag-fact">정사</span> — 이는 한국의 온천 지정이 '경제 활성화' 목적이 강한 반면, 일본은 '치료 목적'의 보양온천 개념이 더 엄격하게 유지되어 온 차이로 설명되기도 함 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>5. 가짜 온천 논란</summary>
+  <div class="card-body"><ul>
+<li>국내에서는 온천법 기준(25도·성분)을 충족하지 못하면서도 '온천'이라는 명칭을 사용하는 시설이 있어, '가짜 온천' 논란이 종종 제기되어 온 것으로 알려짐 <span class="tag tag-fact">정사</span> <span class="warn-tag">⚠️</span>구체 시설명은 민감할 수 있어 일반적 현상으로만 소개하는 것이 안전</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>특정 시설의 온천 성분·진위 관련 논쟁은 민감할 수 있어 특정 시설을 지목하기보다 일반적 현상으로 소개하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="tips">
+  <h2 style="color:#0f766e">🧭 입욕 실전 팁</h2>
+  
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>1. 입욕 전후 기본 에티켓</summary>
+  <div class="card-body"><ul>
+<li>탕에 들어가기 전 반드시 몸을 씻는 것이 국내외 공통 기본 예절 — 특히 일본 온천은 이 규칙이 엄격하게 지켜지는 문화이므로, 해외여행 고객에게는 사전 안내가 필수</li>
+<li>수건을 탕 안에 담그지 않는 것도 일본식 온천 문화의 대표적인 규칙 중 하나로 자주 언급됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>2. 문신(타투) 관련 안내 — 해외여행 고객에게 특히 중요</summary>
+  <div class="card-body"><ul>
+<li>일본 다수의 대중 온천·목욕탕은 문신이 있으면 입장을 제한하는 경우가 여전히 많음 — 이는 역사적으로 문신이 특정 조직과 연관된 이미지를 가져온 문화적 배경 때문으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>최근에는 외국인 관광객 증가로 문신 스티커 제공, 전용 가족탕 안내 등으로 유연하게 대응하는 시설도 늘고 있으나, 여전히 시설별 편차가 크므로 문신이 있는 고객에게는 사전에 반드시 확인하도록 안내하는 것이 중요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>3. 온도별 이용 순서</summary>
+  <div class="card-body"><ul>
+<li>온도가 다른 여러 탕이 있는 경우, 낮은 온도에서 높은 온도 순으로 이동하며 몸을 서서히 적응시키는 것이 일반적으로 권장되는 방식</li>
+<li>고혈압·심장질환 등 지병이 있는 고령자 고객에게는 장시간 고온 입욕을 피하고 중간중간 휴식을 취하도록 안내하는 것이 안전 관리 차원에서 중요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>4. 프라이빗 온천(가족탕) 예약 팁</summary>
+  <div class="card-body"><ul>
+<li>코로나19 이후 대중탕보다 프라이빗 형태의 가족탕 수요가 늘어난 추세 — 단체 여행 시 대가족·다인원 고객에게는 가족탕 사전 예약을 권장하는 것이 만족도에 도움이 됨</li>
+<li>인기 온천 지역은 가족탕이 조기 마감되는 경우가 많아, 여행 일정 확정 즉시 예약을 진행하는 것이 실전에서 중요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>5. 무장애·고령자 동반 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>온천 시설은 미끄러운 바닥·계단이 많아 고령자·거동 불편 고객에게는 각별한 안전 안내가 필요 — 복지단체 단체여행 시 특히 중요한 포인트</li>
+<li>대형 온천 리조트(호텔형)는 안전 손잡이·미끄럼 방지 시설을 갖춘 경우가 많으나, 전통 방식의 소규모 온천은 이런 시설이 부족할 수 있어 사전 확인이 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>6. 계절별 참고사항</summary>
+  <div class="card-body"><ul>
+<li>겨울철 노천탕은 눈 내리는 풍경과 함께 즐기는 계절 특수 콘텐츠로 인기가 높음 — 다만 탈의 공간의 추위 대비 안내가 필요</li>
+<li>여름철에는 냉탕·워터파크 결합형 온천 시설이 인기 있는 대안이 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>문신 관련 입장 제한은 시설별 편차가 크므로, 해외 온천여행 고객에게는 반드시 사전 확인 후 안내하는 것이 클레임 예방에 중요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="story">
+  <h2 style="color:#b45309">💬 교육·스토리텔링</h2>
+  
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>1. 왕실 온천 스토리로 몰입도 높이기</summary>
+  <div class="card-body"><ul>
+<li>온양온천처럼 "조선의 임금들이 직접 요양하러 왔던 곳"이라는 서사는 단순 목욕탕 이상의 역사적 무게감을 부여하는 좋은 도입부가 됨 — 세종·세조·정조 등 구체적 임금 이름을 짚어주면 설득력이 높아짐</li>
+<li>"이 온천물에 왕도 몸을 담갔다"는 프레임은 특히 중장년·고령층 관람객에게 흥미로운 소재가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>2. 아이·초보 고객 눈높이 설명 템플릿</summary>
+  <div class="card-body"><ul>
+<li><b>온천이란</b>: "땅속 깊은 곳의 열로 데워진 물이 저절로 솟아나는 것 — 자연이 만든 온수기라고 생각하면 된다"</li>
+<li><b>유황천 냄새</b>: "달걀 썩는 냄새가 나는 건 물에 유황 성분이 들어있기 때문 — 냄새는 좀 나도 예로부터 피부에 좋다고 알려져 왔다"</li>
+<li><b>라돈천</b>: "미량의 방사성 물질이 있지만 아주 적은 양이라 걱정할 수준은 아니다 — 오히려 예로부터 좋은 온천으로 여겨져 왔다"</li>
+<li><b>온천법 25도 기준</b>: "그냥 따뜻한 물이 아니라, 법으로 정한 온도(25도)를 넘어야 '온천'이라는 이름을 쓸 수 있다"</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>3. &#x27;왜 이곳이 온천 명소가 되었는가&#x27; — 기원 스토리</summary>
+  <div class="card-body"><ul>
+<li>부곡온천처럼 "우연히 눈이 녹아내리는 것을 발견해서 개발이 시작됐다"는 발견 스토리는 흥미로운 우연성 서사가 됨</li>
+<li>도고온천의 "일제강점기 사금업자가 개발했다"는 사연은 근대 개발사와 지역 역사가 얽힌 배경 지식으로 활용 가능</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>4. 지역 연계 스토리텔링</summary>
+  <div class="card-body"><ul>
+<li>온천도시로 지정된 지역(충주 수안보, 아산 온양·도고, 창녕 부곡)은 온천 외에도 지역 특산물·역사 코스와 결합해 하나의 통합 여행 상품으로 소개하기 좋음</li>
+<li>국내 온천 지명에 '온(溫)'자가 들어간 경우가 많다는 점(온양·온수동·온정리 등)을 짚어주면, 지명 자체가 역사적 단서가 된다는 흥미로운 언어 상식으로 확장 가능</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>5. 한일 비교로 스토리 확장하기</summary>
+  <div class="card-body"><ul>
+<li>"한국과 일본 모두 온천법의 온도 기준(25도)은 같지만, 일본은 성분만으로도 온천으로 인정하는 등 조금 더 세분화된 기준을 갖고 있다"는 설명은 일본 온천여행 고객에게 유용한 배경지식이 됨</li>
+<li>이런 비교는 "왜 일본 온천 중에는 미지근한 곳도 온천이라 부르는지" 같은 현장 질문에 미리 답을 준비해두는 효과가 있음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>온천 관련 전설·설화는 야사·설로 소개하고, 법적 정의나 역사 기록과 혼동하지 않도록 구분해서 전달하는 것이 정확합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="compare">
+  <h2 style="color:#0369a1">🗺️ 국내 비교</h2>
+  
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>1. 국내 주요 온천 비교표</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>명칭</th><th>위치</th><th>수질 유형</th><th>특징</th><th>비고</th></tr>
+<tr><td>온양온천</td><td>충남 아산</td><td>라돈(라듐)천 계열</td><td>문헌상 국내 최고(最古) 온천(백제 시대 기록)</td><td>조선 왕실(세종·세조·정조) 요양지, 2023년 온천도시 지정</td></tr>
+<tr><td>도고온천</td><td>충남 아산</td><td>유황천</td><td>1921년 개발, 1970~80년대 신혼여행지</td><td>유황 성분이 과거보다 약해진 것으로 알려짐</td></tr>
+<tr><td>부곡온천</td><td>경남 창녕</td><td>유황천(고온, 약 78℃)</td><td>1973년 개발, 1979년 국내 최초 워터파크(부곡하와이) 개장</td><td>2023년 온천도시 지정, 최근 가족탕 수요로 재활기</td></tr>
+<tr><td>수안보온천</td><td>충북 충주</td><td>유황천(고온)</td><td>동래·부곡과 함께 국내 흔치 않은 고온 온천</td><td>2023년 온천도시 지정</td></tr>
+<tr><td>유성온천</td><td>대전 유성</td><td>라돈천 계열</td><td>-</td><td>대전 도심 인접 온천</td></tr>
+<tr><td>백암온천</td><td>경북 울진</td><td>라돈천 계열</td><td>-</td><td>-</td></tr>
+<tr><td>동래온천</td><td>부산 동래</td><td>고온 온천</td><td>-</td><td>부산 도심 인접</td></tr>
+<tr><td>덕구온천</td><td>경북 울진</td><td>-</td><td>-</td><td>-</td></tr>
+</table></div><ul>
+<li>이 표는 역사성·화제성이 큰 대표 온천 위주로 정리한 것으로, 전국의 크고 작은 온천을 전수 조사한 목록이 아님 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>2. 유형별로 묶어서 보기</summary>
+  <div class="card-body"><ul>
+<li><b>역사·왕실형</b>: 온양온천 — 조선 왕실 연계 스토리텔링에 강점</li>
+<li><b>고온·유황형</b>: 부곡·수안보·동래 — 국내에서 상대적으로 드문 고온 온천</li>
+<li><b>라돈천형</b>: 온양·유성·백암 — 미량 방사성 성분 함유</li>
+<li><b>온천도시 지정 지역</b>: 아산(온양·도고), 창녕(부곡), 충주(수안보) — 2023년 기준 3개 지자체</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>온천 성분·온도는 개발 이후 시간이 지나며 약해지는 경우가 있어(도고온천 유황 성분 약화 사례 등), 현재 상태를 과거 명성 그대로 안내하지 않도록 최신 정보 확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="world">
+  <h2 style="color:#9d174d">🌍 세계 기록·특이사례</h2>
+  
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>1. 세계에서 가장 유명한 로마 시대 온천 유적 — 영국 바스</summary>
+  <div class="card-body"><ul>
+<li>영국 바스(Bath)의 로만 바스(고대 로마명 아쿠아에 술리스)는 서기 60~70년경 건설된 온천 시설로, 유럽에서 가장 온전하게 보존된 로마 시대 온천 유적으로 꼽힘 — 도시 전체가 1987년 유네스코 세계문화유산으로 지정됨 <span class="tag tag-fact">정사</span></li>
+<li>하루 약 120만 리터의 46℃ 이상 온천수가 솟아나며, 18세기 유럽 상류층의 요양·사교 명소로 재전성기를 맞았던 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>2. 독일의 &#x27;바데안슈탈트&#x27; 문화</summary>
+  <div class="card-body"><ul>
+<li>독일은 전국 곳곳에 온천이 분포한 나라로, '바데안슈탈트(공공 온천 목욕탕)'라는 대규모 공공시설 문화가 발달한 것으로 알려짐 — 로마 목욕 문화가 온수·냉수탕에 스포츠클럽·수영장·마사지 시설까지 결합한 '종합 스파'로 진화한 대표 사례 <span class="tag tag-fact">정사</span></li>
+<li>한국·일본의 대중목욕탕이 주로 '몸을 씻는 장소'인 반면, 독일의 바데안슈탈트는 저렴한 요금의 대규모 공공 복합 여가시설이라는 점에서 성격 차이가 있음 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>3. 라돈천의 세계적 사례 — 오스트리아 바드 가슈타인</summary>
+  <div class="card-body"><ul>
+<li>오스트리아 잘츠부르크주의 바드 가슈타인(Bad Gastein) 지역은 세계적으로 유명한 라돈천 산지로, 이 지역의 라돈 광석이 세계 각지로 수출될 정도로 유명한 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>국내 온양·유성·백암온천의 라돈천도 이런 세계적 라돈천 문화의 국내 버전으로 소개할 수 있음</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>4. 일본 온천 문화와의 비교</summary>
+  <div class="card-body"><ul>
+<li>일본은 화산이 많은 지형 특성상 전국 각지에 다양한 온천(온센)이 발달해 있으며, 온천 전문가·지도원 배치를 법으로 의무화하는 등 한국보다 엄격한 관리 체계를 갖춘 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>일본은 '온천'과 '센토(대중목욕탕)'를 명확히 구분하는 문화가 있음 — 온천은 자연 용출수를 사용하는 시설, 센토는 일반 수돗물을 데운 목욕탕을 의미하는 차이가 있어, 여행객에게 이 구분을 설명해주면 유용한 배경지식이 됨 <span class="tag tag-fact">정사</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>5. 특이한 개념의 세계 온천 문화</summary>
+  <div class="card-body"><ul>
+<li><b>핀란드 사우나</b>: 온천과는 다른 개념이지만, 물이 아닌 열기(사우나)를 통한 유사한 건강관리 문화가 북유럽에서 독자적으로 발달한 사례 — 핀란드는 인구 대비 사우나 보유율이 세계적으로 높은 것으로 알려짐</li>
+<li><b>아이슬란드 지열 온천(블루라군 등)</b>: 화산 지형을 활용한 대규모 노천 온천으로, 실리카 성분이 함유된 우윳빛 물빛이 특징적인 세계적 관광 명소로 소개됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>각국 온천의 효능·특징은 전통적으로 알려진 정보와 과학적으로 검증된 정보를 구분해서 전달하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+</div>
+<script>
+(function(){
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'all';
+
+  function applyFilters(){
+    const term = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      let topicHasVisibleCard = false;
+      const topicCards = topic.querySelectorAll('.card');
+      topicCards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = card.textContent.toLowerCase();
+        const catMatch = (currentCat === 'all' || currentCat === cat);
+        const termMatch = (!term || text.includes(term));
+        const show = catMatch && termMatch;
+        card.classList.toggle('hidden-by-filter', !show);
+        if (term && show) card.open = true;
+        else if (!term) card.open = false;
+        if (show){ topicHasVisibleCard = true; visibleCount++; }
+      });
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term ? `검색결과: ${visibleCount}개 항목` : '';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all'){
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

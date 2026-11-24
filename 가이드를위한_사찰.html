@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가이드를 위한 사찰 정보</title>
+<style>
+:root{--bg:#faf7f2;--ink:#2b2620;--sub:#6b6255;--line:#e4dccc;--accent:#8a5a3b;--accent2:#c98a4b;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Noto Serif KR',Georgia,serif;background:var(--bg);color:var(--ink);line-height:1.65;}
+header{padding:36px 20px 20px;text-align:center;border-bottom:1px solid var(--line);}
+header h1{margin:0 0 6px;font-size:1.7em;letter-spacing:-0.5px;}
+header p{margin:0;color:var(--sub);font-size:0.95em;}
+.badge-row{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.badge{background:#efe6d8;color:var(--accent);padding:4px 10px;border-radius:20px;font-size:0.78em;}
+.container{max-width:780px;margin:0 auto;padding:20px 16px 60px;}
+.notice{background:#fff8ec;border:1px solid #ecd9b8;border-radius:10px;padding:14px 16px;font-size:0.88em;color:#6b5535;margin-bottom:24px;}
+.cat-header{margin:36px 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.cat-header .emoji{font-size:1.3em;}
+.cat-header .name{font-size:1.15em;font-weight:700;}
+.cat-header .count{color:var(--sub);font-size:0.85em;}
+.cat-header .desc{width:100%;color:var(--sub);font-size:0.85em;margin-top:2px;}
+.item{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:#fff;overflow:hidden;}
+.item-head{padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.item-head:hover{background:#faf5eb;}
+.order-badge{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:var(--accent);color:#fff;font-size:0.72em;margin-right:6px;}
+.hz{font-size:1.3em;font-weight:700;color:var(--accent);letter-spacing:1px;}
+.gloss{font-size:0.85em;color:var(--sub);margin-top:2px;}
+.reading{font-size:0.78em;color:var(--accent2);margin-top:2px;}
+.arrow{transition:transform .2s;color:var(--sub);}
+.item.open .arrow{transform:rotate(180deg);}
+.item-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.item.open .item-body{max-height:1400px;}
+.item-body-inner{padding:0 18px 18px;border-top:1px solid var(--line);}
+.role{font-size:0.9em;color:var(--ink);background:#f6f1e8;padding:10px 12px;border-radius:8px;margin:14px 0;}
+.role b{color:var(--accent);}
+.explain-block{margin-bottom:12px;}
+.tag{display:inline-block;font-size:0.72em;padding:2px 8px;border-radius:12px;margin-bottom:6px;font-weight:700;}
+.tag.실록·공식{background:#e3ecdf;color:#3a6b3f;}
+.tag.야사·전승{background:#f0e5d8;color:#8a5a3b;}
+.tag.민간설화{background:#f4e3e3;color:#a44848;}
+.tag.후대해석{background:#e3e6f0;color:#3f4d8a;}
+.explain-text{font-size:0.9em;}
+.related{font-size:0.85em;color:var(--sub);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px;}
+.mapping .hz{font-size:1.05em;}
+footer{text-align:center;color:var(--sub);font-size:0.8em;padding:20px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>가이드를 위한 사찰 정보</h1>
+  <p>가람배치 · 전각 전체 · 조형물 · 매핑 — v4 (35항목)</p>
+  <div class="badge-row">
+    <span class="badge">문 → 전각 → 조형물 → 실제 사례</span>
+    <span class="badge">아코디언 형식</span>
+  </div>
+</header>
+<div class="container">
+  <div class="notice">
+    v4: 특수 전각(천불전·적멸보궁), 마애불을 추가해 '웬만한 사찰에 있을 법한 것'의 공백을 마저 채웠고,
+    나한전·범종각(목어)·탑에는 실록·공식 설명과 구분되는 야사·전승/후대해석을 보강했습니다.
+    특히 불국사 무영탑 전설은 원 설화와 후대 소설(1938년 현진건 「무영탑」)의 창작 부분을 명확히 나눠 표기했습니다.
+  </div>
+  
+    <div class="cat-header">
+      <span class="emoji">🚪</span>
+      <span class="name">가람배치 · 문</span>
+      <span class="count">(4)</span>
+      <div class="desc">절 입구부터 중심 전각까지 지나는 문들, 순서대로</div>
+    </div>
+    
+    <div class="item" id="iljumun">
+      <div class="item-head" onclick="toggleItem('iljumun')">
+        <div>
+          <div class="hz"><span class="order-badge">1</span>一柱門</div>
+          <div class="reading">한 일 · 기둥 주 · 문 문</div>
+          <div class="gloss">절의 첫 관문, 세속과 경계를 나누는 문</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 사찰 경내로 들어서는 첫 번째 문. 일직선상에 세운 두 기둥 위에 지붕을 얹은 독특한 구조</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">일주문은 기둥이 한 줄로 늘어선 데서 이름이 왔다. '흩어진 마음을 하나로 모아 진리의 세계로 들어간다'는 일심(一心)의 상징으로 풀이되며, 이 문을 지나면서 세속의 번뇌를 내려놓는다는 뜻을 담고 있다.</div>
+        </div>
+          <div class="related">🔗 현판에는 보통 산 이름과 절 이름을 함께 새긴다 (예: 지리산 화엄사)</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="geumgangmun">
+      <div class="item-head" onclick="toggleItem('geumgangmun')">
+        <div>
+          <div class="hz"><span class="order-badge">2</span>金剛門 · 仁王門</div>
+          <div class="reading">쇠 금 · 굳셀 강 · 문 문 / 어질 인 · 임금 왕</div>
+          <div class="gloss">금강역사(인왕)가 지키는 문</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 가람과 불법을 수호하는 금강역사(인왕) 조각이 좌우에 서 있는 문. 왼쪽은 입을 다물고(음), 오른쪽은 입을 벌린(양) 모습이 대개의 짝</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">사찰에 따라 금강문을 따로 두지 않고 천왕문 입구에 금강역사상을 함께 봉안해 기능을 대신하기도 한다. 그래서 모든 절에 금강문이 있는 것은 아니다.</div>
+        </div>
+          <div class="related">🔗 완주 송광사 금강문이 대표적 사례로 꼽힌다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="cheonwangmun">
+      <div class="item-head" onclick="toggleItem('cheonwangmun')">
+        <div>
+          <div class="hz"><span class="order-badge">3</span>天王門</div>
+          <div class="reading">하늘 천 · 임금 왕 · 문 문</div>
+          <div class="gloss">사천왕이 지키는 문</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 동서남북 네 방위를 지키는 사천왕상을 모신 문. 통상 일주문 다음, 경내로 들어서는 두 번째 관문</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">동쪽 지국천왕, 남쪽 증장천왕, 서쪽 광목천왕, 북쪽 다문천왕 네 신을 봉안하며, 악귀를 물리쳐 경내를 청정 도량으로 지킨다는 뜻을 담고 있다. 사천왕문이라고도 부른다.</div>
+        </div>
+          <div class="related">🔗 보은 법주사 천왕문, 구례 화엄사 천왕문이 보물로 지정돼 있다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="buriimun">
+      <div class="item-head" onclick="toggleItem('buriimun')">
+        <div>
+          <div class="hz"><span class="order-badge">4</span>不二門 · 解脫門</div>
+          <div class="reading">아닐 불 · 두 이 · 문 문 / 풀 해 · 벗을 탈</div>
+          <div class="gloss">둘이 아니라는 깨달음의 문</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 중심 전각 바로 앞, 마지막으로 지나는 문. 이 문을 지나면 바로 본전 마당이 나온다</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">'불이(不二)'는 승과 속, 세간과 출세간, 중생계와 열반계가 둘이 아니라는 이치를 뜻한다. 번뇌와 해탈이 둘이 아니라는 뜻에서 해탈문이라고도 부르며, 두 이름은 같은 문을 가리키는 경우가 많다.</div>
+        </div>
+          <div class="related">🔗 부석사·향일암처럼 지형에 따라 매우 작거나 특이한 형태로 남은 경우도 있다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🪷</span>
+      <span class="name">여래전각 · 부처를 모심</span>
+      <span class="count">(4)</span>
+      <div class="desc">깨달음을 이룬 부처(여래)를 본존으로 모신 전각</div>
+    </div>
+    
+    <div class="item" id="daeungjeon">
+      <div class="item-head" onclick="toggleItem('daeungjeon')">
+        <div>
+          <div class="hz">大雄殿</div>
+          <div class="reading">큰 대 · 수컷 웅 · 전각 전</div>
+          <div class="gloss">큰 영웅을 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 석가모니불 (좌우 협시: 문수보살 · 보현보살, 또는 가섭·아난)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">대웅(大雄)은 산스크리트어 마하비라(mahāvīra)를 한역한 말로, 법화경에서 석가모니를 '위대한 영웅'이라 일컬은 데서 유래했다. 격을 높여 지을 경우 대웅보전(大雄寶殿)이라 하며, 이때는 아미타불·약사여래를 함께 모시기도 한다.</div>
+        </div>
+          <div class="related">🔗 대적광전과 함께 절의 중심 법당으로 가장 흔히 쓰이는 이름. 진신사리를 모신 절(통도사 등)은 불상 없이 빈 불단만 두기도 한다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="geungnakjeon">
+      <div class="item-head" onclick="toggleItem('geungnakjeon')">
+        <div>
+          <div class="hz">極樂殿 · 無量壽殿</div>
+          <div class="reading">다할 극 · 즐길 락 · 전각 전 / 없을 무 · 헤아릴 량 · 목숨 수</div>
+          <div class="gloss">극락을 상징하는 전각 · 헤아릴 수 없는 수명의 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 아미타불 (좌우 협시: 관세음보살 · 대세지보살, 한국은 지장보살로 대체하는 경우도 많음)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">아미타불은 산스크리트어 '아미타유스(무한한 수명)'와 '아미타바(무한한 광명)'를 함께 한역한 이름이다. 서방 극락정토의 주인이라는 뜻에서 극락전, 무한한 수명을 강조할 때는 무량수전이라 부르며 같은 부처를 가리킨다.</div>
+        </div>
+          <div class="related">🔗 대웅전 다음으로 많이 세워지는 법당. 부석사 무량수전, 봉정사 극락전이 대표적 국보 건물</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="daejeokgwangjeon">
+      <div class="item-head" onclick="toggleItem('daejeokgwangjeon')">
+        <div>
+          <div class="hz">毘盧殿 · 大寂光殿</div>
+          <div class="reading">도울 비 · 그물 로 · 전각 전 / 큰 대 · 고요할 적 · 빛 광</div>
+          <div class="gloss">비로자나불을 모신 전각 · 크고 고요한 빛의 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 비로자나불 (한국 사찰은 선종 삼신설에 따라 좌우에 노사나불·석가모니불을 함께 모시는 경우가 많음)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">비로자나불은 진리 그 자체를 상징하는 법신불(法身佛)로, 화엄경의 교주다. 이름을 그대로 딴 비로전, 화엄경에서 따온 화엄전, 진리의 빛이라는 뜻의 대적광전 등 여러 이름으로 불리지만 모두 같은 부처를 가리킨다.</div>
+        </div>
+          <div class="related">🔗 화엄종 계열 사찰은 대웅전 대신 이 전각을 본전으로 삼는 경우가 있다 (해인사 대적광전이 대표적)</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="yaksajeon">
+      <div class="item-head" onclick="toggleItem('yaksajeon')">
+        <div>
+          <div class="hz">藥師殿</div>
+          <div class="reading">약 약 · 스승 사 · 전각 전</div>
+          <div class="gloss">의사·약사 역할을 하는 부처의 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 약사여래 (좌우 협시: 일광보살 · 월광보살)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">약사여래는 동방 정유리세계의 교주로, 중생의 질병을 고치고 재앙을 없애준다는 12대원을 세운 부처다. 왼손에 약병(약합)을 든 모습이 특징이며, 유리광전·만월보전 등으로도 불린다.</div>
+        </div>
+          <div class="related">🔗 대구 팔공산 갓바위(선본사)가 약사신앙의 대표적 명소로 꼽힌다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🙏</span>
+      <span class="name">보살전각 · 보살을 모심</span>
+      <span class="count">(2)</span>
+      <div class="desc">중생 구제를 서원한 보살을 본존으로 모신 전각</div>
+    </div>
+    
+    <div class="item" id="gwaneumjeon">
+      <div class="item-head" onclick="toggleItem('gwaneumjeon')">
+        <div>
+          <div class="hz">觀音殿 · 圓通殿</div>
+          <div class="reading">볼 관 · 소리 음 · 전각 전 / 둥글 원 · 통할 통</div>
+          <div class="gloss">관세음보살을 모신 전각 · 두루 통하는 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 관세음보살</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">관세음보살이 사찰의 주불전 본존일 때는 원통전이라 부르는데, 관음보살이 '두루 원융통달하게(周圓融通)' 중생의 고뇌를 씻어준다는 뜻에서 왔다. 별도 전각일 때는 관음전이라 부른다.</div>
+        </div>
+          <div class="related">🔗 양류관음·천수관음·해수관음 등 지물과 자세에 따라 여러 형태로 조성된다. 불국사 관음전은 절에서 가장 높은 지대에 위치</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="myeongbujeon">
+      <div class="item-head" onclick="toggleItem('myeongbujeon')">
+        <div>
+          <div class="hz">冥府殿 · 地藏殿</div>
+          <div class="reading">어두울 명 · 관청 부 · 전각 전 / 땅 지 · 감출 장</div>
+          <div class="gloss">저승을 관장하는 전각 · 지장보살의 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 지장보살 (협시: 도명존자 · 무독귀왕, 좌우에 명부시왕 10위)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">죽은 이가 다음 생을 받기까지 심판을 담당하는 시왕(十王)을 봉안하기 때문에 시왕전이라고도 한다. 원래 지장전과 시왕전은 별개 전각이었으나 고려 말 이후 명부전 하나로 합쳐졌다. 조상 천도재를 지내는 중심 공간이다. 다른 전각과 격이 다르고 규모도 작아, 관례상 대웅전 등 중심 법당을 향해 우측 뒤편에 세운다.</div>
+        </div>
+          <div class="related">🔗 시왕 중 다섯 번째가 흔히 아는 염라대왕이다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🧘</span>
+      <span class="name">나한·성중</span>
+      <span class="count">(1)</span>
+      <div class="desc">부처도 보살도 아닌, 깨달음을 얻은 제자·성자를 모신 전각</div>
+    </div>
+    
+    <div class="item" id="nahanjeon">
+      <div class="item-head" onclick="toggleItem('nahanjeon')">
+        <div>
+          <div class="hz">羅漢殿 · 應眞殿</div>
+          <div class="reading">벌일 나 · 한나라 한 · 전각 전 / 응할 응 · 참 진</div>
+          <div class="gloss">나한(아라한)을 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 석가모니불(또는 삼존불) + 16나한, 사찰에 따라 500나한</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">아라한은 부처도 보살도 아닌, 스스로 깨달음을 얻어 공양받을 자격을 갖춘 성자다. '진리에 응하여 남을 깨우친다'는 뜻의 응진(應眞)이라고도 하며 이 때문에 응진전이라는 이름이 붙었다. 나한전은 대웅전과 달리 소박하게 짓는 것이 관례이며, 주불전과 떨어진 자리에 세운다.</div>
+        </div>
+        <div class="explain-block">
+          <span class="tag 야사·전승">야사·전승</span>
+          <div class="explain-text">나한은 인간과 천상의 소원을 속히 들어주는 영험한 존재로 여겨져 민간의 기도처로 인기가 높았다. 조선 후기 고승 율봉이 신도들의 소원을 나한에게 대신 명했는데, 나한들이 짓궂은 장난을 치자 크게 화를 내며 벌을 주려 했다는 설화가 전한다. 나한이 사람처럼 감정을 갖고 장난도 친다는, 다른 불보살상에는 잘 없는 친근한 이미지를 보여주는 이야기다.</div>
+        </div>
+          <div class="related">🔗 500나한을 모시면 오백나한전(완주 송광사, 영천 은해사 거조암이 유명)</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">⛰️</span>
+      <span class="name">토속신앙 결합</span>
+      <span class="count">(1)</span>
+      <div class="desc">불교 밖에서 들어와 결합된 한국 고유 신앙의 공간 — 격이 낮아 '전'이 아닌 '각'</div>
+    </div>
+    
+    <div class="item" id="samseonggak">
+      <div class="item-head" onclick="toggleItem('samseonggak')">
+        <div>
+          <div class="hz">三聖閣</div>
+          <div class="reading">석 삼 · 성인 성 · 집 각</div>
+          <div class="gloss">세 토속신을 함께 모신 집</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안 대상</b> — 산신(山神) · 칠성(七星) · 독성(獨聖) — 각각 산신각·칠성각·독성각으로 따로 짓기도 함</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">불교 전래 이전부터 있던 한국 토속신앙(산신·칠성·독성)이 불교와 결합해 생긴 신앙 형태다. 산신은 재물, 칠성(북두칠성)은 자식과 수명, 독성(나반존자)은 복을 관장한다고 여겨진다. 불교 밖에서 들어온 신이라 건물 격을 '전(殿)'이 아닌 '각(閣)'으로 낮춰 부르며, 관례상 경내에서 가장 안쪽·가장 높은 곳에 세운다.</div>
+        </div>
+        <div class="explain-block">
+          <span class="tag 야사·전승">야사·전승</span>
+          <div class="explain-text">일부 사찰에서는 삼성각에 고려 말 세 고승인 지공·나옹·무학을 함께 모시기도 한다.</div>
+        </div>
+          <div class="related">🔗 대부분의 사찰에 있을 만큼 흔한 부속 전각이다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🌄</span>
+      <span class="name">미륵신앙 전각</span>
+      <span class="count">(1)</span>
+      <div class="desc">미래에 올 부처 미륵을 모신 전각</div>
+    </div>
+    
+    <div class="item" id="mireukjeon">
+      <div class="item-head" onclick="toggleItem('mireukjeon')">
+        <div>
+          <div class="hz">彌勒殿 · 龍華殿</div>
+          <div class="reading">미륵 미 · 즐거울 륵 · 전각 전 / 용 룡 · 빛날 화 · 전각 전</div>
+          <div class="gloss">미래에 올 부처 미륵을 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 미륵불(또는 미륵보살) — 도솔천에서 하생해 용화수 아래서 설법한다는 미래불</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">미륵이 말법시대에 도솔천에서 하생해 용화수 아래서 세 번 설법한다는 '용화삼회' 신앙에서 용화전이라는 이름이 왔다. 장륙존상(1장6척 크기 불상)을 모신다 하여 장륙전이라고도 하며, 법상종 계열 사찰은 이 전각을 본전으로 삼아 대웅전을 따로 두지 않는다.</div>
+        </div>
+          <div class="related">🔗 김제 금산사 미륵전은 우리나라 유일의 외관 3층 목조 법당으로 국보. 화엄사는 원래 장륙전이던 건물이 각황전으로 이름이 바뀐 특이 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">📜</span>
+      <span class="name">석가모니 일대기 전각</span>
+      <span class="count">(2)</span>
+      <div class="desc">석가모니의 생애·설법 장면을 재현·기록한 전각</div>
+    </div>
+    
+    <div class="item" id="yeongsanjeon">
+      <div class="item-head" onclick="toggleItem('yeongsanjeon')">
+        <div>
+          <div class="hz">靈山殿</div>
+          <div class="reading">신령 영 · 뫼 산 · 전각 전</div>
+          <div class="gloss">석가모니 설법 장면(영산회상)을 재현한 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>본존</b> — 석가모니불 + 갈라보살·미륵보살 (나한전 기능을 겸하는 경우도 많음)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">영산은 석가모니가 법화경을 설한 영축산(영산)의 준말이다. 그 설법 장면인 영산회상(靈山會上)을 재현한 전각으로, 나한전과 기능이 겹쳐 나한을 함께 봉안하는 경우가 많다.</div>
+        </div>
+          <div class="related">🔗 영천 거조사 영산전이 국보로 지정된 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="palsangjeon">
+      <div class="item-head" onclick="toggleItem('palsangjeon')">
+        <div>
+          <div class="hz">捌相殿(八相殿)</div>
+          <div class="reading">여덟 팔 · 모습 상 · 전각 전</div>
+          <div class="gloss">석가모니 일생을 8장면으로 그린 그림(팔상도)을 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안물</b> — 팔상도(八相圖) — 석가모니 탄생부터 열반까지 생애의 8가지 장면을 그린 그림</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">벽면에 부처의 일생을 8장면으로 나눠 그린 팔상도를 봉안해 팔상전이라 부른다. 보은 법주사 팔상전은 우리나라에 남아있는 근대 이전 유일한 목조탑(5층)으로, 탑과 전각을 겸한 독특한 건축이다.</div>
+        </div>
+          <div class="related">🔗 김제 금산사 미륵전과 함께 한국 다층 목조 불교건축의 대표작으로 꼽힌다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🏠</span>
+      <span class="name">생활·의식 공간</span>
+      <span class="count">(4)</span>
+      <div class="desc">무엇을 모시는가가 아니라, 무엇을 하는 곳인가의 공간</div>
+    </div>
+    
+    <div class="item" id="yosachae">
+      <div class="item-head" onclick="toggleItem('yosachae')">
+        <div>
+          <div class="hz">寮舍(채)</div>
+          <div class="reading">동관 료 · 집 사</div>
+          <div class="gloss">승려가 먹고 자는 생활공간 (요사채)</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 종교 의식 공간(불전)과 달리 승려의 숙식·수행을 뒷받침하는 생활 공간. 심검당·적묵당·설선당 등 다양한 이름으로 불림</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">심검당(지혜의 칼을 갈아 무명을 벤다), 적묵당(말없이 참선한다), 설선당(강설과 참선을 함께 한다)처럼 건물마다 수행의 뜻을 담은 이름을 따로 짓는다. 대개 '후원(後院)'이라 불리는 구역에 몰려 있으며, 참배객이 함부로 드나들지 않는 것이 관례다.</div>
+        </div>
+          <div class="related">🔗 전각과 달리 안내판이 따로 없는 경우가 많아 답사 중 놓치기 쉽다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="gangdang">
+      <div class="item-head" onclick="toggleItem('gangdang')">
+        <div>
+          <div class="hz">講堂 · 說法殿</div>
+          <div class="reading">익힐 강 · 집 당 / 말씀 설 · 법 법 · 전각 전</div>
+          <div class="gloss">대중에게 설법하는 공간</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 법회·강설이 이뤄지는 공간. 선종 사찰에서는 이 기능을 본전(대웅전 등)이 겸하는 경우가 많아 별도 강당이 없는 절도 많다</div>
+          
+        <div class="explain-block">
+          <span class="tag 후대해석">후대해석</span>
+          <div class="explain-text">교종 전통에서는 강당을 따로 두었으나, 선종이 주류가 된 조선 이후에는 본전이 강설 기능을 함께 맡는 경우가 흔해지며 독립된 강당이 점차 줄었다는 것이 건축사 연구자들의 대체적 설명이다.</div>
+        </div>
+          <div class="related">🔗 불국사 무설전(無說殿, '말이 필요 없는 경지의 설법전'이라는 뜻)이 강당의 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="beomjonggak">
+      <div class="item-head" onclick="toggleItem('beomjonggak')">
+        <div>
+          <div class="hz">梵鐘閣 · 鐘樓</div>
+          <div class="reading">범어 범 · 쇠북 종 · 집 각 / 쇠북 종 · 다락 루</div>
+          <div class="gloss">범종을 비롯한 불전사물을 모신 건물</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안물</b> — 불전사물(佛前四物): 범종(梵鐘)·법고(法鼓)·목어(木魚)·운판(雲版) — 새벽·저녁 예불 전에 차례로 울림</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">법고는 네발 달린 중생을, 목어는 물속 중생을, 운판은 날짐승을, 범종은 지옥 중생을 향해 소리로 불법을 전한다는 상징을 담고 있다. 범종은 아침에 28번, 저녁에 33번 친다. 2층 누각 형태면 범종루, 범종만 봉안하면 범종각으로 구분해 부르기도 한다.</div>
+        </div>
+        <div class="explain-block">
+          <span class="tag 야사·전승">야사·전승</span>
+          <div class="explain-text">목어가 물고기 모양인 유래로 전하는 이야기가 있다. 계율을 어기고 죽은 한 승려가 물고기로 태어나 등에 나무가 자라나는 고통을 받았는데, 스승이 수륙재를 베풀어 해탈시키자 그 나무로 물고기 모양을 깎아 걸어두고 사람들에게 경각심을 주게 했다는 것이다. 물고기가 항상 눈을 뜨고 있다는 데서 '수행자는 늘 깨어 정진하라'는 뜻도 함께 담겼다.</div>
+        </div>
+          <div class="related">🔗 불이문과 같은 선상, 법당에서 볼 때 오른쪽에 두는 것이 관례</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="manseru">
+      <div class="item-head" onclick="toggleItem('manseru')">
+        <div>
+          <div class="hz">萬歲樓 (樓閣)</div>
+          <div class="reading">일만 만 · 해 세 · 다락 루</div>
+          <div class="gloss">본전 앞마당으로 들어서기 전 지나는 누각형 건물</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 불이문을 지나 본전 마당에 이르기 전 마지막으로 통과하는 2층 누각. 절마다 만세루·보제루·구광루 등 다른 이름이 붙는다</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">누각 아래로 난 길을 지나 본전 마당으로 들어서게 만든 구조로, 누각 위층은 대중 법회나 큰 행사 때 쓰기도 한다.</div>
+        </div>
+          <div class="related">🔗 통도사 하로전(下爐殿)에 있는 만세루가 이름의 유래가 된 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🖼️</span>
+      <span class="name">조사·고승 기념</span>
+      <span class="count">(2)</span>
+      <div class="desc">그 절 또는 그 종파의 고승을 기리는 전각</div>
+    </div>
+    
+    <div class="item" id="josadang">
+      <div class="item-head" onclick="toggleItem('josadang')">
+        <div>
+          <div class="hz">祖師堂</div>
+          <div class="reading">조상 조 · 스승 사 · 집 당</div>
+          <div class="gloss">종파를 세우거나 이은 고승(조사)을 모신 집</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안 대상</b> — 인도·중국의 조사 33인 + 한국 고승(보조국사, 서산대사 등)의 진영·위패. 그 절의 창건자만 따로 모시면 개산조당(開山祖堂)</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">선종 사찰에서 부처 이래 이어지는 법맥을 전한 고승을 기리기 위해 세운 건물이다. 그 절을 창건·중건·주석한 고승의 영정만 모신 경우는 영각(影閣)이라 구분해 부르기도 한다.</div>
+        </div>
+          <div class="related">🔗 영주 부석사 조사당(의상대사 진영 봉안, 국보)이 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="guksajeon">
+      <div class="item-head" onclick="toggleItem('guksajeon')">
+        <div>
+          <div class="hz">國師殿</div>
+          <div class="reading">나라 국 · 스승 사 · 전각 전</div>
+          <div class="gloss">국사(國師)로 추대된 고승들의 진영을 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안 대상</b> — 그 절이 배출한 국사(국가가 인정한 최고위 승려)들의 진영 — 일반 사찰에는 없는, 그 절 고유의 전각</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">고려시대 보조국사 지눌 이후 16명의 국사를 배출한 송광사의 전통에 따라 세운 전각이 대표적이며, 다른 사찰에서는 보기 힘든 이름이다.</div>
+        </div>
+          <div class="related">🔗 순천 송광사 국사전이 유일하게 널리 알려진 사례 ('실제 사찰 매핑' 참고)</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">✨</span>
+      <span class="name">특수 전각</span>
+      <span class="count">(2)</span>
+      <div class="desc">일반 전각의 원칙(본존불 1위 봉안)을 벗어나는 특수한 경우</div>
+    </div>
+    
+    <div class="item" id="cheonbuljeon">
+      <div class="item-head" onclick="toggleItem('cheonbuljeon')">
+        <div>
+          <div class="hz">千佛殿</div>
+          <div class="reading">일천 천 · 부처 불 · 전각 전</div>
+          <div class="gloss">많은 부처를 한꺼번에 모신 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안 대상</b> — 천불(千佛) 또는 삼천불 — 시공을 초월해 곳곳에 부처가 존재한다는 다불(多佛)사상에 근거</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">'천(千)'은 실제 숫자라기보다 '헤아릴 수 없이 많다'는 뜻을 담은 상징적 표현이다. 작은 불상 수백~수천 구를 층층이 배치해, 누구나 수행하면 부처가 될 수 있다는 대승불교의 평등사상을 시각적으로 보여준다.</div>
+        </div>
+          <div class="related">🔗 해남 대흥사 천불전, 김천 직지사 천불전이 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="jeokmyeolbogung">
+      <div class="item-head" onclick="toggleItem('jeokmyeolbogung')">
+        <div>
+          <div class="hz">寂滅寶宮</div>
+          <div class="reading">고요할 적 · 멸할 멸 · 보배 보 · 궁전 궁</div>
+          <div class="gloss">부처의 진신사리를 모셔, 불상 없이 불단만 있는 전각</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>봉안 대상</b> — 석가모니 진신사리(眞身舍利) — 사리 자체가 부처의 몸을 대신하므로 불상을 따로 두지 않음</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">석가모니가 화엄경을 설한 인도 보리수 아래 적멸도량에서 이름이 왔다. 사리를 모신 탑이나 계단(戒壇)이 불단 뒤로 보이도록 창을 내는 경우가 많다. 통도사·오대산 중대·설악산 봉정암·영월 법흥사·태백산 정암사를 '5대 적멸보궁'이라 부르며, 이 중 정암사를 제외한 넷은 모두 신라 자장율사가 당나라에서 가져온 사리를 봉안했다고 전한다.</div>
+        </div>
+          <div class="related">🔗 '대웅전=본존불 봉안'이라는 일반 원칙에서 벗어나는 대표적 예외 (통도사 '실제 사찰 매핑' 참고)</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🗿</span>
+      <span class="name">경내 조형물</span>
+      <span class="count">(5)</span>
+      <div class="desc">건물이 아닌 탑·비석류 조형물</div>
+    </div>
+    
+    <div class="item" id="tap">
+      <div class="item-head" onclick="toggleItem('tap')">
+        <div>
+          <div class="hz">塔</div>
+          <div class="reading">탑 탑</div>
+          <div class="gloss">부처의 사리를 봉안한 조형물</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>용도</b> — 석가모니 사리(또는 경전) 봉안 — 사찰 중심 마당에 위치</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">석가모니 열반 후 다비(화장)에서 나온 사리를 인도 여러 나라가 나누어 각각 탑을 세운 데서 비롯했다. 한국은 삼국시대 목탑에서 시작해 통일신라 이후 석탑이 주류가 됐다.</div>
+        </div>
+        <div class="explain-block">
+          <span class="tag 야사·전승">야사·전승</span>
+          <div class="explain-text">불국사 석가탑은 그림자가 비치지 않는다 하여 '무영탑' 전설이 따라붙는다. 원형은 1740년 불국사 사적기(고금창기)에 실린, 탑을 세운 석공의 아내가 남편을 찾아왔다가 그림자 연못에 몸을 던졌다는 간단한 구비전승이다.</div>
+        </div>
+        <div class="explain-block">
+          <span class="tag 후대해석">후대해석</span>
+          <div class="explain-text">그러나 지금 널리 퍼진 '아사달·아사녀'라는 이름과 세부 줄거리는 1938~39년 현진건이 쓴 역사소설 「무영탑」에서 처음 만들어진 것으로, 원래의 옛 전승에는 등장하지 않는다. 안내 시 '아주 오래된 설화'가 아니라 '20세기 소설로 완성된 이야기'라는 점을 함께 짚어주는 것이 정확하다.</div>
+        </div>
+          <div class="related">🔗 1탑1금당, 2탑1금당 등 탑과 중심 법당의 배치 방식에 따라 가람 유형이 나뉜다. 예외적으로 순천 송광사는 터의 풍수를 이유로 탑을 세우지 않았다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="budo">
+      <div class="item-head" onclick="toggleItem('budo')">
+        <div>
+          <div class="hz">浮屠 (僧塔)</div>
+          <div class="reading">뜰 부 · 무리 도 / 중 승 · 탑 탑</div>
+          <div class="gloss">고승의 사리를 모신 탑</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>용도</b> — 덕 높은 승려의 사리·유골 봉안 — 보통 경내가 아닌 절 주변·부도전(浮屠殿)에 모여 있음</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">부도는 원래 붓다(Buddha)를 한역한 말이었으나, 후대에 승려의 묘탑을 가리키는 말로 굳어졌다. 신라 하대(9세기) 선종이 들어오며 부도 건립이 크게 유행했다. 부처의 탑과 구분해 '승탑'이라 부르기도 한다.</div>
+        </div>
+          <div class="related">🔗 조선 후기 부도는 종 모양(석종형)이 많다. 화순 쌍봉사 철감선사탑이 통일신라 대표작</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="danggan">
+      <div class="item-head" onclick="toggleItem('danggan')">
+        <div>
+          <div class="hz">幢竿支柱</div>
+          <div class="reading">깃발 당 · 장대 간 · 지탱할 지 · 기둥 주</div>
+          <div class="gloss">깃대를 지탱하는 돌기둥</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>용도</b> — 법회·행사 때 깃발(당)을 내거는 장대(당간)를 세우기 위한 한 쌍의 돌기둥 — 절 입구, 일주문 앞쪽에 위치</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">당(幢)은 법회나 의식 때 내거는 깃발을 뜻하고, 이를 매다는 장대가 당간, 장대가 넘어지지 않도록 좌우에서 받치는 돌기둥이 당간지주다. 오늘날 절 입구를 알리는 표지 역할을 당시에는 당간지주가 대신했다.</div>
+        </div>
+          <div class="related">🔗 부석사 당간지주, 금산사 당간지주가 통일신라 대표 유물. 절은 사라져도 당간지주만 남은 절터가 많다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="seokdeung">
+      <div class="item-head" onclick="toggleItem('seokdeung')">
+        <div>
+          <div class="hz">石燈</div>
+          <div class="reading">돌 석 · 등불 등</div>
+          <div class="gloss">돌로 만든 등</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>용도</b> — 부처 앞을 밝히는 등 — 탑과 중심 법당 사이, 마당 한가운데 위치하는 경우가 많음</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">석등은 부처의 지혜를 광명에 비유해, 불을 밝혀 어둠(무명)을 깨우친다는 상징적 의미를 담은 공양구다. 화사석(불을 넣는 몸통)을 중심으로 아래에 기단, 위에 지붕돌을 얹는 구조가 기본형이다.</div>
+        </div>
+          <div class="related">🔗 부여 무량사 석등, 경주 불국사 석등처럼 국가지정문화유산으로 남은 예가 많다. 송광사는 터의 풍수를 이유로 석등도 세우지 않았다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="maaebul">
+      <div class="item-head" onclick="toggleItem('maaebul')">
+        <div>
+          <div class="hz">磨崖佛</div>
+          <div class="reading">갈 마 · 벼랑 애 · 부처 불</div>
+          <div class="gloss">바위·절벽에 새긴 불상</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>용도</b> — 자연 암반에 직접 새긴 불상 — 절 진입로나 경내 큰 바위에 위치하는 경우가 많음</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">한국에서는 7세기 백제에서 가장 먼저 나타났으며(서산 마애삼존불이 대표적), 9세기 이후에는 길과 가까운 산기슭·강변 등 사람들 눈에 잘 띄는 곳에 조성되는 경향이 늘었다. 독립된 불상과 달리 위치를 옮길 수 없어, 조성 당시의 신앙 중심지를 그대로 보여주는 자료로 여겨진다.</div>
+        </div>
+          <div class="related">🔗 서산 용현리 마애여래삼존상('백제의 미소'), 경주 남산 일대 마애불군이 대표 사례</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🎨</span>
+      <span class="name">건물 안 요소</span>
+      <span class="count">(3)</span>
+      <div class="desc">전각 안팎을 채우는 채색·그림</div>
+    </div>
+    
+    <div class="item" id="dancheong">
+      <div class="item-head" onclick="toggleItem('dancheong')">
+        <div>
+          <div class="hz">丹靑</div>
+          <div class="reading">붉을 단 · 푸를 청</div>
+          <div class="gloss">건물 부재에 채색하는 전통 문양 기법</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 목재 보호(방부·방화) + 종교적 장엄(신성함 표현) + 장식, 세 가지 기능을 함께 지님</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">단청은 목부재의 내구성을 강화하는 실용적 목적과, 사찰·궁궐 건축에 권위와 신성함을 부여하는 상징적 목적을 함께 지닌다. 삼국시대 불교 전래와 함께 고구려에서 먼저 발달해 백제·신라를 거쳐 일본까지 전파된 것으로 본다.</div>
+        </div>
+          <div class="related">🔗 귀면문(악귀를 쫓는 문양), 만(卍)자문(길상), 가릉빈가(사람 얼굴에 새의 몸을 한 상상의 존재) 등이 대표 문양</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="taenghwa">
+      <div class="item-head" onclick="toggleItem('taenghwa')">
+        <div>
+          <div class="hz">幀畵 (後佛幀畵)</div>
+          <div class="reading">그림족자 탱 · 그림 화 / 뒤 후 · 부처 불</div>
+          <div class="gloss">천에 그려 벽에 거는 불화. 본존 뒤에 거는 것이 후불탱화</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>종류</b> — 후불탱(본존 뒤) · 신중탱(호법신) · 산신탱·칠성탱(토속신 결합) · 영산회상도(법화경 설법 장면) · 팔상탱(석가모니 일생) 등</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">인도·티베트의 '탱카(거는 그림)'에서 유래한 말로, 불상을 대신하거나 보완하는 예배 대상으로 조성됐다. 조선시대 이후 후불탱화가 가장 널리 만들어지면서 '탱화'가 불화 전체를 가리키는 말로 굳어졌다.</div>
+        </div>
+          <div class="related">🔗 관음전에는 관음보살 관련 탱화, 삼성각에는 산신탱·칠성탱처럼 그 전각의 본존에 맞는 탱화가 걸린다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item" id="gwaebul">
+      <div class="item-head" onclick="toggleItem('gwaebul')">
+        <div>
+          <div class="hz">掛佛(幀)</div>
+          <div class="reading">걸 괘 · 부처 불</div>
+          <div class="gloss">야외 법회 때 내거는 대형 탱화</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>역할</b> — 기우제·수륙재·영산재 등 마당에서 여는 큰 법회 때 내거는, 높이 5~14m에 이르는 초대형 불화. 평소에는 괘불함에 보관</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">경내에 다 들어오지 못할 만큼 많은 대중이 참여하는 야외 법회에서, 멀리서도 부처의 모습을 볼 수 있도록 만든 초대형 예배용 그림이다. 대부분 조선 후기 제작품으로 국가지정문화유산으로 관리되는 경우가 많다.</div>
+        </div>
+          <div class="related">🔗 평상시에는 볼 수 없고 특정 법회 때만 공개되므로, 답사 중 실제로 마주치는 경우는 드물다는 점을 안내할 필요가 있다</div>
+        </div>
+      </div>
+    </div>
+    <div class="cat-header">
+      <span class="emoji">🗺️</span>
+      <span class="name">실제 사찰로 보는 전각 구성</span>
+      <span class="count">(4)</span>
+      <div class="desc">같은 개념이 실제 절에서 어떻게 배치되는지 확인하는 예시</div>
+    </div>
+    
+    <div class="item mapping" id="map_bulguksa">
+      <div class="item-head" onclick="toggleItem('map_bulguksa')">
+        <div>
+          <div class="hz">불국사 (경주)</div>
+          <div class="reading">佛國寺</div>
+          <div class="gloss">751년 김대성 창건, 유네스코 세계유산</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>구성 특징</b> — 동쪽 대웅전 영역 + 서쪽 극락전 영역으로 구분, 높은 지대에 관음전·비로전 배치</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">대웅전(석가모니불)과 극락전(아미타불)이 동서로 나란히 자리하고, 대웅전 뒤 강당인 무설전을 지나면 가장 높은 지대에 관음전(관세음보살)과 비로전(비로자나불)이 있다. 한 절 안에 부처를 모신 전각이 4개가 넘게 모여 있어, 앞서 배운 여래전각·보살전각 구분을 한눈에 확인하기 좋은 사례다.</div>
+        </div>
+          <div class="related">🔗 다보탑·석가탑이 대웅전 앞마당에 나란히 서 있는 2탑1금당 배치</div>
+        </div>
+      </div>
+    </div>
+    <div class="item mapping" id="map_tongdosa">
+      <div class="item-head" onclick="toggleItem('map_tongdosa')">
+        <div>
+          <div class="hz">통도사 (양산) — 불보사찰</div>
+          <div class="reading">通度寺</div>
+          <div class="gloss">석가모니 진신사리 봉안, 삼보사찰 중 佛寶</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>구성 특징</b> — 본전(대웅전 자리)에 해당하는 대적광전에 불상 없이 빈 불단만, 사리는 금강계단(적멸보궁)에 별도 봉안</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">부처의 진신사리를 모셨다는 이유로, 사리 자체가 부처의 몸을 대신한다고 보아 본전에 따로 불상을 두지 않는다. 참배객은 불단 뒤편 문을 통해 사리가 모셔진 금강계단(적멸보궁)을 바라보며 예를 올린다. 앞서 배운 '대웅전=석가모니 불상 봉안'이라는 원칙에 예외가 있음을 보여주는 사례다.</div>
+        </div>
+          <div class="related">🔗 삼문 구조: 일주문(경내 밖) → 천왕문 → 불이문</div>
+        </div>
+      </div>
+    </div>
+    <div class="item mapping" id="map_haeinsa">
+      <div class="item-head" onclick="toggleItem('map_haeinsa')">
+        <div>
+          <div class="hz">해인사 (합천) — 법보사찰</div>
+          <div class="reading">海印寺</div>
+          <div class="gloss">고려대장경(팔만대장경) 봉안, 삼보사찰 중 法寶</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>구성 특징</b> — 본전은 대적광전(비로자나불), 그 뒤편에 대장경판을 보관하는 장경판전</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">화엄종 전통에 따라 비로자나불을 모신 대적광전이 본전이며, 그 뒤에 자리한 장경판전에 국보이자 유네스코 세계기록유산인 고려대장경판(팔만대장경)이 보관돼 있다. 장경판전은 불상을 모신 전각이 아니라 경전(法)을 보관하는 건물이라는 점에서 앞서 배운 전각들과 성격이 다르다.</div>
+        </div>
+          <div class="related">🔗 1899년 고종의 명으로 대장경을 3부 인출해 해인사·통도사·송광사에 나누어 보관하게 했다</div>
+        </div>
+      </div>
+    </div>
+    <div class="item mapping" id="map_songgwangsa">
+      <div class="item-head" onclick="toggleItem('map_songgwangsa')">
+        <div>
+          <div class="hz">송광사 (순천) — 승보사찰</div>
+          <div class="reading">松廣寺</div>
+          <div class="gloss">16국사 배출, 삼보사찰 중 僧寶</div>
+        </div>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="item-body">
+        <div class="item-body-inner">
+          <div class="role"><b>구성 특징</b> — 대웅전 중심 + 국사전(國師殿, 배출된 고승 16인의 진영 봉안) — 탑·석등·풍경이 없는 것으로 유명</div>
+          
+        <div class="explain-block">
+          <span class="tag 실록·공식">실록·공식</span>
+          <div class="explain-text">보조국사 지눌 이후 16명의 국사를 배출해 승보사찰로 불리며, 이들의 진영을 모신 국사전은 다른 절에서 보기 힘든 전각이다. 절터가 연꽃이 물에 뜬 형상이라 하여 무거운 석탑·석등을 세우지 않았고, 수행에 방해된다는 이유로 풍경도 달지 않았다는 전승이 있다.</div>
+        </div>
+          <div class="related">🔗 1969년 조계총림으로 지정, 30여 동의 전각을 갖춘 대규모 사찰</div>
+        </div>
+      </div>
+    </div>
+</div>
+<footer>가이드를 위한 사찰 정보 · v4 · 문4 · 여래전각4 · 보살전각2 · 나한1 · 토속신앙1 · 미륵1 · 일대기2 · 생활공간4 · 기념2 · 특수전각2 · 조형물5 · 장식3 · 매핑4</footer>
+<script>
+function toggleItem(id){
+  document.getElementById(id).classList.toggle('open');
+}
+</script>
+</body>
+</html>

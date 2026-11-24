@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가이드를 위한 현장감각</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: #f7f5f1;
+    color: #2b2b2b;
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+  header {
+    background: linear-gradient(135deg, #3a3226, #574a37);
+    color: #fff;
+    padding: 32px 20px 26px;
+    text-align: center;
+  }
+  header h1 { font-size: 22px; letter-spacing: -0.3px; margin-bottom: 6px; }
+  header p { font-size: 14px; opacity: 0.85; }
+  .badge-row { margin-top: 14px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 20px 16px; }
+  .notice {
+    background: #fff9e8;
+    border: 1px solid #ecd9a0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #6b5a20;
+    margin-bottom: 22px;
+  }
+  .notice b { color: #4a3d10; }
+  .tier-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 30px 0 6px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #3a3226;
+  }
+  .tier-header .tier-num {
+    font-size: 14px;
+    font-weight: 700;
+    background: #3a3226;
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 4px;
+  }
+  .tier-header .tier-name { font-size: 16px; font-weight: 800; }
+  .tier-question {
+    font-size: 13px;
+    color: #8a7550;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .cat-card {
+    background: #fff;
+    border: 1px solid #e5e0d5;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .cat-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cat-head .emoji { font-size: 20px; }
+  .cat-head .name { font-size: 15.5px; font-weight: 700; flex: 1; }
+  .cat-head .arrow { font-size: 12px; color: #999; transition: transform 0.2s; }
+  .cat-card.open .arrow { transform: rotate(180deg); }
+  .cat-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .cat-card.open .cat-body { max-height: 3000px; }
+  .cat-body-inner { padding: 4px 16px 18px; border-top: 1px solid #f0ede5; }
+  .sub-h { font-size: 12.5px; font-weight: 700; color: #8a7550; margin: 14px 0 6px; letter-spacing: 0.2px; }
+  .checklist { list-style: none; }
+  .checklist li {
+    font-size: 13.5px;
+    padding: 6px 0 6px 22px;
+    position: relative;
+    color: #3a3a3a;
+  }
+  .checklist li::before {
+    content: "□";
+    position: absolute;
+    left: 0;
+    color: #b0a488;
+  }
+  .checklist li.deep::before { content: "◇"; color: #c9b98a; }
+  .checklist li.deep { color: #6b6252; font-size: 13px; }
+  .meta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-size: 12px; color: #888; }
+  .meta-row span b { color: #555; }
+  .examples { background: #faf8f3; border-radius: 8px; padding: 10px 12px; margin-top: 6px; }
+  .examples-label {
+    font-size: 11.5px;
+    color: #a08a55;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .examples ul { list-style: none; }
+  .examples li {
+    font-size: 13px;
+    color: #555;
+    padding: 3px 0;
+  }
+  .examples li b { color: #6b5a3a; font-weight: 700; }
+  .caution {
+    background: #fdf0ef;
+    border: 1px solid #f0c9c5;
+    color: #8a3a34;
+    font-size: 12.5px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+  /* Tier 3 keyword cloud */
+  .cloud-wrap {
+    background: #fff;
+    border: 1px solid #e5e0d5;
+    border-radius: 10px;
+    padding: 16px 16px 18px;
+  }
+  .cloud-usage {
+    font-size: 12.5px;
+    color: #6b5a3a;
+    background: #faf8f3;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+  }
+  .cluster { margin-bottom: 16px; }
+  .cluster-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #8a7550;
+    margin-bottom: 8px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag-pill {
+    background: #f2ede1;
+    border: 1px solid #ddd2b8;
+    color: #4a3d28;
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+  footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: #999;
+    padding: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>가이드를 위한 현장감각</h1>
+  <p>설명하지 않고 포착하는 여행 — 감각·행동·생각 v4</p>
+  <div class="badge-row">
+    <span class="badge">감각(4) · 행동(5) · 생각(키워드 클라우드)</span>
+    <span class="badge">체크리스트형</span>
+    <span class="badge">표현 예시는 전부 창작 템플릿</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="notice">
+    <b>이 파일의 용도:</b> 기존 "가이드를 위한 ~~" 시리즈(정사/야사 출처 검증형)와 달리, 이 파일은 <b>현장 포착 도구</b>입니다.
+    건물·유적 같은 이미 설명된 대상 말고, 그 순간 그 자리에서만 느껴지는 것을 담습니다. □ 항목은 즉시 확인 가능한 관찰, ◇ 항목은 한 걸음 더 들어간 관찰입니다.<br><br>
+    <b>표현 예시는 전부 완전 창작 템플릿</b>입니다. 실제 특정 동네를 관찰한 기록이 아니며, 문장 구조만 참고해서 현장에서 본 것으로 바꿔 씁니다.
+    사람 관련 항목은 <b>개인 특정 절대 금지</b> — 이름·얼굴 언급 없이 전체적 풍경·가능성으로만 기록합니다.
+  </div>
+
+  <!-- TIER 1 : 감각 (4대 감각) -->
+  <div class="tier-header">
+    <span class="tier-num">1티어</span>
+    <span class="tier-name">감각</span>
+  </div>
+  <div class="tier-question">핵심 질문: 지금 이 순간, 뭐가 보이고 들리고 느껴지나?</div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">👁</span>
+      <span class="name">시각 — 빛·풍광·사람들의 흐름</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 빛과 풍경</div>
+        <ul class="checklist">
+          <li>빛은 어디서 어떻게 들어오는가? (직사광 / 그늘 / 인공조명)</li>
+          <li>그림자는 어떤 모양·방향으로 지는가?</li>
+          <li>반사되는 빛이 있는가? (유리창, 물웅덩이, 금속 표면)</li>
+          <li>전체적인 색감·톤은 어떤가? (원색 / 파스텔 / 무채색 / 톤다운)</li>
+          <li>지금 이 시간대라서만 보이는 장면이 있는가?</li>
+          <li class="deep">자연스러운 사진 프레임(액자샷)이 나오는 지점이 있는가?</li>
+          <li class="deep">계절 요소가 눈에 띄는가? (단풍, 벚꽃, 눈, 신록)</li>
+        </ul>
+        <div class="sub-h">📋 사람들의 흐름</div>
+        <ul class="checklist">
+          <li>지금 이 순간 사람이 얼마나 많은가? (밀도)</li>
+          <li>움직이는 속도는 어떤가? (바쁜 걸음 / 느긋한 걸음)</li>
+          <li>방향성이 있는가? (한쪽으로 몰리는지, 흩어지는지)</li>
+          <li class="deep">서 있는 사람과 이동하는 사람의 비율은?</li>
+          <li class="deep">평소보다 많거나 적다고 느껴지는 이유가 짐작되는가? (날씨, 요일, 행사 등)</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>사진·영상</b></span>
+          <span>시간대 의존성: <b>매우 높음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"OO빛이 바닥에 떨어진다" / "그늘이 OO하게 진다" / "간판 불빛이 OO색으로 번진다"</li>
+            <li>"낮엔 OO한 느낌이지만 지금은 OO하게 보인다"</li>
+            <li>"이 프레임 안에 OO가 들어와서 그림 같다"</li>
+            <li>"사람들이 OO한 속도로 지나간다" / "지금은 OO한 밀도다"</li>
+            <li>"대부분 OO 방향으로 흘러간다"</li>
+          </ul>
+        </div>
+        <div class="caution">⚠ 개인 특정(이름·얼굴·신원 유추 정보) 금지. 사람은 전체적 풍경으로만 서술.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">👂</span>
+      <span class="name">청각 — 소리</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>지금 배경음처럼 깔린 소리는? (기계음 / 자연음 / 사람소리)</li>
+          <li>돌발적으로 끼어드는 소리는?</li>
+          <li>가까운 소리와 먼 소리가 만드는 레이어감이 있는가?</li>
+          <li>일정한 간격으로 반복되는 소리가 있는가? (리듬감)</li>
+          <li class="deep">완전한 정적의 순간이 있는가?</li>
+          <li class="deep">사람 목소리의 톤·억양이 인상적인가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>영상+음성메모</b> (사진에 안 담김)</span>
+          <span>시간대 의존성: <b>매우 높음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"OO 소리가 배경음처럼 깔려 있다" / "OO 소리가 간간이 끊는다" / "OO 소리와 OO 소리가 겹친다"</li>
+            <li>"멀리서 OO 소리가 은은하게 들려온다"</li>
+            <li>"OO한 간격으로 OO 소리가 반복된다"</li>
+            <li>"잠깐이지만 OO한 정적이 흐른다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">👃</span>
+      <span class="name">후각 — 냄새</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>지금 나는 냄새는? (음식 / 자연 / 생활 냄새 구분)</li>
+          <li>냄새가 강해지는·옅어지는 지점이 있는가?</li>
+          <li>여러 냄새가 섞여 있는가, 하나가 지배적인가?</li>
+          <li class="deep">냄새가 계절·날씨에 따라 달라질 것 같은가?</li>
+          <li class="deep">냄새와 함께 떠오르는 연상이 있는가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>음성메모</b></span>
+          <span>시간대 의존성: <b>매우 높음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"OO 냄새가 훅 끼친다" / "은은하게 OO 향이 스친다" / "냄새가 골목을 따라 옅어진다"</li>
+            <li>"OO 냄새와 OO 냄새가 뒤섞여 있다"</li>
+            <li>"이 냄새를 맡으니 OO이 떠오른다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">🖐</span>
+      <span class="name">촉각 — 질감</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>바닥재는 무엇인가? (아스팔트 / 보도블럭 / 흙 등)</li>
+          <li>오래된 표면(벗겨진 페인트, 낡은 간판)의 질감은?</li>
+          <li>직접 만져볼 수 있는 것이 있는가?</li>
+          <li class="deep">온도감이 느껴지는 재질이 있는가? (차가운 금속, 따뜻한 나무)</li>
+          <li class="deep">새 자재와 옛 자재가 만나는 지점이 있는가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>클로즈업 사진</b></span>
+          <span>시간대 의존성: <b>낮음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"OO한 질감의 벽이 이어진다" / "바닥이 OO해서 걷는 느낌이 다르다"</li>
+            <li>"OO를 만지면 OO한 느낌이 든다"</li>
+            <li>"새 자재와 옛 자재가 OO하게 만난다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 2 : 행동 -->
+  <div class="tier-header">
+    <span class="tier-num">2티어</span>
+    <span class="tier-name">행동</span>
+  </div>
+  <div class="tier-question">핵심 질문: 지금 여기서 뭘 즐길 수 있나? 누구에게 말을 걸어볼 수 있나?</div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">🎲</span>
+      <span class="name">지금 무엇을 즐길 수 있나</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>즉석에서 해볼 수 있는 체험·구매·참여가 있는가?</li>
+          <li>무료로 할 수 있는 것과 비용이 드는 것 구분</li>
+          <li>단체(장애인·고령자 등) 접근성 — 계단/경사로/휴식공간 여부</li>
+          <li>예상 소요시간은?</li>
+          <li class="deep">계절·날씨 제약이 있는가?</li>
+          <li class="deep">단체로 할 때와 개인으로 할 때 경험이 달라지는가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>체크리스트+사진</b></span>
+          <span>시간대 의존성: <b>중간</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"여기서는 OO을 직접 해볼 수 있다" / "구경만 해도 되고, OO원 정도면 체험도 가능하다"</li>
+            <li>"휠체어·유모차 이용 시 OO 지점이 걸림돌이 될 수 있다"</li>
+            <li>"단체로 하면 OO한 반면 개인으로 하면 OO하다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">🍡</span>
+      <span class="name">맛보기 — 지금 이 자리에서 먹어볼 수 있는 것</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>지금 이 자리에서 바로 사서 먹어볼 수 있는 것이 있는가?</li>
+          <li>이 지역·계절에만 나는 것인가?</li>
+          <li>가격·위생이 단체 손님에게 부담 없는 수준인가?</li>
+          <li class="deep">한 입 크기라 단체로 나눠 먹기 좋은 형태인가?</li>
+          <li class="deep">이 먹거리가 이 동네 정체성과 연결되는가, 아니면 어디서나 파는 것인가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>사진+가격 메모</b></span>
+          <span>시간대 의존성: <b>중간</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"여기서는 OO을 그 자리에서 사서 먹어볼 수 있다"</li>
+            <li>"이건 이 계절에만 나오는 것 같다"</li>
+            <li>"한 입 크기라 단체로 나눠먹기 좋다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">🕺</span>
+      <span class="name">따라 해보기 — 동작·리듬 흉내내기</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>상인·주민의 특정 동작(손짓, 걸음, 작업 리듬)을 흉내내볼 수 있는가?</li>
+          <li>그 동작에 숙련도가 느껴지는가?</li>
+          <li class="deep">직접 흉내내보면 알게 되는 게 있는가? (힘 조절, 반복성, 어려움)</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>영상</b></span>
+          <span>시간대 의존성: <b>중간</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"OO 동작을 따라해보니 생각보다 OO하다"</li>
+            <li>"이 리듬은 숙련자만 낼 수 있는 것 같다"</li>
+          </ul>
+        </div>
+        <div class="caution">⚠ 존중하는 방식으로만. 특정인의 신체 특징이나 장애를 흉내내는 방식은 금지.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">💬</span>
+      <span class="name">누구에게 말을 걸어볼 수 있나</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>지금 이 자리에서 자연스럽게 말 걸 수 있는 대상이 있는가? (상인, 주민 등)</li>
+          <li>어떤 질문이 자연스러울까? (장사 얼마나 하셨어요, 뭐가 제일 잘 나가요 등)</li>
+          <li>말 걸기 어려운 타이밍인가, 여유 있는 타이밍인가?</li>
+          <li class="deep">대화가 길어질 수 있는 대상 vs 짧게 끝날 대상 구분이 되는가?</li>
+          <li class="deep">언어 장벽(외국인 관광객 등)이 있을 가능성이 있는가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>현장 판단</b> (실제 대화 내용은 동의 하에만 기록)</span>
+          <span>시간대 의존성: <b>높음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"지금 이 정도 한가하면 'OO' 정도는 물어볼 수 있을 것 같다"</li>
+            <li>"바쁜 시간대라 짧게 'OO'만 물어보는 게 나을 것 같다"</li>
+          </ul>
+        </div>
+        <div class="caution">⚠ 개인 특정 금지. 실제 대화 내용을 콘텐츠에 담을 땐 당사자 동의 필수.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="toggleCat(this)">
+    <div class="cat-head">
+      <span class="emoji">🍀</span>
+      <span class="name">우연한 마주침을 유도해볼 수 있는 지점</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="cat-body">
+      <div class="cat-body-inner">
+        <div class="sub-h">📋 관찰 체크리스트</div>
+        <ul class="checklist">
+          <li>계획에 없던 상호작용이 일어날 가능성이 있는 지점은? (동물, 거리공연, 호객 등)</li>
+          <li>일부러 잠깐 머물러볼 만한 자리가 있는가?</li>
+          <li class="deep">반복해서 방문하면 다른 우연이 생길 지점인가?</li>
+        </ul>
+        <div class="meta-row">
+          <span>기록방식: <b>발생 시 즉시 메모</b></span>
+          <span>시간대 의존성: <b>낮음</b></span>
+        </div>
+        <div class="examples">
+          <div class="examples-label">💬 표현법 예시 (일반 템플릿)</div>
+          <ul>
+            <li>"여기서 잠깐 머물면 OO 같은 걸 마주칠 수도 있다" / "가끔 OO한 장면이 연출되기도 한다"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 3 : 생각 (키워드 클라우드) -->
+  <div class="tier-header">
+    <span class="tier-num">3티어</span>
+    <span class="tier-name">생각</span>
+  </div>
+  <div class="tier-question">핵심 질문: 이건 왜 이렇게 됐을까? — 눈에 보이는 관찰이 아니라 그 너머의 사유</div>
+
+  <div class="cloud-wrap">
+    <div class="cloud-usage">
+      💡 <b>사용법:</b> 지금 눈앞의 장면과 맞닿는 키워드를 하나 골라, 그 단어에서 출발해 생각을 이어가 봅니다.
+      정답을 찾는 게 아니라 사유의 소재입니다. 확정된 사실처럼 서술하지 않습니다.
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">⏳ 시간의 흔적</div>
+      <div class="tag-row">
+        <span class="tag-pill">세월</span><span class="tag-pill">마모</span><span class="tag-pill">켜켜이 쌓임</span>
+        <span class="tag-pill">낡음</span><span class="tag-pill">복원</span><span class="tag-pill">원형</span>
+        <span class="tag-pill">개보수</span><span class="tag-pill">방치</span><span class="tag-pill">보존</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🚪 경계와 전환</div>
+      <div class="tag-row">
+        <span class="tag-pill">경계</span><span class="tag-pill">접점</span><span class="tag-pill">완충지대</span>
+        <span class="tag-pill">단절</span><span class="tag-pill">연결</span><span class="tag-pill">안과 밖</span>
+        <span class="tag-pill">문턱</span><span class="tag-pill">관문</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🗣 언어와 표현</div>
+      <div class="tag-row">
+        <span class="tag-pill">사투리</span><span class="tag-pill">은어</span><span class="tag-pill">호칭</span>
+        <span class="tag-pill">표지판</span><span class="tag-pill">문구</span><span class="tag-pill">침묵</span>
+        <span class="tag-pill">억양</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🔁 반복과 리듬</div>
+      <div class="tag-row">
+        <span class="tag-pill">루틴</span><span class="tag-pill">의례</span><span class="tag-pill">순환</span>
+        <span class="tag-pill">정기성</span><span class="tag-pill">관성</span><span class="tag-pill">습관</span>
+        <span class="tag-pill">계절성</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">💪 삶과 노동</div>
+      <div class="tag-row">
+        <span class="tag-pill">생계</span><span class="tag-pill">가업</span><span class="tag-pill">대물림</span>
+        <span class="tag-pill">노동의 흔적</span><span class="tag-pill">숙련</span><span class="tag-pill">자부심</span>
+        <span class="tag-pill">은퇴</span><span class="tag-pill">세습</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🏚 소유와 변화</div>
+      <div class="tag-row">
+        <span class="tag-pill">재개발</span><span class="tag-pill">젠트리피케이션</span><span class="tag-pill">임대</span>
+        <span class="tag-pill">권리금</span><span class="tag-pill">폐업</span><span class="tag-pill">소유권</span>
+        <span class="tag-pill">공유지</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🤝 관계와 공동체</div>
+      <div class="tag-row">
+        <span class="tag-pill">이웃</span><span class="tag-pill">단골</span><span class="tag-pill">유대</span>
+        <span class="tag-pill">공동체</span><span class="tag-pill">익명성</span><span class="tag-pill">연대</span>
+        <span class="tag-pill">갈등</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🕯 기억과 소멸</div>
+      <div class="tag-row">
+        <span class="tag-pill">기억</span><span class="tag-pill">향수</span><span class="tag-pill">소멸</span>
+        <span class="tag-pill">지속</span><span class="tag-pill">재생</span><span class="tag-pill">흔적 지우기</span>
+        <span class="tag-pill">재현</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🙏 신념과 믿음</div>
+      <div class="tag-row">
+        <span class="tag-pill">신앙</span><span class="tag-pill">미신</span><span class="tag-pill">전통</span>
+        <span class="tag-pill">금기</span><span class="tag-pill">상징</span>
+      </div>
+    </div>
+
+    <div class="cluster">
+      <div class="cluster-label">🎭 감정의 결</div>
+      <div class="tag-row">
+        <span class="tag-pill">정겨움</span><span class="tag-pill">쓸쓸함</span><span class="tag-pill">활기</span>
+        <span class="tag-pill">나른함</span><span class="tag-pill">긴장감</span><span class="tag-pill">여유</span>
+        <span class="tag-pill">조급함</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>가이드를 위한 현장감각 · v4 · 1티어(감각) 4 · 2티어(행동) 5 · 3티어(생각) 키워드 클라우드 10클러스터 · □ 즉시관찰 / ◇ 심화관찰</footer>
+
+<script>
+function toggleCat(el) {
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>

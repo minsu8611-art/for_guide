@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>가이드를 위한 동물원</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#2b2620; --sub:#7a7268; --line:#e8e2d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    line-height:1.6;}
+  header{background:linear-gradient(135deg,#1b3d1f,#3d6b35);color:#fff;padding:28px 18px 22px;text-align:center;}
+  header h1{font-size:21px;margin:0 0 6px;letter-spacing:-0.3px;}
+  header p{font-size:13px;opacity:0.88;margin:0;}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px;}
+
+  .search-box{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;}
+  #search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fff;color:var(--ink);}
+  .search-count{font-size:12px;color:var(--sub);margin-top:4px;min-height:16px;}
+
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;}
+  .nav-btn{border:1.5px solid var(--cat-color,#999);background:#fff;color:var(--cat-color,#333);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;cursor:pointer;white-space:nowrap;}
+  .nav-btn.active, .nav-btn:hover{background:var(--cat-color,#999);color:#fff;}
+  .nav-btn[data-cat="all"]{border-color:#333;color:#333;}
+  .nav-btn[data-cat="all"].active{background:#333;color:#fff;}
+
+  .topic h2{font-size:17px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid currentColor;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .card summary{padding:12px 14px;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+    display:flex;align-items:center;gap:8px;}
+  .card summary::-webkit-details-marker{display:none;}
+  .card summary::after{content:"+";margin-left:auto;color:var(--sub);font-weight:400;}
+  .card[open] summary::after{content:"−";}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .card-body{padding:2px 14px 14px 32px;font-size:13.8px;color:#3a352c;}
+  .card-body p{margin:6px 0;}
+  .card-body ul{margin:6px 0;padding-left:18px;}
+  .card-body li{margin:4px 0;}
+
+  .table-scroll{overflow-x:auto;margin:10px 0;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:#f0ede6;font-weight:700;white-space:nowrap;}
+
+  .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:2px;}
+  .tag-fact{background:#dcfce7;color:#166534;}
+  .tag-lore{background:#fef3c7;color:#92400e;}
+  .warn-tag{color:#b45309;}
+
+  .warn-block{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;
+    margin:10px 0 4px;font-size:12.8px;color:#7c2d12;}
+  .warn-block b{display:block;margin-bottom:4px;color:#b45309;}
+  .warn-block p{margin:4px 0;}
+
+  .hidden-by-filter{display:none;}
+
+  @media (max-width:480px){
+    header h1{font-size:19px;}
+    .nav-btn{font-size:11.5px;padding:5px 10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🦁 가이드를 위한 동물원</h1>
+  <p>어디서든 써먹는 동물원·사파리 상식 — 시설·동물·운영이면·실전팁·스토리텔링·국내비교·세계기록</p>
+</header>
+<div class="wrap">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="키워드로 검색 (예: 기린, 해자형, 청주)">
+    <div class="search-count" id="searchCount"></div>
+  </div>
+  <div class="nav-row" id="navRow">
+    <button class="nav-btn active" data-cat="all">전체</button>
+    <button class="nav-btn" data-cat="history" style="--cat-color:#6b4f3b">🏛️ 시설·역사</button>
+<button class="nav-btn" data-cat="species" style="--cat-color:#166534">🐘 주요 동물</button>
+<button class="nav-btn" data-cat="backstage" style="--cat-color:#7c3aed">🎙️ 사육사·운영 이면</button>
+<button class="nav-btn" data-cat="tips" style="--cat-color:#0f766e">🧭 관람 실전 팁</button>
+<button class="nav-btn" data-cat="story" style="--cat-color:#b45309">💬 교육·스토리텔링</button>
+<button class="nav-btn" data-cat="compare" style="--cat-color:#0369a1">🗺️ 국내 비교</button>
+<button class="nav-btn" data-cat="world" style="--cat-color:#9d174d">🌍 세계 기록·특이사례</button>
+  </div>
+  
+<section class="topic" id="history">
+  <h2 style="color:#6b4f3b">🏛️ 시설·역사</h2>
+  
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>1. &#x27;동물원(Zoo)&#x27;이라는 말은 어디서 왔나</summary>
+  <div class="card-body"><ul>
+<li>동물원을 뜻하는 영단어 'zoological garden'은 그리스어 '동물(zoon)'과 '~에 대해 연구하다(-logia)'가 결합된 말 — 원래는 '동물학 연구를 위한 정원'이라는 학술적 의미가 강했음 <span class="tag tag-fact">정사</span></li>
+<li>줄임말 'zoo'는 1828년 문을 연 런던동물원(당시 명칭 London Zoological Gardens)에서 처음 쓰인 것으로 알려짐 — 처음엔 과학 연구 목적으로 개원했다가 1857년부터 일반인에게 개방됨 <span class="tag tag-fact">정사</span></li>
+<li>즉 '동물원'이라는 개념 자체가 처음부터 '구경거리'가 아니라 '학술 연구소'로 출발했다는 점이 특기할 만함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>2. 세계에서 가장 오래된 동물원</summary>
+  <div class="card-body"><ul>
+<li>현존하는 세계 최고(最古)의 동물원은 오스트리아 빈의 티어가르텐 쇤브룬(Tiergarten Schönbrunn) — 1752년 오스트리아 왕실이 조성한 것으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>이 시설은 원래 합스부르크 왕가의 사적인 동물 수집·전시 공간(메나저리, Menagerie)으로 출발했다가 이후 공공 동물원으로 전환된 사례 — 유럽 여러 초기 동물원이 이런 '왕실 소유 메나저리 → 공공 동물원' 경로를 거침</li>
+<li>1828년 런던동물원, 1844년 베를린동물원, 1838년 암스테르담 아르티스 동물원 등이 19세기 초중반 유럽 주요 도시에 잇따라 개원하며 '공공 동물원'이 도시 인프라의 일부로 자리잡기 시작함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>3. 국내 동물원 도입사</summary>
+  <div class="card-body"><ul>
+<li>국내 최초의 근대적 동물원은 1909년 서울 창경궁 자리에 조성된 '창경원' — 일제강점기에 조성되어 광복 이후에도 한동안 유지됨 <span class="tag tag-fact">정사</span></li>
+<li>1983년 창경궁 복원 공사에 따라 동물원이 경기 과천으로 이전, 1984년 '서울대공원 동물원'으로 재개원 — 2009년 개원 100주년을 맞아 '서울동물원'으로 명칭 변경 <span class="tag tag-fact">정사</span></li>
+<li>즉 서울동물원은 창경원 시절부터 계산하면 100년이 넘는 국내 최장수 동물원이며, 현재도 국내 최대 규모로 통용됨</li>
+<li>1976년 에버랜드(당시 자연농원) 개장과 함께 국내 최초의 차량 이동형 사파리(라이온 사파리, 현 사파리월드)가 도입됨 — 이는 아시아 최초의 자동차형 사파리 어트랙션으로 소개되는 경우가 많음 <span class="warn-tag">⚠️</span>'아시아 최초'라는 표현은 홍보자료에 근거한 경우가 많아 재확인 권장</li>
+<li>2000년대 이후 대전 오월드(2002년, 당시 대전동물원), 청주동물원, 전주동물원 등 지방 공영 동물원이 규모를 키우며 서울·수도권 편중이던 동물원 인프라가 지방으로 확산</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>4. 전시 방식의 변천 — 철창에서 &#x27;자연 서식지 재현&#x27;으로</summary>
+  <div class="card-body"><ul>
+<li><b>철창형(1세대)</b>: 초기 동물원의 표준 방식. 좁은 철창 안에 동물을 가두고 관람객이 정면에서 바라보는 구조 — 지금 기준으로는 동물복지상 가장 열악한 방식으로 평가됨</li>
+<li><b>해자(垓지)형(2세대)</b>: 1907년 독일 함부르크의 하겐베크 동물원이 도입한 것으로 유명한 방식 — 철창 대신 깊은 도랑(해자)이나 낮은 담으로 동물과 관람객 사이를 분리, 마치 우리가 없는 것처럼 보이는 개방감을 줌. 이 방식이 이후 전 세계 동물원 설계의 표준으로 확산됨 <span class="tag tag-fact">정사</span></li>
+<li><b>자연 서식지 재현형(3세대, 이머시브 전시)</b>: 동물이 실제 서식하는 생태 환경(초원·정글·극지 등)을 최대한 유사하게 재현하고, 관람객도 그 환경 속을 걷는 듯한 느낌을 주는 방식 — 최근 국내 동물원 리모델링(예: 에버랜드 타이거밸리의 해자→관람창 전환, 청주동물원의 수달사 리모델링 등)이 이 흐름을 따라가는 사례</li>
+<li><b>사파리형</b>: 관람객이 우리가 아니라 차량(버스·개인차량)을 타고 동물이 방사된 넓은 공간을 통과하며 관람하는 방식 — 동물 입장에서는 활동 반경이 넓어지는 장점이 있으나, 국내에는 이 방식을 갖춘 시설이 에버랜드·대전 오월드 등 소수에 불과함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="history">
+  <summary><span class="dot" style="background:#6b4f3b"></span>5. &#x27;거점동물원&#x27; 제도 — 국내 최근 흐름</summary>
+  <div class="card-body"><ul>
+<li>환경부는 노후·유기·구조된 야생동물을 보호할 전문 인프라를 갖춘 동물원을 '거점동물원'으로 지정하는 제도를 운영 중 — 청주동물원이 국내 1호 거점동물원, 광주 우치공원(우치동물원)이 2025년 6월 두 번째로 지정된 것으로 확인됨 <span class="tag tag-fact">정사</span></li>
+<li>거점동물원은 단순 전시 기능을 넘어, 사고·학대 등으로 야생 방생이 불가능해진 개체를 장기 보호하는 '생추어리(보호소)' 기능을 일부 수행함 — 청주동물원의 '사자 바람이'(웅담 채취 등 열악한 사육환경에서 구조된 사례) 사례가 대표적으로 알려져 있음 <span class="warn-tag">⚠️</span>구체 사연은 최신 자료로 재확인 권장</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>'국내 최초' '아시아 최초' 등 표현은 시설 홍보자료 근거가 많아 최신 자료 재확인 권장.</li>
+<li>거점동물원 지정 현황은 제도 초기 단계로 계속 추가·변경될 수 있어 최신 확인 필요.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="species">
+  <h2 style="color:#166534">🐘 주요 동물</h2>
+  
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>1. 코끼리 — 동물원의 &#x27;얼굴마담&#x27; 1순위</summary>
+  <div class="card-body"><ul>
+<li>아시아코끼리·아프리카코끼리 두 종이 국내외 동물원에서 흔히 전시됨. 아프리카코끼리는 귀가 더 크고(아프리카 대륙 모양과 비슷하다는 비유가 자주 쓰임) 암수 모두 상아가 자라는 반면, 아시아코끼리는 대체로 수컷만 상아가 발달하는 경향이 있음</li>
+<li>코끼리는 사회성이 매우 높은 동물로, 무리(모계 중심 집단) 생활을 함 — 단독 사육 시 스트레스 지표가 높아진다는 연구가 많아, 최근 동물원들은 단독보다 복수 개체 사육을 지향하는 흐름 <span class="warn-tag">⚠️</span>구체 연구 결과는 개별 확인 권장</li>
+<li>발바닥 감각이 예민해 땅의 진동으로 먼 거리 동료와 '소통'한다는 연구도 있음 — 관람 시 아이들에게 소개하기 좋은 소재</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>2. 호랑이 — 국내 동물원의 상징종</summary>
+  <div class="card-body"><ul>
+<li>국내 동물원에서는 '한국호랑이(백두산호랑이)'라는 표현이 종종 쓰이지만, 이는 정확히는 시베리아호랑이(아무르호랑이)와 같은 아종으로, 별도의 독립된 '한국호랑이'라는 학술적 구분이 있는 것은 아님 — 매체에 소개되는 '한국 호랑이' 관련 정보는 공식적으로 증명된 것은 아니라는 점을 유의해서 설명하는 것이 정확함 <span class="warn-tag">⚠️</span></li>
+<li>동물원 호랑이는 야생보다 활동 반경이 훨씬 좁아, 어미가 새끼를 직접 기르지 않고 사육사가 인공포육하는 경우가 드물지 않음 — 그래서 어미가 직접 새끼를 자연포육에 성공한 사례(예: 에버랜드 건곤이, 서울대공원 펜자)는 뉴스로 다뤄질 만큼 이례적인 일로 소개됨</li>
+<li>최근 국내 동물원들은 기존의 좁은 철창형 호랑이 우리를 관람창 중심의 개방형 전시로 리모델링하는 추세(예: 에버랜드 타이거밸리 — 과거 해자형에서 관람창 구조로 전환)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>3. 기린</summary>
+  <div class="card-body"><ul>
+<li>목이 긴 이유는 높은 나무 꼭대기 잎을 먹기 위한 진화라는 설명이 가장 대중적이지만, 최근 연구에서는 수컷 간 목싸움(넥킹)에서 유리하기 위한 성선택이 더 유력한 진화 요인이라는 견해도 제기됨 — 두 설명 모두 소개하며 "여러 가설이 있다"는 식으로 풀면 좋은 스토리텔링 소재 <span class="warn-tag">⚠️</span>진화 원인은 학계에서도 논쟁 중인 주제</li>
+<li>해외에서는 근친교배 방지를 위한 개체수 관리 목적의 기린 안락사가 논란이 된 사례가 있음(2014년 덴마크 코펜하겐 동물원 사건 — ⑦세계 기록·특이사례에서 상세히 다룸)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>4. 판다 — &#x27;외교 자산&#x27;으로서의 동물</summary>
+  <div class="card-body"><ul>
+<li>자이언트판다는 중국이 소유권을 갖고 타국 동물원에 장기 대여하는 방식(판다 외교)으로 유명 — 국내에서도 에버랜드가 판다(아이바오·러바오 등)를 대여받아 전시한 사례가 잘 알려져 있음</li>
+<li>'판다 외교'라는 개념 자체가 국제정치와 동물원이 연결되는 독특한 사례라 스토리텔링에 활용도가 높음 — 다만 특정 개체의 현재 소재지·반환 일정은 계속 바뀌므로 최신 확인 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>5. 영장류(침팬지·오랑우탄·고릴라)</summary>
+  <div class="card-body"><ul>
+<li>침팬지·고릴라·오랑우탄은 사람과 유전적으로 가까운 유인원으로, 도구 사용·거울 자기인식 등 높은 인지능력이 확인된 종 — 동물원에서 지적 자극(퍼즐 피더 등 인리치먼트) 프로그램을 특히 많이 적용하는 동물군</li>
+<li>국내 동물원에서 오랑우탄 등 유인원 사육 관련 학대 논란이 제기된 사례가 있어(과거 고양 쥬쥬동물원 사례 등), 영장류 사육환경은 특히 민감하게 다뤄지는 주제 <span class="warn-tag">⚠️</span>③운영이면에서 상세히 다룸</li>
+</ul></div>
+</details>
+<details class="card" data-cat="species">
+  <summary><span class="dot" style="background:#166534"></span>6. 국내 고유·토종 동물</summary>
+  <div class="card-body"><ul>
+<li>반달가슴곰: 국립공원(지리산 등) 방사 복원 사업으로 잘 알려진 멸종위기종 — 다만 이 복원사업은 대부분 국립공원공단이 주도하며, 동물원(청주·전주 등)은 웅담 채취 등으로 학대받던 개체를 구조해 보호하는 역할을 하는 경우가 많아 '복원'과 '구조·보호'를 구분해서 설명하는 것이 정확함</li>
+<li>수달: 하천 생태계 지표종으로 잘 알려져 있으며, 국내 여러 동물원(우치동물원·청주동물원 등)이 구조된 개체를 보호·전시하는 사례가 있음</li>
+<li>산양·삵: 멸종위기 야생동물로, 부상·장애로 야생 방사가 불가능해진 개체를 동물원이 인수해 보호하는 사례가 늘고 있음(우치공원 삵 사례 등)</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>'한국 호랑이'처럼 대중적으로 통용되나 학술적으로 엄밀하지 않은 표현은 그 자체로 소개하되, 공식 검증 여부는 별도라는 점을 짚어주는 것이 안전합니다.</li>
+<li>특정 개체(판다 등)의 현재 소재·전시 여부는 계속 바뀌므로 투어 전 재확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="backstage">
+  <h2 style="color:#7c3aed">🎙️ 사육사·운영 이면</h2>
+  
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>1. 사육사라는 직업</summary>
+  <div class="card-body"><ul>
+<li>사육사는 먹이 급여뿐 아니라 개체별 건강 관찰, 인리치먼트(지적 자극 도구) 제작, 번식 관리, 신규 개체 검역 등을 담당 — 아쿠아리움과 마찬가지로 관람객이 보지 못하는 후방 업무 비중이 큼</li>
+<li>청주동물원을 배경으로 한 다큐멘터리 영화('동물, 원', 2019년 개봉)처럼, 국내에서도 사육사·수의사의 시선으로 동물원을 다룬 콘텐츠가 제작된 사례가 있음 — 스토리텔링 소재로 활용 가능 <span class="warn-tag">⚠️</span>구체 내용은 재확인 후 인용 권장</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>2. 동물복지 논쟁 — 정형행동과 사육환경</summary>
+  <div class="card-body"><ul>
+<li>좁은 공간에 갇힌 동물이 같은 동선을 반복해서 도는 등의 '정형행동(스테레오타입 행동)'은 스트레스 지표로 흔히 언급됨 — 아쿠아리움의 해양포유류와 마찬가지로 동물원 대형 포유류(코끼리·곰 등)에서도 자주 거론되는 주제</li>
+<li>국내에서는 2016년 서울대공원 관리 부실 관련 보도(2015~2016년 사이 286마리 폐사, 멸종위기종 포함)가 논란이 된 사례가 있음 <span class="warn-tag">⚠️</span>구체 수치는 보도 시점 기준이며 이후 개선 여부는 최신 확인 필요</li>
+<li>실전 팁: 이 주제도 아쿠아리움과 마찬가지로 가이드가 단정적 평가를 내리기보다 "이런 논쟁이 있다"는 사실 전달 위주의 중립적 화법이 안전함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>3. 탈출 사고 — 동물원 안전관리의 이면</summary>
+  <div class="card-body"><ul>
+<li>국내에서도 크고 작은 동물 탈출 사고가 보도된 바 있음: 2010년 서울대공원 말레이곰 '꼬마' 탈출(34시간 만에 생포), 2018년 대전동물원(현 오월드) 퓨마 탈출(포획 중 사살), 2026년 대전 오월드 늑대 탈출 사건(포획 후 임시휴장) 등 <span class="tag tag-fact">정사</span></li>
+<li>이런 사고는 시설 노후화, 우리 보강 공사 등으로 이어지는 계기가 되기도 함 — '탈출 사고 이후 어떻게 시설이 바뀌었는가'는 좋은 스토리텔링 소재가 될 수 있음</li>
+<li>실전 팁: 탈출 사고는 관람객의 흥미를 끄는 소재이지만, 특정 동물이 사살된 사건 등은 다루는 방식에 따라 불편하게 받아들여질 수 있어 톤 조절이 필요함</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>4. 개체 교환·혈통 관리(스터드북)</summary>
+  <div class="card-body"><ul>
+<li>동물원 간에는 근친교배를 막기 위해 전 세계적으로 개체의 혈통을 기록하는 '국제 종 혈통 관리대장(스터드북)'을 운영하고, 이에 따라 개체를 다른 동물원과 교환·이동시키는 경우가 흔함</li>
+<li>판다 대여(중국↔각국 동물원), 국내 동물원 간 개체 이동(예: 청주동물원 물범을 우치동물원·아쿠아플라넷 제주 등으로 이동) 등이 이런 혈통 관리 체계의 일환으로 이뤄짐 <span class="tag tag-fact">정사</span></li>
+<li>이 때문에 '이 동물원에 이 개체가 왜 왔는지' 뒷이야기를 붙이면 좋은 스토리텔링 소재가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="backstage">
+  <summary><span class="dot" style="background:#7c3aed"></span>5. 안락사·개체수 관리 — 민감하지만 실재하는 이슈</summary>
+  <div class="card-body"><ul>
+<li>동물원은 수용 공간의 한계 때문에 번식을 인위적으로 제한하거나, 불가피하게 개체수를 조절하는 결정을 내리는 경우가 있음 — 이 과정이 대중에 공개되며 논란이 된 대표 사례가 2014년 덴마크 코펜하겐 동물원의 기린 안락사 사건(⑦세계 기록·특이사례에서 상세히 다룸)</li>
+<li>국내에서는 이런 안락사 결정이 해외처럼 공개적으로 이뤄지는 사례가 흔치 않음 — 오히려 청주동물원·전주동물원처럼 '갈 곳 없는 개체를 받아 보호하는' 생추어리 기능이 부각되는 편</li>
+<li>실전 팁: 이 주제는 문화적 차이(유럽식 개체수 관리 vs 국내의 보호 중심 접근)를 비교하는 식으로 풀면 논쟁적이지 않게 소개할 수 있음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>동물복지·안락사 관련 논쟁은 민감한 주제입니다. 특정 시설이나 국가의 방식을 옳고 그름으로 단정하기보다 "이런 접근 차이가 있다"는 식의 중립적 화법을 권장합니다.</li>
+<li>탈출·사고 관련 정보는 보도 시점 기준이며, 이후 시설 개선 여부는 최신 확인이 필요합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="tips">
+  <h2 style="color:#0f766e">🧭 관람 실전 팁</h2>
+  
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>1. 사진 찍는 법</summary>
+  <div class="card-body"><ul>
+<li>철창형 우리는 렌즈를 창살 틈에 최대한 밀착시키면 창살이 사진에 거의 나오지 않음 — 아쿠아리움의 유리 반사 방지 원리와 비슷하게, 렌즈와 장애물 사이 거리를 최소화하는 것이 핵심</li>
+<li>관람창(강화유리)형 전시는 아쿠아리움과 마찬가지로 반사가 문제 — 렌즈 밀착 + 플래시 끄기 원칙이 동일하게 적용됨</li>
+<li>사파리형(버스·차량 관람)은 창문을 완전히 열 수 없는 경우가 많아, 유리 반사보다는 '동물이 차량 가까이 올 때까지 기다리는 인내심'이 실전에서 더 중요한 변수</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>2. 혼잡 시간대 vs 한산한 시간대</summary>
+  <div class="card-body"><ul>
+<li>대형 초식동물(코끼리·기린 등)은 오전 시간대에 활동성이 높고, 오후로 갈수록 그늘에서 휴식하는 경향이 있어 오전 관람이 '활동하는 모습'을 볼 확률이 높음</li>
+<li>반대로 야행성 동물(일부 대형 고양잇과, 올빼미류 등)은 낮 시간대에는 대부분 자고 있는 모습만 보게 될 가능성이 높음 — 사전에 관람객에게 "낮에는 자고 있을 수 있다"고 안내하면 실망을 줄일 수 있음</li>
+<li>사파리형 시설은 날씨(폭염·혹한)에 따라 동물이 아예 안 보이는 방사장 안쪽에 머무는 경우가 있어, 극단적 날씨에는 사파리 코스 우선순위를 낮추는 것이 안전</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>3. 동선 순서 추천</summary>
+  <div class="card-body"><ul>
+<li>대형 동물원은 보통 입구 근처에 소형 동물(조류·파충류 등), 중반에 대형 포유류(코끼리·기린·맹수), 후반에 체험존(먹이주기 등)을 배치하는 경우가 많음</li>
+<li>사파리형 시설(에버랜드·대전 오월드)은 대개 도보 관람 구역(주토피아·주랜드)과 차량형 사파리 구역이 분리되어 있어, 어느 쪽을 먼저 볼지 미리 정해두는 것이 동선 낭비를 줄임</li>
+<li>피딩쇼·해설 프로그램 시간표를 코스 중간에 배치해 자연스럽게 밀도를 높이는 방식은 아쿠아리움과 동일하게 적용 가능</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>4. 무장애·접근성 관련 참고사항</summary>
+  <div class="card-body"><ul>
+<li>대형 공영 동물원(서울대공원·전주·청주 등)은 대체로 휠체어 대여, 전동카트 등을 운영하나, 부지가 산자락 경사면에 조성된 경우(예: 청주동물원)는 평지형 시설보다 이동에 제약이 있을 수 있음 <span class="warn-tag">⚠️</span>경사 여부는 시설별 사전 확인 필요</li>
+<li>장애인 단체 할인·동반인 무료 등 제도는 시설마다 기준이 다르므로 견적 시 개별 확인 필요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>5. 아이 동반 시 참고사항</summary>
+  <div class="card-body"><ul>
+<li>체험존(먹이주기·쓰다듬기 체험)은 대개 미취학~초등 저학년 눈높이로 설계 — 성인 위주 단체 관광에서는 우선순위를 낮추는 것이 효율적</li>
+<li>사파리형 시설은 차량 창문을 열고 손을 내미는 행위가 금지된 경우가 대부분 — 안전 안내를 사전에 명확히 하는 것이 단체 인솔 시 중요</li>
+</ul></div>
+</details>
+<details class="card" data-cat="tips">
+  <summary><span class="dot" style="background:#0f766e"></span>6. 날씨·계절별 참고사항</summary>
+  <div class="card-body"><ul>
+<li>동물원은 야외 비중이 커서 우천·혹서·혹한에 아쿠아리움보다 관람 여건이 크게 달라짐 — 우천 시 다수 동물이 실내 대피 공간에 머물러 관람이 어려운 경우가 많음</li>
+<li>여름철 야간개장(대전 오월드 등)을 운영하는 시설도 있어, 폭염 시즌에는 야간개장 일정을 대안으로 안내하면 좋음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>동물의 활동 시간대·계절별 컨디션은 개체·날씨에 따라 편차가 커서, 이 노트는 일반적 경향으로만 참고하고 단정적으로 안내하지 않는 것이 안전합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="story">
+  <h2 style="color:#b45309">💬 교육·스토리텔링</h2>
+  
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>1. 멸종위기종 보전으로 연결하기</summary>
+  <div class="card-body"><ul>
+<li>국내 동물원(특히 청주·전주·우치 등 '거점동물원' 계열)은 야생에서 다치거나 학대받다 구조된 개체를 보호하는 생추어리 기능을 일부 수행 — '이 동물은 원래 야생에 살 수 없게 된 사연이 있다'는 프레임은 단순 관람을 스토리로 바꾸는 효과적인 도입부</li>
+<li>반달가슴곰·산양·삵 등 국내 멸종위기종은 국립공원 등 육상 기관이 주도하는 '야생 복원' 사업과, 동물원이 맡는 '구조·보호' 역할을 구분해서 설명하는 것이 정확함(혼동하기 쉬운 지점)</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>2. 아이 눈높이 설명 템플릿</summary>
+  <div class="card-body"><ul>
+<li><b>정형행동</b>: "사람도 좁은 방에 오래 있으면 답답해서 왔다갔다 하듯, 동물도 스트레스를 받으면 같은 길을 반복해서 걷는 행동을 보인다"</li>
+<li><b>해자형 전시</b>: "우리 대신 깊은 도랑을 파서, 동물도 자유로워 보이고 관람객도 철창 없이 볼 수 있게 만든 방식"</li>
+<li><b>스터드북(혈통 관리)</b>: "동물원들끼리 만든 일종의 '족보'인데, 이걸로 어떤 동물이 어느 동물원에 가면 좋을지 정한다"</li>
+<li><b>판다 외교</b>: "판다는 사실 중국 소유라서, 우리나라 동물원에 있는 판다도 원래는 '빌려온' 개체다"</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>3. &#x27;왜 이 동물이 여기 있는가&#x27; — 기원 스토리</summary>
+  <div class="card-body"><ul>
+<li>특정 동물이 그 동물원의 대표종이 된 이유(구조 사연, 최초 도입 시기, 지역 마스코트 지정 등)를 설명하면 스토리텔링 밀도가 올라감</li>
+<li>예: 청주동물원의 '사자 바람이'처럼 열악한 사육환경에서 구조된 개체는 그 자체로 하나의 서사가 되어, 단순 관람을 넘어선 몰입 포인트가 됨 <span class="warn-tag">⚠️</span>구체 사연은 최신 자료로 재확인 후 사용 권장</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>4. 지역 연계 스토리텔링</summary>
+  <div class="card-body"><ul>
+<li>지역 명칭이 붙은 동물원(진주 진양호동물원, 대구 달성공원동물원 등)은 그 지역 공원의 역사와 함께 소개하면 로컬 콘텐츠 밀도가 올라감</li>
+<li>국내 고유종 특화 전시(청주·전주·우치의 반달가슴곰·수달 등)는 "우리 동네에도 사는(혹은 살았던) 동물"이라는 접근이 가능해 지역 정체성과 결합한 설명이 잘 먹힘</li>
+</ul></div>
+</details>
+<details class="card" data-cat="story">
+  <summary><span class="dot" style="background:#b45309"></span>5. 세계적 사건·논쟁을 교육적으로 활용하기</summary>
+  <div class="card-body"><ul>
+<li>2014년 덴마크 코펜하겐 동물원의 기린 '마리우스' 안락사 사건은 "동물원이 개체수를 어떻게 관리하는가"라는 주제를 아이·성인 모두에게 생각해보게 하는 좋은 도입 소재가 됨 — 다만 사건 자체가 무겁고 논쟁적이므로, 판단을 강요하지 않고 "이런 논쟁이 있었다"는 사실 전달에 그치는 것이 안전</li>
+<li>'판다 외교'처럼 동물원이 국제정치와 얽히는 사례는 아이들에게 "동물원이 그냥 동물 구경하는 곳이 아니라 나라 간 외교와도 연결된다"는 흥미로운 확장 포인트가 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>안락사·개체수 관리 같은 민감한 주제는 판단을 강요하지 않는 중립적 화법으로 소개하는 것이 안전합니다.</li>
+<li>특정 개체의 구조 사연은 감동적인 소재이지만, 세부 사실관계는 최신 자료로 재확인 후 사용하는 것을 권장합니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="compare">
+  <h2 style="color:#0369a1">🗺️ 국내 비교</h2>
+  
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>1. 국내 주요 동물원·사파리 비교표</summary>
+  <div class="card-body"><div class="table-scroll"><table>
+<tr><th>명칭</th><th>위치</th><th>유형</th><th>규모(면적/종·개체수)</th><th>비고</th></tr>
+<tr><td>서울동물원(서울대공원)</td><td>경기 과천</td><td>공영 동물원</td><td>약 282만㎡ / 348종 2,970여 마리</td><td>1909년 창경원 기원, 1984년 현 위치 재개원, 국내 최대·최다종</td></tr>
+<tr><td>서울어린이대공원 동물원</td><td>서울 광진</td><td>공영 동물원</td><td>약 53만6천㎡ / 109종 3,500여 마리</td><td>서울시설공단 운영</td></tr>
+<tr><td>에버랜드 주토피아(동물원+사파리월드+로스트밸리)</td><td>경기 용인</td><td>민간(삼성물산) 복합</td><td>약 9만2천㎡ / 201종 2,280여 마리</td><td>1976년 국내 최초 차량형 사파리 개장, 판다 보유</td></tr>
+<tr><td>대전 오월드(주랜드+사파리)</td><td>대전 중구</td><td>공영(대전도시공사) 복합</td><td>약 58만3천㎡ / 130종 600여 마리</td><td>국내에서 에버랜드와 함께 유이한 차량형 사파리 보유</td></tr>
+<tr><td>전주동물원</td><td>전북 전주</td><td>공영 동물원</td><td>약 12만5천㎡ / 100종 710여 마리</td><td>국내 3위 규모, 생추어리 기능 병행</td></tr>
+<tr><td>광주 우치동물원(우치공원)</td><td>광주 북구</td><td>공영 동물원</td><td>약 12만1천㎡ / 137종 630여 마리</td><td>호남 유일급, 2025년 국내 2호 거점동물원 지정</td></tr>
+<tr><td>부산 더파크(옛 삼정더파크)</td><td>부산 기장</td><td>민간→공립 전환 추진</td><td>약 8만4천㎡ / 128종 428여 마리</td><td>부산시가 인수해 공립 동물원화 추진 중</td></tr>
+<tr><td>청주동물원(청주랜드)</td><td>충북 청주</td><td>공영 동물원</td><td>약 1만2천㎡ / 126종 500여 마리</td><td>국내 1호 거점동물원, '사자 바람이' 생추어리 사례로 알려짐</td></tr>
+<tr><td>쥬라리움(옛 고양 쥬쥬동물원 등, 일산·하남·파주)</td><td>경기 일산·하남·파주</td><td>민간 실내 동물원 체인</td><td>약 5만9천㎡(일산 기준) / 189종 1,140여 마리(일산 기준)</td><td>2013년 바다코끼리·오랑우탄 학대 논란, 동물보호단체 소송(2016년 확정)</td></tr>
+<tr><td>대구 달성공원동물원</td><td>대구 중구</td><td>공영 동물원</td><td>약 9,200㎡ / 84종 1,430여 마리</td><td></td></tr>
+<tr><td>진주 진양호동물원</td><td>경남 진주</td><td>공영 동물원</td><td>약 3만㎡ / 54종 300여 마리</td><td></td></tr>
+<tr><td>인천대공원 동물원</td><td>인천 남동</td><td>공영 동물원</td><td>약 9,000㎡ / 50종 260여 마리</td><td></td></tr>
+<tr><td>아침고요가족동물원</td><td>경기 가평</td><td>민간 동물원</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>2016년 개장</td></tr>
+<tr><td>오산버드파크</td><td>경기 오산</td><td>민간 실내 조류 특화</td><td>규모 수치 <span class="warn-tag">⚠️</span>확인 필요</td><td>오산시청 건물 내 위치, 조류 특화</td></tr>
+</table></div><ul>
+<li>이 표의 면적·종/개체수 수치는 온라인 커뮤니티(에펨코리아)에서 정리된 순위 자료를 1차 근거로 사용했음 — <b>출처가 공식 통계가 아닌 커뮤니티 집계라는 점에 유의</b>, 정확한 단체 견적·안내가 필요할 때는 각 시설 공식 자료로 재검증 필요 <span class="warn-tag">⚠️</span></li>
+<li>참고로 나무위키 기준 2023년 12월 31일 기준 전국 지자체 등록 동물원은 총 126곳으로, 위 표는 그중 규모·화제성이 큰 대표 시설 위주로 정리한 것일 뿐 전수 목록이 아님</li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>2. 유형별로 묶어서 보기</summary>
+  <div class="card-body"><ul>
+<li><b>대형 종합형(사파리+동물원 결합)</b>: 에버랜드 주토피아, 대전 오월드 — 국내에서 차량형 사파리를 갖춘 유이한 두 곳</li>
+<li><b>공영 대형 동물원</b>: 서울동물원, 서울어린이대공원, 전주동물원, 우치동물원, 청주동물원</li>
+<li><b>거점동물원(구조·보호 특화)</b>: 청주동물원(1호), 우치동물원(2호) — 앞으로 추가 지정 가능성 있음 <span class="warn-tag">⚠️</span></li>
+<li><b>민간 실내 동물원</b>: 쥬라리움 계열(일산·하남·파주), 아침고요가족동물원, 오산버드파크 — 대체로 소규모, 체험형 위주</li>
+<li><b>공립 전환 중인 민간 시설</b>: 부산 더파크 — 원래 민간(삼정더파크)이었으나 부산시가 인수해 공립화를 추진 중인 사례</li>
+</ul></div>
+</details>
+<details class="card" data-cat="compare">
+  <summary><span class="dot" style="background:#0369a1"></span>3. 명칭·연혁 관련 주의사항</summary>
+  <div class="card-body"><ul>
+<li>'청주동물원'은 '청주랜드'라는 종합공원 내에 위치한 동물원 명칭 — 자료에 따라 '청주랜드동물원'으로 표기되기도 함</li>
+<li>부산 '더파크'는 과거 '삼정더파크'라는 민간 브랜드로 운영되다 최근 부산시 인수 절차가 진행 중 — 명칭·운영주체가 바뀌는 과도기이므로 투어 안내 시 최신 명칭 확인 필요 <span class="warn-tag">⚠️</span></li>
+<li>'고양 쥬쥬동물원'은 이후 '쥬라리움 일산점'으로 브랜드가 변경됨 — 과거 학대 논란(2013년 바다코끼리) 시절 명칭으로 알고 있는 사람이 있을 수 있어 구 명칭도 함께 알아두면 좋음</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>이 비교표의 면적·종수·개체수는 커뮤니티 집계 자료를 기반으로 한 것으로 공식 수치와 오차가 있을 수 있습니다. 단체 견적이나 정확한 안내가 필요한 경우 각 시설 공식 홈페이지로 재확인하시기 바랍니다.</li>
+<li>이 목록은 전국 126곳 등록 동물원 중 대표성 있는 곳 위주로 구성한 것이며, 전수 조사가 아닙니다.</li>
+</ul></div>
+</section>
+
+<section class="topic" id="world">
+  <h2 style="color:#9d174d">🌍 세계 기록·특이사례</h2>
+  
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>1. 세계에서 가장 오래된 동물원</summary>
+  <div class="card-body"><ul>
+<li>오스트리아 빈의 티어가르텐 쇤브룬(Tiergarten Schönbrunn) — 1752년 조성되어 현존하는 세계 최고(最古)의 동물원으로 통용됨 <span class="tag tag-fact">정사</span></li>
+<li>원래 합스부르크 왕가의 사적인 동물 수집 공간(메나저리)으로 출발했다가 이후 공공에 개방된 사례 — 유럽 초기 동물원 다수가 '왕실 소유 → 공공 개방' 경로를 거침</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>2. 세계에서 가장 많은 종을 보유한 동물원</summary>
+  <div class="card-body"><ul>
+<li>독일 베를린동물원(Zoologischer Garten Berlin) — 1844년 개원, 약 1,400~1,500종·약 18,000~20,000여 마리를 보유해 세계에서 가장 다양한 종을 전시하는 동물원으로 소개되는 경우가 많음 <span class="tag tag-fact">정사</span></li>
+<li>제2차 세계대전 당시 폭격으로 사육 동물 대부분(약 3,000마리 중 91마리만 생존)이 죽는 비극을 겪었으나, 이후 복구를 거쳐 현재의 규모로 성장 — '전쟁으로 거의 전멸했다가 세계 최다종 동물원으로 부활한' 스토리는 좋은 역사 소재</li>
+<li>유럽에서 가장 넓은 동물원은 베를린 리히텐베르크의 '티어파크 베를린'으로 소개되는 경우가 많음 — 베를린동물원과는 별개 시설이라는 점에 유의 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>3. 판다 외교 — 동물원과 국제정치가 만나는 지점</summary>
+  <div class="card-body"><ul>
+<li>자이언트판다는 중국이 소유권을 유지한 채 각국 동물원에 대여하는 방식으로 운영되며, 이를 흔히 '판다 외교'라 부름 — 20세기 중반부터 중국의 대외 우호 관계 상징물로 활용되어 온 관행으로 알려짐 <span class="tag tag-fact">정사</span></li>
+<li>국내에서도 에버랜드가 이런 방식으로 판다를 대여받아 전시한 사례가 잘 알려져 있음 — 개체의 정확한 소재·반환 일정은 계속 바뀌므로 최신 확인 필요 <span class="warn-tag">⚠️</span></li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>4. 코펜하겐 동물원 기린 안락사 사건(2014년)</summary>
+  <div class="card-body"><ul>
+<li>덴마크 코펜하겐 동물원이 2014년 2월, 근친교배 방지를 목적으로 건강한 2세 수컷 기린 '마리우스'를 공개적으로 안락사시키고, 사체를 해체해 관람객이 지켜보는 가운데 사자 먹이로 준 사건 <span class="tag tag-fact">정사</span></li>
+<li>이 사건은 전 세계적으로 큰 논란을 일으켰고, 이후 같은 동물원이 무리 관리를 위해 사자 4마리를 안락사시킨 사실이 추가로 알려지며 논쟁이 재점화됨 <span class="tag tag-fact">정사</span></li>
+<li>이 사건은 "동물원의 개체수 관리(스터드북 기반 근친교배 방지)가 실제로는 어떻게 이뤄지는가"를 대중에 노출시킨 사례로, 유럽식 동물원 운영 철학(개체수 관리의 투명한 공개)과 국내·아시아권의 접근 방식 차이를 설명할 때 좋은 비교 소재가 됨</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>5. 특이한 구조·개념의 세계 동물원</summary>
+  <div class="card-body"><ul>
+<li><b>하겐베크 동물원(독일 함부르크)</b>: 1907년, 철창 대신 깊은 도랑(해자)으로 동물과 관람객을 분리하는 '파노라마 전시' 방식을 세계 최초로 도입한 것으로 알려짐 — 이후 전 세계 동물원 설계의 표준이 된 혁신 사례 <span class="tag tag-fact">정사</span></li>
+<li><b>싱가포르 동물원 및 나이트사파리</b>: '개방형(open concept)' 전시를 적극 도입한 사례로 자주 소개되며, 세계 최초의 상업적 야간 사파리(나이트사파리, 1994년 개장)로 알려짐 <span class="warn-tag">⚠️</span></li>
+<li><b>오미하 헨리 두어리 동물원(미국) 등 대형 원형 돔형 실내관</b>: 극한 기후 지역에서도 열대·정글 생태계를 실내에 재현하는 대형 돔 구조로 유명</li>
+</ul></div>
+</details>
+<details class="card" data-cat="world">
+  <summary><span class="dot" style="background:#9d174d"></span>6. 세계적으로 화제가 된 동물원 스타 동물</summary>
+  <div class="card-body"><ul>
+<li>베를린동물원의 북극곰 '크누트'(2006년생) — 어미에게 버림받아 사육사의 인공포육으로 자란 개체로 세계적 유명세를 얻었고, 각종 상품·방송에 등장한 사례 <span class="tag tag-fact">정사</span></li>
+<li>이런 '스타 동물' 현상은 동물원이 특정 개체의 사연을 미디어로 확산시켜 관람객을 끌어모으는 대표적 마케팅 방식이라는 점도 함께 설명하면 좋은 배경 지식이 됨</li>
+</ul></div>
+</details>
+  <div class="warn-block"><b>⚠️ 사용 시 주의</b><ul>
+<li>코펜하겐 기린 사건처럼 민감한 논쟁적 사건은 사실관계만 전달하고 가이드 개인의 가치판단을 얹지 않는 것이 안전합니다.</li>
+<li>세계 기록(최다종·최고령 등)은 시점에 따라 갱신될 수 있어 특정 시점 기준임을 전제하고 사용하는 것이 안전합니다.</li>
+</ul></div>
+</section>
+</div>
+<script>
+(function(){
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('searchCount');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const topics = document.querySelectorAll('.topic');
+  let currentCat = 'all';
+
+  function applyFilters(){
+    const term = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    topics.forEach(topic => {
+      let topicHasVisibleCard = false;
+      const topicCards = topic.querySelectorAll('.card');
+      topicCards.forEach(card => {
+        const cat = card.dataset.cat;
+        const text = card.textContent.toLowerCase();
+        const catMatch = (currentCat === 'all' || currentCat === cat);
+        const termMatch = (!term || text.includes(term));
+        const show = catMatch && termMatch;
+        card.classList.toggle('hidden-by-filter', !show);
+        if (term && show) card.open = true;
+        else if (!term) card.open = false;
+        if (show){ topicHasVisibleCard = true; visibleCount++; }
+      });
+      topic.classList.toggle('hidden-by-filter', !topicHasVisibleCard);
+    });
+
+    searchCount.textContent = term ? `검색결과: ${visibleCount}개 항목` : '';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      applyFilters();
+      if (currentCat !== 'all'){
+        const el = document.getElementById(currentCat);
+        if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
